@@ -1,20 +1,25 @@
 package com.purpleplatypus.transportion;
 
+import ws.munday.slidingmenu.SlidingMenuActivity;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class MainActivity extends Activity {
-	
+public class MainActivity extends SlidingMenuActivity {
+
 	LinearLayout pieChartLayout;
 	DrawPieChart pieChart;
 	float[]chartValues = new float[4];
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
+		setLayoutIds(R.layout.menu, R.layout.activity_main);
+		setAnimationDuration(300);
+		setAnimationType(MENU_TYPE_SLIDEOVER);
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.activity_main);
 		
 		pieChartLayout = (LinearLayout) findViewById(R.id.mainPieChart);
@@ -28,6 +33,17 @@ public class MainActivity extends Activity {
 	    
 	    pieChart = new DrawPieChart(this, chartValues);
 	    pieChartLayout.addView(pieChart);
+
+
+		/*
+		TextView tv = (TextView) findViewById(R.id.content_content);
+		
+		tv.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				toggleMenu();
+			}
+		});
+		*/
 
 	}
 
