@@ -37,7 +37,8 @@ public class DrawPieChart extends View{
 	    for (int i = 0; i < 4; i++) {
 	    	p.setColor(c[i]);
 	    	curPos = curPos + valueDegrees[i];
-	    	canvas.drawArc(rect, curPos, valueDegrees[i], true, p);
+	    	float temp = 360 * valueDegrees[i]/4;
+	    	canvas.drawArc(rect, curPos, temp, true, p);
 	    }
 	    
 	    /* FOR REFERENCE:	   
