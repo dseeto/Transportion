@@ -10,9 +10,15 @@ import android.view.View;
 
 public class DrawPieChart extends View{
 
-	Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);	
+	Paint p = new Paint(Paint.ANTI_ALIAS_FLAG); // for rect?!?!?
+	Paint p0 = new Paint(Paint.ANTI_ALIAS_FLAG);
+	Paint p1 = new Paint(Paint.ANTI_ALIAS_FLAG);
+	Paint p2 = new Paint(Paint.ANTI_ALIAS_FLAG);
+	Paint p3 = new Paint(Paint.ANTI_ALIAS_FLAG);
+	
 	float[] valueDegrees;
-	int c[] = { Color.RED, Color.YELLOW, Color.BLUE, Color.GREEN};
+	
+	int c[] = { Color.RED, Color.YELLOW, Color.BLUE, Color.parseColor("#008000")};
 
 	
 	public DrawPieChart(Context context, float[] data) {
@@ -28,18 +34,38 @@ public class DrawPieChart extends View{
 	    p.setColor(Color.parseColor("#78777D"));
 	    p.setStyle(Style.STROKE);
 	    p.setStrokeWidth(2);
-	    canvas.drawRect(0, 0, x - 1, y - 1, p);	    	    
-	    float curPos = -90;
+	    canvas.drawRect(0, 0, x - 1, y - 1, p);	    	    	    
 	    p.setStyle(Style.FILL);
-	    RectF rect = new RectF(20, 20, x - 20, y - 20);
+	    
+	    float curPos = -90;
+	    RectF rect = new RectF(30, 30, x - 30, y - 30);
 	    // CHANGE THESE SETTINGS	    	    
 	    
-	    for (int i = 0; i < 4; i++) {
-	    	p.setColor(c[i]);
-	    	curPos = curPos + valueDegrees[i];
-	    	float temp = 360 * valueDegrees[i]/4;
-	    	canvas.drawArc(rect, curPos, temp, true, p);
-	    }
+	    float temp;
+	    // car
+	    p0.setColor(c[0]);
+	    curPos = curPos + valueDegrees[0];
+    	temp = 360 * valueDegrees[0]/4;
+    	canvas.drawArc(rect, curPos, temp, true, p0);
+    	curPos = curPos + valueDegrees[0];
+    	// bus
+    	p1.setColor(c[1]);
+	    curPos = curPos + valueDegrees[1];
+    	temp = 360 * valueDegrees[1]/4;
+    	canvas.drawArc(rect, curPos, temp, true, p1);
+    	curPos = curPos + valueDegrees[1];
+    	// bike
+    	p2.setColor(c[2]);
+	    curPos = curPos + valueDegrees[2];
+    	temp = 360 * valueDegrees[2]/4;
+    	canvas.drawArc(rect, curPos, temp, true, p2);
+    	curPos = curPos + valueDegrees[2];
+    	// walk
+    	p3.setColor(c[3]);
+	    curPos = curPos + valueDegrees[3];
+    	temp = 360 * valueDegrees[3]/4;
+    	canvas.drawArc(rect, curPos, temp, true, p3);
+    	curPos = curPos + valueDegrees[3];    	
 	    
 	    /* FOR REFERENCE:	   
 	    for (int i = 0; i < 4; i++) {

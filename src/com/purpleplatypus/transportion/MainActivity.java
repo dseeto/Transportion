@@ -29,7 +29,7 @@ public class MainActivity extends SlidingMenuActivity {
 	    chartValues[0] = 100;
 	    chartValues[1] = 500;
 	    chartValues[2] = 0;
-	    chartValues[3] = 1000;
+	    chartValues[3] = 500;
 	    
 	    pieChart = new DrawPieChart(this, chartValues);
 	    pieChartLayout.addView(pieChart);
