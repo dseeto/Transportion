@@ -12,14 +12,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class Details extends Activity {
+public class Details extends TransportionActivity {
 
 	// pass in which mode!!!
 	// floats to 2 decimal places!!
 	// need a different pic and color scheme!!!	
 	
 	String mode;
-	String[] modes = {"Car", "Bus", "Car", "Walk"};	
+	String[] modes = {"Car", "Bus", "Bike", "Walk"};	
 	String span = "Month";
 	String[] spans = {"Day", "Week", "Month", "Year"};
 	int place = 2;
@@ -40,9 +40,13 @@ public class Details extends Activity {
 	LinearLayout pic;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_details);
+	public void onCreate(Bundle savedInstanceState) {
+		
+		// special TransportionActivity onCreate procedure
+				super.onCreate(savedInstanceState);
+				// set the layout to whichever layout this activity is attached to
+				setFrameView(R.layout.activity_details);
+				
 		day = (TextView) findViewById(R.id.day);
 		week = (TextView) findViewById(R.id.week);
 		month = (TextView) findViewById(R.id.month);
