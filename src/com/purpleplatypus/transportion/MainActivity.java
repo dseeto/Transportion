@@ -3,6 +3,7 @@ package com.purpleplatypus.transportion;
 import ws.munday.slidingmenu.SlidingMenuActivity;
 import android.os.Bundle;
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,7 +12,7 @@ public class MainActivity extends SlidingMenuActivity {
 
 	LinearLayout pieChartLayout;
 	DrawPieChart pieChart;
-	float[]chartValues = new float[4];
+	ChartSection[]chartValues = new ChartSection[4];
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -26,10 +27,10 @@ public class MainActivity extends SlidingMenuActivity {
 		
 		//hardcode values for pie chart:
 		//order: car, bus, bike, walk
-	    chartValues[0] = 100;
-	    chartValues[1] = 500;
-	    chartValues[2] = 0;
-	    chartValues[3] = 500;
+	    chartValues[0] = new ChartSection("Car", Color.RED, 100);
+	    chartValues[1] = new ChartSection("Bus", Color.YELLOW, 500);
+	    chartValues[2] = new ChartSection("Bike", Color.BLUE, 50);
+	    chartValues[3] = new ChartSection("Walk", Color.parseColor("#008000"), 500);	    
 	    
 	    pieChart = new DrawPieChart(this, chartValues);
 	    pieChartLayout.addView(pieChart);
