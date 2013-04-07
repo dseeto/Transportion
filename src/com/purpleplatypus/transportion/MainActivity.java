@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class MainActivity extends SlidingMenuActivity {
+public class MainActivity extends TransportionActivity {
 
 	LinearLayout pieChartLayout;
 	DrawPieChart pieChart;
@@ -15,12 +15,8 @@ public class MainActivity extends SlidingMenuActivity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setLayoutIds(R.layout.menu, R.layout.activity_main);
-		setAnimationDuration(300);
-		setAnimationType(MENU_TYPE_SLIDEOVER);
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_main);
+		setFrameView(R.layout.activity_main);
 		
 		pieChartLayout = (LinearLayout) findViewById(R.id.mainPieChart);
 		
