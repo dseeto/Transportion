@@ -26,7 +26,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 	
 	static final String[] SLIDING_MENU_ITEMS = new String[] {
 		"Main", "Friends", "Leaderboard", "Car Details", 
-		"Walk Details", "Bike Details", "Public Transit Details" };
+		"Walk Details", "Bike Details", "Bus Details" };
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,7 +70,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 			activityClasses.put("Car Details", Details.class);
 			activityClasses.put("Walk Details", Details.class);
 			activityClasses.put("Bike Details", Details.class);
-			activityClasses.put("Public Transit Details", Details.class);
+			activityClasses.put("Bus Details", Details.class);
 			
 			activityPutExtras = new HashMap<String, ArrayList<String[]>>();
 			ArrayList<String[]> putExtra = new ArrayList<String[]>();
@@ -87,7 +87,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 			
 			putExtra = new ArrayList<String[]>();
 				putExtra.add(new String[]{"Mode", "Bus"});
-			activityPutExtras.put("Public Transit Details", putExtra);
+			activityPutExtras.put("Bus Details", putExtra);
 		}
 		
 		@Override
