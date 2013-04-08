@@ -18,26 +18,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp" >
-
-            <ImageView
-    			android:layout_height="wrap_content"
-   				android:layout_width="wrap_content"
-   				android:layout_gravity="center"
-   				android:layout_marginRight="5dp"
-    			android:src="@drawable/search_icon" />
+            android:layout_margin="5dp" 
+            android:gravity="center">
             
-            <EditText
-                android:id="@+id/searchBar"
+            <ImageButton
+                android:id="@+id/searchButton"
+                style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:text="Search"
-                android:textColor="#e6e3e3"
-                android:inputType="textPersonName" >
-                <requestFocus />
-            </EditText>
+                android:src="@drawable/search_icon" />
             
         </LinearLayout>
 

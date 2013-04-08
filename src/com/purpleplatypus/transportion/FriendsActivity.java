@@ -35,8 +35,8 @@ public class FriendsActivity extends TransportionActivity {
 		TextView title = (TextView) findViewById(R.id.title);
 		title.setText("Friends");
 		// do normal initialization stuff
-		EditText searchBar = (EditText) findViewById(R.id.searchBar);
-		searchBar.setOnClickListener(new OnClickListener() {
+		ImageView searchButton = (ImageView) findViewById(R.id.searchButton);
+		searchButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View arg0) {
 				onSearchRequested();
 			}
