@@ -13,21 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Friends"
+        android:text="Search Results"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="40sp"
         android:textStyle="bold" />
-    
-    
 
-    <Button
-        android:id="@+id/testButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/title"
-        android:layout_below="@+id/title"
-        android:layout_marginLeft="96dp"
-        android:layout_marginTop="90dp"
-        android:text="Button" />
-
+    <ListView
+        android:id="@+id/searchResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    
 </RelativeLayout>

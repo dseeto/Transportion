@@ -22,6 +22,7 @@ public class FriendsActivity extends TransportionActivity {
 			public void onClick(View arg0) {
 				TextView title = (TextView) findViewById(R.id.title);
 				title.setText("blah blah blah");
+				onSearchRequested();
 			}
 		});
 	}
