@@ -25,7 +25,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 	
 	static final String[] SLIDING_MENU_ITEMS = new String[] {
 		"Main", "Friends", "Leaderboard", "Car Details", 
-		"Walk Details", "Bike Details", "Public Transit Details" };
+		"Walk Details", "Bike Details", "Bus Details" };
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -93,7 +93,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			String textClicked = ((TextView) view).getText().toString();
 			
-			TextView testView = (TextView) findViewById(R.id.testTextView);
+			TextView testView = (TextView) findViewById(R.id.title); // changed from testTextView
 			testView.setText(textClicked);
 			
 			toggleMenu();

@@ -15,6 +15,8 @@ public class FriendsActivity extends TransportionActivity {
 		// set the layout to whichever layout this activity is attached to
 		setFrameView(R.layout.activity_friends);
 		
+		TextView title = (TextView) findViewById(R.id.title);
+		title.setText("Friends");
 		// do normal initialization stuff
 		// Button testButton = (Button) findViewById(R.id.testButton); // TOOK OUT
 		/*

@@ -59,7 +59,7 @@ public class Details extends TransportionActivity {
 		percent = (TextView) findViewById(R.id.percent);
 		carbon = (TextView) findViewById(R.id.carbon);
 		
-		//title = (TextView) findViewById(R.id.title);
+		title = (TextView) findViewById(R.id.title);
 				
 		Bundle extras = getIntent().getExtras();
 		mode = extras.getString("Mode");
@@ -68,7 +68,10 @@ public class Details extends TransportionActivity {
 		df.setMaximumFractionDigits(2);	
 		
 		// default is month
-		if (mode.equals("Car")) {			
+		if (mode.equals("Car")) {
+			// set text
+			title.setText("Car Details");
+			
 			miles.setText("Miles Travelled: 100 Miles");
 			time.setText("Time Spent: 1 Hr 3 Min");
 			gas.setText("Gas Used: " + df.format(100.00/37.00) + " Gallons");
@@ -91,7 +94,7 @@ public class Details extends TransportionActivity {
 			layout.addView(imageView1);
 		} else if (mode.equals("Bus")) {
 			// set text
-			// title.setText("Bus Details");
+			title.setText("Bus Details");
 			
 			miles.setText("Miles Travelled: 71 Miles");
 			time.setText("Time Spent: 2 Hrs 14 Min");
@@ -116,7 +119,7 @@ public class Details extends TransportionActivity {
 
 		} else if (mode.equals("Bike")) {
 			// set text
-			// title.setText("Bike Details");
+			title.setText("Bike Details");
 			
 			miles.setText("Miles Travelled: 0 Miles");
 			time.setText("Time Spent: 0 Min");
@@ -149,11 +152,11 @@ public class Details extends TransportionActivity {
 			carbon.setText("Carbon Emitted: 0 Grams");
 			
 			// also set background color
-			miles.setBackgroundColor(Color.parseColor("#66e275"));
-			time.setBackgroundColor(Color.parseColor("#66e275"));
-			gas.setBackgroundColor(Color.parseColor("#66e275"));
-			percent.setBackgroundColor(Color.parseColor("#66e275"));
-			carbon.setBackgroundColor(Color.parseColor("#66e275"));
+			miles.setBackgroundColor(Color.parseColor("#24913c"));
+			time.setBackgroundColor(Color.parseColor("#24913c"));
+			gas.setBackgroundColor(Color.parseColor("#24913c"));
+			percent.setBackgroundColor(Color.parseColor("#24913c"));
+			carbon.setBackgroundColor(Color.parseColor("#24913c"));
 			
 			// set pic
 			LinearLayout layout = (LinearLayout)findViewById(R.id.pic);			
@@ -342,7 +345,7 @@ public class Details extends TransportionActivity {
 				miles.setText("Miles Travelled: 783 Miles");
 				time.setText("Time Spent: 302 Hr 27 Min");
 				gas.setText("Gas Used: 0 Gallons");
-				percent.setText("% of Travelled: " + df.format(783.00/(1455+723+783)) + "%");
+				percent.setText("% of Travelled: " + df.format(783.00/(1455+723+783)*100) + "%");
 				carbon.setText("Carbon Emitted: 0 Grams");
 			}
 			
