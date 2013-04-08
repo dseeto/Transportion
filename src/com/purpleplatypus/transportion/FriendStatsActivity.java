@@ -93,16 +93,20 @@ public class FriendStatsActivity extends Activity {
 
 		mRenderer.setChartTitle("Demo Graph");
 		mRenderer.setXTitle("Transportation Modes");
-		mRenderer.clearXTextLabels();
 		
 //		looping through and add 
 		for(int i = 0; i < userVals.size(); i++) {
 			ChartSection section = userVals.get(i);
 			mRenderer.addXTextLabel(i+1, section.transportationMode);
 		}
+		mRenderer.setXLabels(0);
+		mRenderer.setYLabels(0);
 
-		mRenderer.setYTitle("Percentage of Use");
-		mRenderer.setAxisTitleTextSize((float)36.0);
+
+//		mRenderer.addXTextLabel(3, "helicopter");
+
+		mRenderer.setYTitle("Usage");
+		mRenderer.setAxisTitleTextSize((float)24.0);
 		mRenderer.setLabelsTextSize((float)36.0);
 
 		double[] range = {0.0,5.0,0,1000};
