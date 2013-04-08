@@ -15,17 +15,24 @@
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center_horizontal"
 	    android:layout_alignParentTop="true"
-	    android:text="Overall Usage"
+	    android:text="@string/mainPieChartTitle"
 	    android:textAppearance="?android:attr/textAppearanceLarge"
 	    android:textSize="40sp"
 	  	android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/mainPieChart"
-        android:layout_below="@+id/main_title"
+        android:layout_below="@+id/friendButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </LinearLayout>
 
+    <Button
+        android:id="@+id/friendButton"
+        android:layout_below="@+id/main_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Friend"
+        android:onClick="tryFriend" />
 
 </RelativeLayout>

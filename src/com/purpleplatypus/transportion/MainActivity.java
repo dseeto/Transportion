@@ -53,7 +53,7 @@ public class MainActivity extends TransportionActivity {
 		*/
 
 	}
-	
+	//TODO make sections of pie chart clickable
 	public View makePieChart(ChartSection[] chartValues) {
 		CategorySeries series = new CategorySeries("Pie graph");
 		DefaultRenderer renderer = new DefaultRenderer();
@@ -86,6 +86,13 @@ public class MainActivity extends TransportionActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	public void tryFriend(View view) {
+	    Intent intent = new Intent(this, FriendStatsActivity.class);
+//	    String message = editText.getText().toString();
+//	    intent.putExtra(EXTRA_MESSAGE, message);
+	    startActivity(intent);
 	}
 
 //	public void onClick(View v) {
