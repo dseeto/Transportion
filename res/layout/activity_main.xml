@@ -9,10 +9,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <LinearLayout
+   
+ 	<RelativeLayout
         android:id="@+id/mainPieChart"
+        android:layout_below="@+id/friendButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    </LinearLayout>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/friendButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Friend"
+        android:onClick="tryFriend" />
+    
+    
 
 </RelativeLayout>

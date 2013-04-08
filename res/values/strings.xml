@@ -9,5 +9,9 @@
     <string name="Left">&lt;&lt;</string>
     <string name="Right">&gt;&gt;</string>
     <string name="title_activity_leaderboard">Leaderboard</string>
+    <string name="title_activity_friend_stats">FriendStatsActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="mainPieChartTitle">Overall Usage</string>
+    <string name="friendCompareTitle">Compare</string>
 
 </resources>

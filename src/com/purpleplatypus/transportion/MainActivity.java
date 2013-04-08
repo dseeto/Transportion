@@ -15,12 +15,12 @@ import android.content.Intent;
 
 import android.view.Menu;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MainActivity extends TransportionActivity {
 
-	LinearLayout pieChartLayout;
+	RelativeLayout pieChartLayout;
 	DrawPieChart pieChart;
 	ChartSection[]chartValues = new ChartSection[4];
 	
@@ -32,7 +32,7 @@ public class MainActivity extends TransportionActivity {
 		TextView title = (TextView) findViewById(R.id.title);		
 		title.setText("Overall Usage");
 		
-		pieChartLayout = (LinearLayout) findViewById(R.id.mainPieChart);
+		pieChartLayout = (RelativeLayout) findViewById(R.id.mainPieChart);
 		
 		//hardcode values for pie chart:
 		//order: car, bus, bike, walk
@@ -57,7 +57,7 @@ public class MainActivity extends TransportionActivity {
 		*/
 
 	}
-	
+	//TODO make sections of pie chart clickable
 	public View makePieChart(ChartSection[] chartValues) {
 		CategorySeries series = new CategorySeries("Pie graph");
 		DefaultRenderer renderer = new DefaultRenderer();
@@ -90,6 +90,13 @@ public class MainActivity extends TransportionActivity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
+	}
+	
+	public void tryFriend(View view) {
+	    Intent intent = new Intent(this, FriendStatsActivity.class);
+//	    String message = editText.getText().toString();
+//	    intent.putExtra(EXTRA_MESSAGE, message);
+	    startActivity(intent);
 	}
 
 //	public void onClick(View v) {
