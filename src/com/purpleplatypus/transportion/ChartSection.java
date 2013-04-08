@@ -4,13 +4,13 @@ import android.graphics.Color;
 
 public class ChartSection {
 	String transportationMode;
-	int c;
+	int color;
 	float amount;
 	
 	public ChartSection(String transportationMode, int c, float amount) {
 		super();
 		this.transportationMode = transportationMode;
-		this.c = c;
+		this.color = c;
 		this.amount = amount;
 	}	
 	

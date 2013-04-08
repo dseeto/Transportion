@@ -1,5 +1,9 @@
 package com.purpleplatypus.transportion;
 
+import org.achartengine.model.CategorySeries;
+import org.achartengine.ChartFactory;
+
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -36,11 +40,12 @@ public class DrawPieChart extends View{
 	    for (int i = 0; i < 4; i++) {
 	    	ChartSection section = chartSections[i];
 		    float theta = (total == 0) ? 0 : 360 * section.amount / total;
-	    	p.setColor(section.c);
+	    	p.setColor(section.color);
 	        canvas.drawArc(rect, curPos, theta, true, p);
 	    	curPos = curPos + theta;
 	    }
 	}
 
+	
 	
 }
