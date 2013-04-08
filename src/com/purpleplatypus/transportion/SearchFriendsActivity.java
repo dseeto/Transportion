@@ -3,9 +3,6 @@ package com.purpleplatypus.transportion;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import edu.berkeley.cs160.HaotianWang.proj2.MapActivity;
-import edu.berkeley.cs160.HaotianWang.proj2.R;
-
 import android.app.Activity;
 import android.app.ListActivity;
 import android.app.SearchManager;
@@ -84,6 +81,7 @@ public class SearchFriendsActivity extends TransportionActivity {
         }
         
         public View getView(int position, View convertView, ViewGroup parent) {
+        	/*
             View vi=convertView;
             if(convertView==null) {
                 vi = inflater.inflate(R.layout.image_item, null);
@@ -107,6 +105,8 @@ public class SearchFriendsActivity extends TransportionActivity {
             image.setImageResource(data[position]);
             
             return vi;
+            */
+            return null;
         }
     }
 }

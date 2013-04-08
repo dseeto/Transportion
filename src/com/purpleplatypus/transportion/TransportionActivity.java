@@ -94,9 +94,6 @@ public class TransportionActivity extends SlidingMenuActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			String textClicked = ((TextView) view).getText().toString();
 			
-			TextView testView = (TextView) findViewById(R.id.testTextView);
-			testView.setText(textClicked);
-			
 			toggleMenu();
 			
 			beginNewActivity(textClicked);
