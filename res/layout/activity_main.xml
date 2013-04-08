@@ -9,23 +9,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-	<TextView
-	    android:id="@+id/main_title"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="center_horizontal"
-	    android:layout_alignParentTop="true"
-	    android:text="Overall Usage"
-	    android:textAppearance="?android:attr/textAppearanceLarge"
-	    android:textSize="40sp"
-	  	android:textStyle="bold" />
-
     <LinearLayout
         android:id="@+id/mainPieChart"
-        android:layout_below="@+id/main_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </LinearLayout>
-
 
 </RelativeLayout>

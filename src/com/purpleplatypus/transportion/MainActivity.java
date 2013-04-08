@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class MainActivity extends TransportionActivity {
 
@@ -27,6 +28,9 @@ public class MainActivity extends TransportionActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setFrameView(R.layout.activity_main);
+
+		TextView title = (TextView) findViewById(R.id.title);		
+		title.setText("Overall Usage");
 		
 		pieChartLayout = (LinearLayout) findViewById(R.id.mainPieChart);
 		
