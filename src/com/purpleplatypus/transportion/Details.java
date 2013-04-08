@@ -32,6 +32,7 @@ public class Details extends TransportionActivity {
 	TextView year;
 	
 	TextView miles;
+	TextView time;
 	TextView gas;
 	TextView percent;
 	TextView carbon;
@@ -43,9 +44,9 @@ public class Details extends TransportionActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		
 		// special TransportionActivity onCreate procedure
-				super.onCreate(savedInstanceState);
-				// set the layout to whichever layout this activity is attached to
-				setFrameView(R.layout.activity_details);
+		super.onCreate(savedInstanceState);
+		// set the layout to whichever layout this activity is attached to
+		setFrameView(R.layout.activity_details);
 				
 		day = (TextView) findViewById(R.id.day);
 		week = (TextView) findViewById(R.id.week);
@@ -53,13 +54,13 @@ public class Details extends TransportionActivity {
 		year = (TextView) findViewById(R.id.year);
 		
 		miles = (TextView) findViewById(R.id.miles);
+		time = (TextView) findViewById(R.id.time);
 		gas = (TextView) findViewById(R.id.gas);
 		percent = (TextView) findViewById(R.id.percent);
 		carbon = (TextView) findViewById(R.id.carbon);
 		
-		title = (TextView) findViewById(R.id.title);
-		
-		// IMPELEMENT: get sent data: which mode and then set the mode!!!!!!
+		//title = (TextView) findViewById(R.id.title);
+				
 		Bundle extras = getIntent().getExtras();
 		mode = extras.getString("Mode");
 		
@@ -69,12 +70,14 @@ public class Details extends TransportionActivity {
 		// default is month
 		if (mode.equals("Car")) {			
 			miles.setText("Miles Travelled: 100 Miles");
-			gas.setText("Gas Used: " + df.format(100.00/37.00) + "Gallons");
-			percent.setText("% of Travelled: " + df.format((float)100.00/(100+71+87)*100) + "%");
+			time.setText("Time Spent: 1 Hr 3 Min");
+			gas.setText("Gas Used: " + df.format(100.00/37.00) + " Gallons");
+			percent.setText("% of Travelled: " + df.format(100.00/(100+71+87)*100) + "%");
 			carbon.setText("Carbon Emitted: " + df.format(109.00*(100/1.6)) + " Grams"); // 109 per km; 1.6 km for each mile
 			
 			// also set background color
 			miles.setBackgroundColor(Color.parseColor("#ff4e50"));
+			time.setBackgroundColor(Color.parseColor("#ff4e50"));
 			gas.setBackgroundColor(Color.parseColor("#ff4e50"));
 			percent.setBackgroundColor(Color.parseColor("#ff4e50"));
 			carbon.setBackgroundColor(Color.parseColor("#ff4e50"));	
@@ -88,15 +91,17 @@ public class Details extends TransportionActivity {
 			layout.addView(imageView1);
 		} else if (mode.equals("Bus")) {
 			// set text
-			title.setText("Bus Details");
+			// title.setText("Bus Details");
 			
 			miles.setText("Miles Travelled: 71 Miles");
+			time.setText("Time Spent: 2 Hrs 14 Min");
 			gas.setText("Gas Used: " + df.format(71/6) + " Gallons"); // 6 miles per gallon
 			percent.setText("% of Travelled: " + df.format(71.00/(100+71+87)*100) + "%");
 			carbon.setText("Carbon Emitted: " + df.format(140*71) + " Grams");
 			
 			// also set background color
 			miles.setBackgroundColor(Color.parseColor("#ffff73"));
+			time.setBackgroundColor(Color.parseColor("#ffff73"));
 			gas.setBackgroundColor(Color.parseColor("#ffff73"));
 			percent.setBackgroundColor(Color.parseColor("#ffff73"));
 			carbon.setBackgroundColor(Color.parseColor("#ffff73"));
@@ -111,14 +116,17 @@ public class Details extends TransportionActivity {
 
 		} else if (mode.equals("Bike")) {
 			// set text
-			title.setText("Bike Details");
+			// title.setText("Bike Details");
+			
 			miles.setText("Miles Travelled: 0 Miles");
+			time.setText("Time Spent: 0 Min");
 			gas.setText("Gas Used: 0 Gallons");
 			percent.setText("% of Travelled: 0%");
 			carbon.setText("Carbon Emitted: 0 Grams");
 			
 			// also set background color
 			miles.setBackgroundColor(Color.parseColor("#4869d6"));
+			time.setBackgroundColor(Color.parseColor("#4869d6"));
 			gas.setBackgroundColor(Color.parseColor("#4869d6"));
 			percent.setBackgroundColor(Color.parseColor("#4869d6"));
 			carbon.setBackgroundColor(Color.parseColor("#4869d6"));
@@ -133,13 +141,16 @@ public class Details extends TransportionActivity {
 		} else {
 			// set text
 			title.setText("Walk Details");
+			
 			miles.setText("Miles Travelled: 87 Miles");
+			time.setText("Time Spent: 37 Hrs 23 Min");
 			gas.setText("Gas Used: 0 Gallons");
 			percent.setText("% of Travelled: " + df.format(87.00/(100+71+87)*100) + "%");
 			carbon.setText("Carbon Emitted: 0 Grams");
 			
 			// also set background color
 			miles.setBackgroundColor(Color.parseColor("#66e275"));
+			time.setBackgroundColor(Color.parseColor("#66e275"));
 			gas.setBackgroundColor(Color.parseColor("#66e275"));
 			percent.setBackgroundColor(Color.parseColor("#66e275"));
 			carbon.setBackgroundColor(Color.parseColor("#66e275"));
@@ -167,7 +178,11 @@ public class Details extends TransportionActivity {
 		
 		switch (v.getId()) {
 		case R.id.left:
-			place = (place - 1) % 4;			
+			if (place - 1 == -1) {
+				place = 3;
+			} else {
+				place = place - 1;
+			}
 			break;
 		case R.id.right:
 			place = (place + 1) % 4;
@@ -181,21 +196,25 @@ public class Details extends TransportionActivity {
 			// update info
 			if (mode.equals("Car")) {
 				miles.setText("Miles Travelled: 0 Miles");
+				time.setText("Time Spent: 0 Min");
 				gas.setText("Gas Used: 0 Gallons");
 				percent.setText("% of Travelled: 0%");
 				carbon.setText("Carbon Emitted: 0 Grams");
 			} else if (mode.equals("Bus")) {
 				miles.setText("Miles Travelled: 2 Miles");
+				time.setText("Time Spent: 9 Min");
 				gas.setText("Gas Used: 0.33 Gallons");
 				percent.setText("% of Travelled: 34%"); // in terms of miles
 				carbon.setText("Carbon Emitted: 280 Grams");
 			} else if (mode.equals("Bike")) {
 				miles.setText("Miles Travelled: 0 Miles");
+				time.setText("Time Spent: 0 Min");
 				gas.setText("Gas Used: 0 Gallons");
 				percent.setText("% of Travelled: 0%");
 				carbon.setText("Carbon Emitted: 0 Grams");
 			} else {
 				miles.setText("Miles Travelled: 4 Miles");
+				time.setText("Time Spent: 37 Min");
 				gas.setText("Gas Used: 0 Gallons");
 				percent.setText("% of Travelled: 66%");
 				carbon.setText("Carbon Emitted: 0 Grams");
@@ -219,21 +238,25 @@ public class Details extends TransportionActivity {
 			// update info
 			if (mode.equals("Car")) {
 				miles.setText("Miles Travelled: 0 Miles");
+				time.setText("Time Spent: 0 Min");
 				gas.setText("Gas Used: 0 Gallons");
 				percent.setText("% of Travelled: 0%");
 				carbon.setText("Carbon Emitted: 0 Grams");
 			} else if (mode.equals("Bus")) {
 				miles.setText("Miles Travelled: 20 Miles");
+				time.setText("Time Spent: 1 Hr 10 Min");
 				gas.setText("Gas Used: 3.33 Gallons");
 				percent.setText("% of Travelled: " + df.format(20.00/(45)*100) + "%");
 				carbon.setText("Carbon Emitted: " + 140*20 + " Grams"); // 140 grams per mile
 			} else if (mode.equals("Bike")) {
 				miles.setText("Miles Travelled: 0 Miles");
+				time.setText("Time Spent: 0 Min");
 				gas.setText("Gas Used: 0 Gallons");
 				percent.setText("% of Travelled: 0%");
 				carbon.setText("Carbon Emitted: 0 Grams");
 			} else {
 				miles.setText("Miles Travelled: 25 Miles");
+				time.setText("Time Spent: 2 Hrs 18 Min");
 				gas.setText("Gas Used: 0 Gallons");
 				percent.setText("% of Travelled: " + df.format(25.00/45*100) + "%");
 				carbon.setText("Carbon Emitted: 0 Grams");
@@ -257,21 +280,25 @@ public class Details extends TransportionActivity {
 			// update info
 			if (mode.equals("Car")) {
 				miles.setText("Miles Travelled: 100 Miles");
+				time.setText("Time Spent: 1 Hr 3 Min");
 				gas.setText("Gas Used: " + df.format(100/37) + " Gallons");
 				percent.setText("% of Travelled: " + df.format(100.00/(100+71+87)*100) + "%");
 				carbon.setText("Carbon Emitted: " + df.format(109.00*(100/1.6)) + " Grams"); // 109 per km; 1.6 km for each mile
 			} else if (mode.equals("Bus")) {
 				miles.setText("Miles Travelled: 71 Miles");
+				time.setText("Time Spent: 2 Hr 14 Min");
 				gas.setText("Gas Used: " + df.format(71.00/6) + " Gallons"); // 6 miles per gallon
 				percent.setText("% of Travelled: " + df.format(71.00/(100+71+87)*100) + "%");
 				carbon.setText("Carbon Emitted: " + 140*71 + " Grams");
 			} else if (mode.equals("Bike")) {
 				miles.setText("Miles Travelled: 0 Miles");
+				time.setText("Time Spent: 0 Min");
 				gas.setText("Gas Used: 0 Gallons");
 				percent.setText("% of Travelled: 0%");
 				carbon.setText("Carbon Emitted: 0 Grams");
 			} else {
 				miles.setText("Miles Travelled: 87 Miles");
+				time.setText("Time Spent: 37 Hr 23 Min");
 				gas.setText("Gas Used: 0 Gallons");
 				percent.setText("% of Travelled: " + df.format(87.00/(100+71+87)*100) + "%");
 				carbon.setText("Carbon Emitted: 0 Grams");
@@ -294,22 +321,26 @@ public class Details extends TransportionActivity {
 			
 			// update info
 			if (mode.equals("Car")) {
-				miles.setText("Miles Travelled: 1455 Miles");
+				miles.setText("Miles Travelled: 1,455 Miles");
+				time.setText("Time Spent: 25 Hr 57 Min");
 				gas.setText("Gas Used: " + df.format(1455/37) + " Gallons");
 				percent.setText("% of Travelled: " + df.format(783.00/(1455+723+783)*100) + "%");
 				carbon.setText("Carbon Emitted: " + df.format(109.00*(1455/1.6)) + " Grams");
 			} else if (mode.equals("Bus")) {
-				miles.setText("Miles Travelled: 0 Miles");
-				gas.setText("Gas Used: 0 Gallons");
-				percent.setText("% of Travelled: 0%");
-				carbon.setText("Carbon Emitted: 0 Grams");
-			} else if (mode.equals("Bike")) {
 				miles.setText("Miles Travelled: 723 Miles");
+				time.setText("Time Spent: 36 Hr 42 Min");
 				gas.setText("Gas Used: " + df.format(723.00/6) + " Gallons");
 				percent.setText("% of Travelled: " + df.format(723.00/(1455+723+783)*100) + "%");
 				carbon.setText("Carbon Emitted: " + df.format(140*723) + " Grams");
+			} else if (mode.equals("Bike")) {				
+				miles.setText("Miles Travelled: 0 Miles");
+				time.setText("Time Spent: 0 Min");
+				gas.setText("Gas Used: 0 Gallons");
+				percent.setText("% of Travelled: 0%");
+				carbon.setText("Carbon Emitted: 0 Grams");
 			} else {
 				miles.setText("Miles Travelled: 783 Miles");
+				time.setText("Time Spent: 302 Hr 27 Min");
 				gas.setText("Gas Used: 0 Gallons");
 				percent.setText("% of Travelled: " + df.format(783.00/(1455+723+783)) + "%");
 				carbon.setText("Carbon Emitted: 0 Grams");

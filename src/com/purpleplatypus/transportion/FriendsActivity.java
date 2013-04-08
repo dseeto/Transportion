@@ -16,7 +16,8 @@ public class FriendsActivity extends TransportionActivity {
 		setFrameView(R.layout.activity_friends);
 		
 		// do normal initialization stuff
-		Button testButton = (Button) findViewById(R.id.testButton);
+		// Button testButton = (Button) findViewById(R.id.testButton); // TOOK OUT
+		/*
 		testButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -24,5 +25,6 @@ public class FriendsActivity extends TransportionActivity {
 				title.setText("blah blah blah");
 			}
 		});
+		*/
 	}
 }
