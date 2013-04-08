@@ -1,6 +1,8 @@
 package com.purpleplatypus.transportion;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import ws.munday.slidingmenu.SlidingMenuActivity;
@@ -14,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,7 +35,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 		setAnimationType(MENU_TYPE_SLIDEOVER);
 		super.onCreate(savedInstanceState);
 
-		Button menuButton = (Button) findViewById(R.id.menu_button);
+		ImageButton menuButton = (ImageButton) findViewById(R.id.menu_button);
 		
 		menuButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -57,27 +60,56 @@ public class TransportionActivity extends SlidingMenuActivity {
 	public class OnMenuItemClickListener implements OnItemClickListener {
 		
 		HashMap<String, Class> activityClasses;
+		HashMap<String, ArrayList<String[]>> activityPutExtras;
 		
 		public OnMenuItemClickListener() {
 			super();
 			activityClasses = new HashMap<String, Class>();
 			activityClasses.put("Main", MainActivity.class);
 			activityClasses.put("Friends", FriendsActivity.class);
+			activityClasses.put("Car Details", Details.class);
+			activityClasses.put("Walk Details", Details.class);
+			activityClasses.put("Bike Details", Details.class);
+			activityClasses.put("Public Transit Details", Details.class);
+			
+			activityPutExtras = new HashMap<String, ArrayList<String[]>>();
+			ArrayList<String[]> putExtra = new ArrayList<String[]>();
+				putExtra.add(new String[]{"Mode", "Car"});
+			activityPutExtras.put("Car Details", putExtra);
+			
+			putExtra = new ArrayList<String[]>();
+				putExtra.add(new String[]{"Mode", "Walk"});
+			activityPutExtras.put("Walk Details", putExtra);
+			
+			putExtra = new ArrayList<String[]>();
+				putExtra.add(new String[]{"Mode", "Bike"});
+			activityPutExtras.put("Bike Details", putExtra);
+			
+			putExtra = new ArrayList<String[]>();
+				putExtra.add(new String[]{"Mode", "Bus"});
+			activityPutExtras.put("Public Transit Details", putExtra);
 		}
 		
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			String textClicked = ((TextView) view).getText().toString();
 			
-			TextView testView = (TextView) findViewById(R.id.testTextView);
-			testView.setText(textClicked);
-			
 			toggleMenu();
-
+			
+			beginNewActivity(textClicked);
+		}
+		
+		public void beginNewActivity(String activityClass){
 			// Launching new Activity on selecting single List Item
-			Intent i = new Intent(getApplicationContext(), getActivityClass(textClicked));
+			Intent i = new Intent(getApplicationContext(), getActivityClass(activityClass));
 			// sending data to new activity
-			// i.putExtra("product", product);
+			ArrayList<String[]> puts = activityPutExtras.get(activityClass);
+			if (puts != null) {
+				for (int j = 0; j < puts.size(); j++) {
+					String[] data = puts.get(j);
+					i.putExtra(data[0], data[1]);
+				}
+			}
 			startActivity(i);
 		}
 		

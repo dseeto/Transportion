@@ -7,13 +7,17 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import ws.munday.slidingmenu.SlidingMenuActivity;
 import android.os.Bundle;
+
 import android.app.Activity;
 import android.graphics.Color;
+
+import android.content.Intent;
+
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class MainActivity extends SlidingMenuActivity {
+public class MainActivity extends TransportionActivity {
 
 	LinearLayout pieChartLayout;
 	DrawPieChart pieChart;
@@ -21,12 +25,8 @@ public class MainActivity extends SlidingMenuActivity {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		setLayoutIds(R.layout.menu, R.layout.activity_main);
-		setAnimationDuration(300);
-		setAnimationType(MENU_TYPE_SLIDEOVER);
 		super.onCreate(savedInstanceState);
-
-		setContentView(R.layout.activity_main);
+		setFrameView(R.layout.activity_main);
 		
 		pieChartLayout = (LinearLayout) findViewById(R.id.mainPieChart);
 		
@@ -87,24 +87,31 @@ public class MainActivity extends SlidingMenuActivity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 //	public void onClick(View v) {
+//		Intent i = new Intent(getApplicationContext(), Details.class);
 //		switch (v.getId()) {
-//		case R.id.car:
-//			
+//		case R.id.car:						
+//			i.putExtra("Mode", "Car");			
+//			startActivity(i);
+//			this.finish(); // finish or keep running?!?!
 //			break;
-//		case R.id.bus:
-//			
+//		case R.id.bus:					
+//			i.putExtra("Mode", "Bus");			
+//			startActivity(i);
+//			this.finish();
 //			break;
-//		case R.id.bike:
-//			
+//		case R.id.bike:					
+//			i.putExtra("Mode", "Bike");			
+//			startActivity(i);
+//			this.finish();
 //			break;
-//		case R.id.walk:
-//			
+//		case R.id.walk:					
+//			i.putExtra("Mode", "Walk");			
+//			startActivity(i);
+//			this.finish();
 //			break;
 //		}
-//	}
-	
-	
+//	}	
 
 }

@@ -46,3 +46,10 @@ local.properties
 
 # PDT-specific
 .buildpath
+
+
+# Merge conflict specific
+*.orig
+*.LOCAL.[0-9]*
+*.REMOTE.[0-9]*
+*.BASE.[0-9]*

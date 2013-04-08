@@ -16,13 +16,16 @@ public class FriendsActivity extends TransportionActivity {
 		setFrameView(R.layout.activity_friends);
 		
 		// do normal initialization stuff
-		Button testButton = (Button) findViewById(R.id.testButton);
+		// Button testButton = (Button) findViewById(R.id.testButton); // TOOK OUT
+		/*
 		testButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				TextView title = (TextView) findViewById(R.id.title);
 				title.setText("blah blah blah");
+				onSearchRequested();
 			}
 		});
+		*/
 	}
 }
