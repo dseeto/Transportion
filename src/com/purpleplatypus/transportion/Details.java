@@ -140,7 +140,7 @@ public class Details extends TransportionActivity {
 			layout.addView(imageView1);
 		} else {
 			// set text
-			title.setText("Walk Details");
+			//title.setText("Walk Details");
 			
 			miles.setText("Miles Travelled: 87 Miles");
 			time.setText("Time Spent: 37 Hrs 23 Min");
