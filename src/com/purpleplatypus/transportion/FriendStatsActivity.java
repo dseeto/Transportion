@@ -14,25 +14,37 @@ import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-public class FriendStatsActivity extends Activity {
+public class FriendStatsActivity extends TransportionActivity {
 
 	RelativeLayout barChartLayout;
 	List<ChartSection> friendChartValues;
 	List<ChartSection> userChartValues;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_friend_stats);
+		setFrameView(R.layout.activity_friend_stats);
 		friendChartValues = new ArrayList<ChartSection>();
 		userChartValues = new ArrayList<ChartSection>();
+		
+		// set title
+		TextView title = (TextView) findViewById(R.id.title);		
+		title.setText("Compare");
 
+		// get intent value
+		Intent intent = getIntent();
+		String name = intent.getStringExtra("name");
+		TextView compareWith = (TextView) findViewById(R.id.friend_compare);
+		compareWith.setText("with " + name);
+		
 		// make chart values
 		barChartLayout = (RelativeLayout) findViewById(R.id.comp_bar_chart);
 		

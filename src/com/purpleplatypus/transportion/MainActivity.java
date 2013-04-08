@@ -91,38 +91,4 @@ public class MainActivity extends TransportionActivity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
-	public void tryFriend(View view) {
-	    Intent intent = new Intent(this, FriendStatsActivity.class);
-//	    String message = editText.getText().toString();
-//	    intent.putExtra(EXTRA_MESSAGE, message);
-	    startActivity(intent);
-	}
-
-//	public void onClick(View v) {
-//		Intent i = new Intent(getApplicationContext(), Details.class);
-//		switch (v.getId()) {
-//		case R.id.car:						
-//			i.putExtra("Mode", "Car");			
-//			startActivity(i);
-//			this.finish(); // finish or keep running?!?!
-//			break;
-//		case R.id.bus:					
-//			i.putExtra("Mode", "Bus");			
-//			startActivity(i);
-//			this.finish();
-//			break;
-//		case R.id.bike:					
-//			i.putExtra("Mode", "Bike");			
-//			startActivity(i);
-//			this.finish();
-//			break;
-//		case R.id.walk:					
-//			i.putExtra("Mode", "Walk");			
-//			startActivity(i);
-//			this.finish();
-//			break;
-//		}
-//	}	
-
 }
