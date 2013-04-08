@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,7 +26,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 	
 	static final String[] SLIDING_MENU_ITEMS = new String[] {
 		"Main", "Friends", "Leaderboard", "Car Details", 
-		"Walk Details", "Bike Details", "Bus Details" };
+		"Walk Details", "Bike Details", "Public Transit Details" };
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 		setAnimationType(MENU_TYPE_SLIDEOVER);
 		super.onCreate(savedInstanceState);
 
-		Button menuButton = (Button) findViewById(R.id.menu_button);
+		ImageButton menuButton = (ImageButton) findViewById(R.id.menu_button);
 		
 		menuButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -91,24 +92,23 @@ public class TransportionActivity extends SlidingMenuActivity {
 		
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			String textClicked = ((TextView) view).getText().toString();
-			
-			TextView testView = (TextView) findViewById(R.id.title); // changed from testTextView
-			testView.setText(textClicked);
-			
+			String textClicked = ((TextView) view).getText().toString();		
 			toggleMenu();
-
+			
+			beginNewActivity(textClicked);
+		}
+		
+		public void beginNewActivity(String activityClass){
 			// Launching new Activity on selecting single List Item
-			Intent i = new Intent(getApplicationContext(), getActivityClass(textClicked));
+			Intent i = new Intent(getApplicationContext(), getActivityClass(activityClass));
 			// sending data to new activity
-			ArrayList<String[]> puts = activityPutExtras.get(textClicked);
+			ArrayList<String[]> puts = activityPutExtras.get(activityClass);
 			if (puts != null) {
 				for (int j = 0; j < puts.size(); j++) {
 					String[] data = puts.get(j);
 					i.putExtra(data[0], data[1]);
 				}
 			}
-			
 			startActivity(i);
 		}
 		
