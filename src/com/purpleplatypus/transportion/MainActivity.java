@@ -1,7 +1,11 @@
 
 package com.purpleplatypus.transportion;
 
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import org.achartengine.ChartFactory;
 import org.achartengine.model.CategorySeries;
@@ -97,10 +101,11 @@ public class MainActivity extends TransportionActivity {
 		
 		//hardcode values for pie chart:
 		//order: car, bus, bike, walk
-	    chartValues[0] = new ChartSection("Car", Color.RED, 100);
-	    chartValues[1] = new ChartSection("Bus", Color.YELLOW, 500);
-	    chartValues[2] = new ChartSection("Bike", Color.BLUE, 50);
-	    chartValues[3] = new ChartSection("Walk", Color.parseColor("#008000"), 500);	    
+		List<ChartSection> chartValues = new ArrayList<ChartSection>();
+	    chartValues.add(new ChartSection("Car", Color.RED, 100));
+	    chartValues.add(new ChartSection("Bus", Color.YELLOW, 500));
+	    chartValues.add(new ChartSection("Bike", Color.BLUE, 50));
+	    chartValues.add(new ChartSection("Walk", Color.parseColor("#008000"), 500));	    
 	    
 //	    pieChart = new DrawPieChart(this, chartValues);
 	    View pieChartView = this.makePieChart(chartValues);
@@ -119,7 +124,7 @@ public class MainActivity extends TransportionActivity {
 
 	}
 	//TODO make sections of pie chart clickable
-	public View makePieChart(ChartSection[] chartValues) {
+	public View makePieChart(List<ChartSection> chartValues) {
 		CategorySeries series = new CategorySeries("Pie graph");
 		DefaultRenderer renderer = new DefaultRenderer();
 
