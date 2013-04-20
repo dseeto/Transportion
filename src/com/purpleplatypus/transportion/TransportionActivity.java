@@ -68,7 +68,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 	private static int facebookConnectionAttempts = 5;
 	
 	static final String[] SLIDING_MENU_ITEMS = new String[] {
-		"Main", "Friends", "Leaderboard", "Car Details", 
+		"Home", "Friends", "Leaderboard", "Car Details", 
 		"Walk Details", "Bike Details", "Bus Details" };
 	
 	@Override
@@ -129,7 +129,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 		public OnMenuItemClickListener() {
 			super();
 			activityClasses = new HashMap<String, Class>();
-			activityClasses.put("Main", MainActivity.class);
+			activityClasses.put("Home", MainActivity.class);
 			activityClasses.put("Friends", FriendsActivity.class);
 			activityClasses.put("Car Details", Details.class);
 			activityClasses.put("Walk Details", Details.class);
