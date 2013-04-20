@@ -69,7 +69,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 	
 	static final String[] SLIDING_MENU_ITEMS = new String[] {
 		"Home", "Friends", "Leaderboard", "Car Details", 
-		"Walk Details", "Bike Details", "Bus Details" };
+		"Walk Details", "Bike Details", "Bus Details", "Logout" };
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -95,22 +95,6 @@ public class TransportionActivity extends SlidingMenuActivity {
 		
 	    uiHelper = new UiLifecycleHelper(this, callback);
 	    uiHelper.onCreate(savedInstanceState);
-		
-	    Button facebookButton = (Button) findViewById(R.id.facebookButton);
-        facebookButton.setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-            	onClickLogout(); 
-            }
-        });
-        
-        Button getUIDButton = (Button) findViewById(R.id.getUIDButton);
-        getUIDButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View view) {
-				makeUIDRequest(Session.getActiveSession());
-				getFriends();
-				makeMeRequest(Session.getActiveSession());
-			}
-        });
 	}
 	
 	public void setFrameView(int viewID) {
@@ -158,8 +142,11 @@ public class TransportionActivity extends SlidingMenuActivity {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			String textClicked = ((TextView) view).getText().toString();		
 			toggleMenu();
-			
-			beginNewActivity(textClicked);
+			if (textClicked == "Logout") {
+				onClickLogout();
+			} else {
+				beginNewActivity(textClicked);		
+			}
 		}
 		
 		public void beginNewActivity(String activityClass){
@@ -195,9 +182,6 @@ public class TransportionActivity extends SlidingMenuActivity {
 	            String id = savedSession.getString("id", null);
 	            
 	            System.out.println("transportion screen: saved facebook id is " + id);
-	            
-	        	TextView title = (TextView) findViewById(R.id.title);
-	        	title.setText(id);
 	            
 	            if (id == null) {
 	            	System.out.println("transportion screen: making me request for facebook id");

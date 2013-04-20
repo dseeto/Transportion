@@ -56,8 +56,8 @@ public class MainActivity extends TransportionActivity {
 		setFrameView(R.layout.activity_main);
 
 		// SET UP MODEL
-		appState = (ApplicationState) this.getApplication();
-		appState.data.createDatabase(this);		
+		//appState = (ApplicationState) this.getApplication();
+		//appState.data.createDatabase(this);		
 
 		Parse.initialize(this, "i4mqhdigRXwjs66dfZdCdMsF7fuwcIsEGoJUV0Te", "IYX3qei450z9etih7tz7dsobEaenaQmt5oJWu7QT");
 		// track statistics around application opens

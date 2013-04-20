@@ -22,22 +22,6 @@
 		    android:gravity="center"
 		    android:textSize="30dp"
 		    android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/facebookButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="FBLogin" />
-
-        <Button
-            android:id="@+id/getUIDButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/facebookButton"
-            android:text="getUID" />
         
     </RelativeLayout>
     
