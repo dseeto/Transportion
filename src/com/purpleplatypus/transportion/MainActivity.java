@@ -17,6 +17,14 @@ import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import com.parse.ParseObject;
 
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.android.Facebook;
+import com.facebook.model.GraphUser;
+
 import ws.munday.slidingmenu.SlidingMenuActivity;
 import android.os.Bundle;
 
@@ -25,12 +33,17 @@ import android.graphics.Color;
 
 import android.content.Intent;
 
+import android.util.Log;
+
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MainActivity extends TransportionActivity {
+
 
 	RelativeLayout pieChartLayout;
 	DrawPieChart pieChart;
@@ -43,8 +56,8 @@ public class MainActivity extends TransportionActivity {
 		setFrameView(R.layout.activity_main);
 
 		// SET UP MODEL
-		appState = (ApplicationState) this.getApplication();
-		appState.data.createDatabase(this);		
+		//appState = (ApplicationState) this.getApplication();
+		//appState.data.createDatabase(this);		
 
 		Parse.initialize(this, "i4mqhdigRXwjs66dfZdCdMsF7fuwcIsEGoJUV0Te", "IYX3qei450z9etih7tz7dsobEaenaQmt5oJWu7QT");
 		// track statistics around application opens
@@ -110,19 +123,11 @@ public class MainActivity extends TransportionActivity {
 //	    pieChart = new DrawPieChart(this, chartValues);
 	    View pieChartView = this.makePieChart(chartValues);
 	    pieChartLayout.addView(pieChartView);
-
-
-		/*
-		TextView tv = (TextView) findViewById(R.id.content_content);
-		
-		tv.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				toggleMenu();
-			}
-		});
-		*/
-
+	    
 	}
+	
+
+	
 	//TODO make sections of pie chart clickable
 	public View makePieChart(List<ChartSection> chartValues) {
 		CategorySeries series = new CategorySeries("Pie graph");
