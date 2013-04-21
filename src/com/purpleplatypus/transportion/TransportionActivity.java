@@ -67,10 +67,10 @@ public class TransportionActivity extends SlidingMenuActivity {
 			activityClasses = new HashMap<String, Class>();
 			activityClasses.put("Home", MainActivity.class);
 			activityClasses.put("Friends", FriendsActivity.class);
-			activityClasses.put("Car Details", Details.class);
-			activityClasses.put("Walk Details", Details.class);
-			activityClasses.put("Bike Details", Details.class);
-			activityClasses.put("Bus Details", Details.class);
+			activityClasses.put("Car Details", CarDetails.class);
+			activityClasses.put("Walk Details", WalkDetails.class);
+			activityClasses.put("Bike Details", BikeDetails.class);
+			activityClasses.put("Bus Details", BusDetails.class);
 			
 			activityPutExtras = new HashMap<String, ArrayList<String[]>>();
 			ArrayList<String[]> putExtra = new ArrayList<String[]>();
