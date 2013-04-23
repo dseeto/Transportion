@@ -40,6 +40,7 @@ import android.content.SharedPreferences.Editor;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -67,9 +68,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 	
 	private static int facebookConnectionAttempts = 5;
 	
-	static final String[] SLIDING_MENU_ITEMS = new String[] {
-		"Home", "Friends", "Leaderboard", "Car Details", 
-		"Walk Details", "Bike Details", "Bus Details", "Logout" };
+	private ArrayList<Item> sliding_menu_items;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -86,8 +85,21 @@ public class TransportionActivity extends SlidingMenuActivity {
 			}
 		});
 		
+		 sliding_menu_items = new ArrayList<Item>();
+		 sliding_menu_items.add(new EntryItem(0, "Home"));
+		 sliding_menu_items.add(new EntryItem(1, "Logout"));
+		 sliding_menu_items.add(new SectionItem(2, "Details"));
+		 sliding_menu_items.add(new EntryItem(3, "Car"));
+		 sliding_menu_items.add(new EntryItem(4, "Bus"));
+		 sliding_menu_items.add(new EntryItem(5, "Bike"));
+		 sliding_menu_items.add(new EntryItem(6, "Walk"));
+		 sliding_menu_items.add(new SectionItem(7, "Compare"));
+		 sliding_menu_items.add(new EntryItem(8, "Friends"));
+		 sliding_menu_items.add(new EntryItem(9, "Leaderboard"));
+		 
+		
 		ListView menuListView = (ListView) findViewById(R.id.menuListView);
-		menuListView.setAdapter(new ArrayAdapter<String>(this, R.layout.menu_text, SLIDING_MENU_ITEMS));
+		menuListView.setAdapter(new EntryAdapter(this, sliding_menu_items));
 		
 		menuListView.setOnItemClickListener(new OnMenuItemClickListener());
 		
@@ -115,31 +127,31 @@ public class TransportionActivity extends SlidingMenuActivity {
 			activityClasses = new HashMap<String, Class>();
 			activityClasses.put("Home", MainActivity.class);
 			activityClasses.put("Friends", FriendsActivity.class);
-			activityClasses.put("Car Details", CarDetails.class);
-			activityClasses.put("Walk Details", WalkDetails.class);
-			activityClasses.put("Bike Details", BikeDetails.class);
-			activityClasses.put("Bus Details", BusDetails.class);
+			activityClasses.put("Car", CarDetails.class);
+			activityClasses.put("Walk", WalkDetails.class);
+			activityClasses.put("Bike", BikeDetails.class);
+			activityClasses.put("Bus", BusDetails.class);
 			
 			activityPutExtras = new HashMap<String, ArrayList<String[]>>();
 			ArrayList<String[]> putExtra = new ArrayList<String[]>();
 				putExtra.add(new String[]{"Mode", "Car"});
-			activityPutExtras.put("Car Details", putExtra);
+			activityPutExtras.put("Car", putExtra);
 			
 			putExtra = new ArrayList<String[]>();
 				putExtra.add(new String[]{"Mode", "Walk"});
-			activityPutExtras.put("Walk Details", putExtra);
+			activityPutExtras.put("Walk", putExtra);
 			
 			putExtra = new ArrayList<String[]>();
 				putExtra.add(new String[]{"Mode", "Bike"});
-			activityPutExtras.put("Bike Details", putExtra);
+			activityPutExtras.put("Bike", putExtra);
 			
 			putExtra = new ArrayList<String[]>();
 				putExtra.add(new String[]{"Mode", "Bus"});
-			activityPutExtras.put("Bus Details", putExtra);
+			activityPutExtras.put("Bus", putExtra);
 		}
 		
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { // CHANGE THIS FOR CATEGORIES
 			String textClicked = ((TextView) view).getText().toString();		
 			toggleMenu();
 			if (textClicked == "Logout") {
@@ -371,5 +383,90 @@ public class TransportionActivity extends SlidingMenuActivity {
 	    });
 	    request.executeAsync();
 	} 
+	public class EntryAdapter extends ArrayAdapter {
+		
+		ArrayList<Item> items;
+		Context context;
+		LayoutInflater li;
+		
+		public EntryAdapter(Context context, ArrayList<Item> items) {
+			super(context,0, items);
+	        this.context = context;
+	        this.items = items;
+	        li = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);    		
+		}
+		
+		public View getView(int position, View convertView, ViewGroup parent) {
+	        View v = convertView;
+	 
+	        final Item i = (Item) items.get(position);
+	        if (i != null) {
+	            if (i.isSection()) {
+	                SectionItem si = (SectionItem)i;
+	                v = li.inflate(R.layout.menu_section, null);
+	 
+	                v.setOnClickListener(null);
+	                v.setOnLongClickListener(null);
+	                v.setLongClickable(false);
+	 
+	                final TextView sectionView = (TextView) v.findViewById(R.id.list_item_section_text);
+	                sectionView.setText(si.name);
+	            } else {
+	                EntryItem ei = (EntryItem)i;
+	                v = li.inflate(R.layout.menu_text, null);
+	                final TextView title = (TextView)v.findViewById(R.id.list_item_entry_title);
+	                
+	                if (title != null)
+	                    title.setText(ei.name);               
+	            }
+	        }
+	        return v;
+	    }
+		
+		
 
+		/*
+		 * 0 Home, 1 Logout, 2 Details (Section), 3 Car, 4 Bus, 5 Bike, 6 Walk, 7 Compare (Section), 8 Friends, 9 Leaderboard
+		 */
+		
+	}
+	public class SectionItem implements Item {
+		int position;
+		String name;
+		
+		public SectionItem(int position, String name) {
+			this.position = position;
+			this.name = name;
+		}
+		
+		public boolean isSection() {
+			if (position == 2 || position == 7) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
+
+	public class EntryItem implements Item {
+		int position;
+		String name;
+		
+		public EntryItem(int position, String name) {
+			this.position = position;
+			this.name = name;
+		}
+		public boolean isSection() {
+			if (position == 2 || position == 7) {
+				return true;
+			} else {
+				return false;
+			}
+			
+		}
+	}
+	
+	public interface Item {
+		boolean isSection();
+	}
 }
