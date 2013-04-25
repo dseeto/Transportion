@@ -1,6 +1,7 @@
 package com.purpleplatypus.transportion;
 
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -189,7 +190,6 @@ public class TransportionActivity extends SlidingMenuActivity {
 	    System.out.println("transportion screen: session state changed to " + state.toString());
 	    if (isResumed) {
 	        if (state.isOpened()) {
-	        	
 	            SharedPreferences savedSession = getApplicationContext().getSharedPreferences("facebook-session",Context.MODE_PRIVATE);
 	            String id = savedSession.getString("id", null);
 	            
@@ -199,6 +199,9 @@ public class TransportionActivity extends SlidingMenuActivity {
 	            	System.out.println("transportion screen: making me request for facebook id");
 	            	makeMeRequest(Session.getActiveSession());
 	            }
+	        }
+	        else {
+	        	onClickLogout();
 	        }
 	    }
 	}
@@ -383,6 +386,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 	    });
 	    request.executeAsync();
 	} 
+
 	public class EntryAdapter extends ArrayAdapter {
 		
 		ArrayList<Item> items;
