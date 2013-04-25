@@ -51,10 +51,13 @@ public class FriendsActivity extends TransportionActivity {
 		        imm.toggleSoftInput(0, 0);
 		    }
 		});
-		
+	
+	}
+	@Override
+	public void onResume() {
+		super.onResume();
 		//handle search query
-		Intent intent = getIntent();
-		handleIntent(intent);
+		handleIntent(getIntent());
 	}
 	
 	protected void onNewIntent(Intent intent) {

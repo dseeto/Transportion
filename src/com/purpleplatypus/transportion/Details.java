@@ -36,12 +36,22 @@ public class Details extends TransportionActivity {
 	TextView gas;
 	TextView percent;
 	TextView carbon;
-		
+	
 	TextView title;
 	LinearLayout pic;
 	
+	// Sub Details Class
+	CarDetails carDetails;
+	BusDetails busDetails;
+	BikeDetails bikeDetails;
+	WalkDetails walkDetails;
+	
+	DecimalFormat df;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		df = new DecimalFormat();
+		df.setMaximumFractionDigits(2);	
 		
 		// special TransportionActivity onCreate procedure
 		super.onCreate(savedInstanceState);
@@ -62,109 +72,17 @@ public class Details extends TransportionActivity {
 		title = (TextView) findViewById(R.id.title);
 				
 		Bundle extras = getIntent().getExtras();
-		mode = extras.getString("Mode");
-		
-		DecimalFormat df = new DecimalFormat();
-		df.setMaximumFractionDigits(2);	
+		mode = extras.getString("Mode");		
 		
 		// default is month
 		if (mode.equals("Car")) {
-			// set text
-			title.setText("Car Details");
-			
-			miles.setText("Miles Travelled: 100 Miles");
-			time.setText("Time Spent: 1 Hr 3 Min");
-			gas.setText("Gas Used: " + df.format(100.00/37.00) + " Gallons");
-			percent.setText("% of Travelled: " + df.format(100.00/(100+71+87)*100) + "%");
-			carbon.setText("Carbon Emitted: " + df.format(109.00*(100/1.6)) + " Grams"); // 109 per km; 1.6 km for each mile
-			
-			// also set background color
-			miles.setBackgroundColor(Color.parseColor("#ff4e50"));
-			time.setBackgroundColor(Color.parseColor("#ff4e50"));
-			gas.setBackgroundColor(Color.parseColor("#ff4e50"));
-			percent.setBackgroundColor(Color.parseColor("#ff4e50"));
-			carbon.setBackgroundColor(Color.parseColor("#ff4e50"));	
-			
-			// set pic
-			LinearLayout layout = (LinearLayout)findViewById(R.id.pic);			
-			ImageView imageView1 = new ImageView(this);			
-			// not sure what this is
-			//imageView1.setId(j+1);			
-			imageView1.setImageResource(R.drawable.car);			
-			layout.addView(imageView1);
-		} else if (mode.equals("Bus")) {
-			// set text
-			title.setText("Bus Details");
-			
-			miles.setText("Miles Travelled: 71 Miles");
-			time.setText("Time Spent: 2 Hrs 14 Min");
-			gas.setText("Gas Used: " + df.format(71/6) + " Gallons"); // 6 miles per gallon
-			percent.setText("% of Travelled: " + df.format(71.00/(100+71+87)*100) + "%");
-			carbon.setText("Carbon Emitted: " + df.format(140*71) + " Grams");
-			
-			// also set background color
-			miles.setBackgroundColor(Color.parseColor("#ffff73"));
-			time.setBackgroundColor(Color.parseColor("#ffff73"));
-			gas.setBackgroundColor(Color.parseColor("#ffff73"));
-			percent.setBackgroundColor(Color.parseColor("#ffff73"));
-			carbon.setBackgroundColor(Color.parseColor("#ffff73"));
-			
-			// set pic
-			LinearLayout layout = (LinearLayout)findViewById(R.id.pic);			
-			ImageView imageView1 = new ImageView(this);			
-			// not sure what this is
-			//imageView1.setId(j+1);			
-			imageView1.setImageResource(R.drawable.bus);			
-			layout.addView(imageView1);
-
+			carDetails = new CarDetails();
+		} else if (mode.equals("Bus")) {					
+			busDetails = new BusDetails();
 		} else if (mode.equals("Bike")) {
-			// set text
-			title.setText("Bike Details");
-			
-			miles.setText("Miles Travelled: 0 Miles");
-			time.setText("Time Spent: 0 Min");
-			gas.setText("Gas Used: 0 Gallons");
-			percent.setText("% of Travelled: 0%");
-			carbon.setText("Carbon Emitted: 0 Grams");
-			
-			// also set background color
-			miles.setBackgroundColor(Color.parseColor("#4869d6"));
-			time.setBackgroundColor(Color.parseColor("#4869d6"));
-			gas.setBackgroundColor(Color.parseColor("#4869d6"));
-			percent.setBackgroundColor(Color.parseColor("#4869d6"));
-			carbon.setBackgroundColor(Color.parseColor("#4869d6"));
-			
-			// set pic
-			LinearLayout layout = (LinearLayout)findViewById(R.id.pic);			
-			ImageView imageView1 = new ImageView(this);			
-			// not sure what this is
-			//imageView1.setId(j+1);			
-			imageView1.setImageResource(R.drawable.bike);			
-			layout.addView(imageView1);
+			bikeDetails = new BikeDetails();
 		} else {
-			// set text
-			title.setText("Walk Details");
-			
-			miles.setText("Miles Travelled: 87 Miles");
-			time.setText("Time Spent: 37 Hrs 23 Min");
-			gas.setText("Gas Used: 0 Gallons");
-			percent.setText("% of Travelled: " + df.format(87.00/(100+71+87)*100) + "%");
-			carbon.setText("Carbon Emitted: 0 Grams");
-			
-			// also set background color
-			miles.setBackgroundColor(Color.parseColor("#24913c"));
-			time.setBackgroundColor(Color.parseColor("#24913c"));
-			gas.setBackgroundColor(Color.parseColor("#24913c"));
-			percent.setBackgroundColor(Color.parseColor("#24913c"));
-			carbon.setBackgroundColor(Color.parseColor("#24913c"));
-			
-			// set pic
-			LinearLayout layout = (LinearLayout)findViewById(R.id.pic);			
-			ImageView imageView1 = new ImageView(this);			
-			// not sure what this is
-			//imageView1.setId(j+1);			
-			imageView1.setImageResource(R.drawable.walk);			
-			layout.addView(imageView1);
+			walkDetails= new WalkDetails();
 		}		
 	}
 
@@ -175,192 +93,17 @@ public class Details extends TransportionActivity {
 		return true;
 	}
 	
-	public void onClick(View v) {
-		DecimalFormat df = new DecimalFormat();
-		df.setMaximumFractionDigits(2);		
-		
-		switch (v.getId()) {
-		case R.id.left:
-			if (place - 1 == -1) {
-				place = 3;
-			} else {
-				place = place - 1;
-			}
-			break;
-		case R.id.right:
-			place = (place + 1) % 4;
-			break;
+	public void onClick(View v) {	
+		if (mode.equals("Car")) {
+			carDetails.onClick(v); // not sure if this works...
+		} else if (mode.equals("Bus")) {
+			busDetails.onClick(v);
+		} else if (mode.equals("Bike")) {
+			bikeDetails.onClick(v);
+		} else {
+			walkDetails.onClick(v);
 		}
-		switch (place) {
-		case 0: // day
-			day.setTypeface(null, Typeface.BOLD);
-			day.setBackgroundColor(Color.WHITE);
-			
-			// update info
-			if (mode.equals("Car")) {
-				miles.setText("Miles Travelled: 0 Miles");
-				time.setText("Time Spent: 0 Min");
-				gas.setText("Gas Used: 0 Gallons");
-				percent.setText("% of Travelled: 0%");
-				carbon.setText("Carbon Emitted: 0 Grams");
-			} else if (mode.equals("Bus")) {
-				miles.setText("Miles Travelled: 2 Miles");
-				time.setText("Time Spent: 9 Min");
-				gas.setText("Gas Used: 0.33 Gallons");
-				percent.setText("% of Travelled: 34%"); // in terms of miles
-				carbon.setText("Carbon Emitted: 280 Grams");
-			} else if (mode.equals("Bike")) {
-				miles.setText("Miles Travelled: 0 Miles");
-				time.setText("Time Spent: 0 Min");
-				gas.setText("Gas Used: 0 Gallons");
-				percent.setText("% of Travelled: 0%");
-				carbon.setText("Carbon Emitted: 0 Grams");
-			} else {
-				miles.setText("Miles Travelled: 4 Miles");
-				time.setText("Time Spent: 37 Min");
-				gas.setText("Gas Used: 0 Gallons");
-				percent.setText("% of Travelled: 66%");
-				carbon.setText("Carbon Emitted: 0 Grams");
-			}						
-			
-			// make the old place one normal
-			if (spans[oldPlace].equals("Year")) {
-				year.setTypeface(null, Typeface.NORMAL);
-				year.setBackgroundColor(Color.TRANSPARENT);
-			} else { // week
-				week.setTypeface(null, Typeface.NORMAL);
-				week.setBackgroundColor(Color.TRANSPARENT);
-			}
-			// update old place
-			oldPlace = place;
-			break;
-		case 1: // week
-			week.setTypeface(null, Typeface.BOLD);
-			week.setBackgroundColor(Color.WHITE);	
-			
-			// update info
-			if (mode.equals("Car")) {
-				miles.setText("Miles Travelled: 0 Miles");
-				time.setText("Time Spent: 0 Min");
-				gas.setText("Gas Used: 0 Gallons");
-				percent.setText("% of Travelled: 0%");
-				carbon.setText("Carbon Emitted: 0 Grams");
-			} else if (mode.equals("Bus")) {
-				miles.setText("Miles Travelled: 20 Miles");
-				time.setText("Time Spent: 1 Hr 10 Min");
-				gas.setText("Gas Used: 3.33 Gallons");
-				percent.setText("% of Travelled: " + df.format(20.00/(45)*100) + "%");
-				carbon.setText("Carbon Emitted: " + 140*20 + " Grams"); // 140 grams per mile
-			} else if (mode.equals("Bike")) {
-				miles.setText("Miles Travelled: 0 Miles");
-				time.setText("Time Spent: 0 Min");
-				gas.setText("Gas Used: 0 Gallons");
-				percent.setText("% of Travelled: 0%");
-				carbon.setText("Carbon Emitted: 0 Grams");
-			} else {
-				miles.setText("Miles Travelled: 25 Miles");
-				time.setText("Time Spent: 2 Hrs 18 Min");
-				gas.setText("Gas Used: 0 Gallons");
-				percent.setText("% of Travelled: " + df.format(25.00/45*100) + "%");
-				carbon.setText("Carbon Emitted: 0 Grams");
-			}
-			
-			// make the old place one normal
-			if (spans[oldPlace].equals("Day")) {
-				day.setTypeface(null, Typeface.NORMAL);
-				day.setBackgroundColor(Color.TRANSPARENT);				
-			} else { // month
-				month.setTypeface(null, Typeface.NORMAL);
-				month.setBackgroundColor(Color.TRANSPARENT);
-			}
-			// update old place
-			oldPlace = place;
-			break;
-		case 2: // month
-			month.setTypeface(null, Typeface.BOLD);
-			month.setBackgroundColor(Color.WHITE);	
-			
-			// update info
-			if (mode.equals("Car")) {
-				miles.setText("Miles Travelled: 100 Miles");
-				time.setText("Time Spent: 1 Hr 3 Min");
-				gas.setText("Gas Used: " + df.format(100/37) + " Gallons");
-				percent.setText("% of Travelled: " + df.format(100.00/(100+71+87)*100) + "%");
-				carbon.setText("Carbon Emitted: " + df.format(109.00*(100/1.6)) + " Grams"); // 109 per km; 1.6 km for each mile
-			} else if (mode.equals("Bus")) {
-				miles.setText("Miles Travelled: 71 Miles");
-				time.setText("Time Spent: 2 Hr 14 Min");
-				gas.setText("Gas Used: " + df.format(71.00/6) + " Gallons"); // 6 miles per gallon
-				percent.setText("% of Travelled: " + df.format(71.00/(100+71+87)*100) + "%");
-				carbon.setText("Carbon Emitted: " + 140*71 + " Grams");
-			} else if (mode.equals("Bike")) {
-				miles.setText("Miles Travelled: 0 Miles");
-				time.setText("Time Spent: 0 Min");
-				gas.setText("Gas Used: 0 Gallons");
-				percent.setText("% of Travelled: 0%");
-				carbon.setText("Carbon Emitted: 0 Grams");
-			} else {
-				miles.setText("Miles Travelled: 87 Miles");
-				time.setText("Time Spent: 37 Hr 23 Min");
-				gas.setText("Gas Used: 0 Gallons");
-				percent.setText("% of Travelled: " + df.format(87.00/(100+71+87)*100) + "%");
-				carbon.setText("Carbon Emitted: 0 Grams");
-			}		
-			
-			// make the old place one normal
-			if (spans[oldPlace].equals("Week")) {
-				week.setTypeface(null, Typeface.NORMAL);
-				week.setBackgroundColor(Color.TRANSPARENT);
-			} else { // year
-				year.setTypeface(null, Typeface.NORMAL);
-				year.setBackgroundColor(Color.TRANSPARENT);
-			}
-			// update old place
-			oldPlace = place;
-			break;
-		case 3: // year
-			year.setTypeface(null, Typeface.BOLD);
-			year.setBackgroundColor(Color.WHITE);	
-			
-			// update info
-			if (mode.equals("Car")) {
-				miles.setText("Miles Travelled: 1,455 Miles");
-				time.setText("Time Spent: 25 Hr 57 Min");
-				gas.setText("Gas Used: " + df.format(1455/37) + " Gallons");
-				percent.setText("% of Travelled: " + df.format(783.00/(1455+723+783)*100) + "%");
-				carbon.setText("Carbon Emitted: " + df.format(109.00*(1455/1.6)) + " Grams");
-			} else if (mode.equals("Bus")) {
-				miles.setText("Miles Travelled: 723 Miles");
-				time.setText("Time Spent: 36 Hr 42 Min");
-				gas.setText("Gas Used: " + df.format(723.00/6) + " Gallons");
-				percent.setText("% of Travelled: " + df.format(723.00/(1455+723+783)*100) + "%");
-				carbon.setText("Carbon Emitted: " + df.format(140*723) + " Grams");
-			} else if (mode.equals("Bike")) {				
-				miles.setText("Miles Travelled: 0 Miles");
-				time.setText("Time Spent: 0 Min");
-				gas.setText("Gas Used: 0 Gallons");
-				percent.setText("% of Travelled: 0%");
-				carbon.setText("Carbon Emitted: 0 Grams");
-			} else {
-				miles.setText("Miles Travelled: 783 Miles");
-				time.setText("Time Spent: 302 Hr 27 Min");
-				gas.setText("Gas Used: 0 Gallons");
-				percent.setText("% of Travelled: " + df.format(783.00/(1455+723+783)*100) + "%");
-				carbon.setText("Carbon Emitted: 0 Grams");
-			}
-			
-			// make the old place one normal
-			if (spans[oldPlace].equals("Month")) {
-				month.setTypeface(null, Typeface.NORMAL);
-				month.setBackgroundColor(Color.TRANSPARENT);
-			} else { // day
-				day.setTypeface(null, Typeface.NORMAL);
-				day.setBackgroundColor(Color.TRANSPARENT);
-			}
-			// update old place
-			oldPlace = place;
-			break;		
-		}
+				
 	}
 
 }

@@ -9,19 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-
-        <!--
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"      
-            android:layout_margin="5dp"      
-            android:layout_gravity="center_horizontal"
-            android:text="Car Details"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="30sp"
-            android:textStyle="bold" /> -->
-
+        
         <LinearLayout
            	android:id="@+id/pic"
             android:layout_width="match_parent"
@@ -31,144 +19,160 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/Picker"
-            android:padding="5dp"
-            android:background="#336699"
-            android:layout_marginTop="10dp" 
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"           
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-            <Button
-                android:id="@+id/left"
-                android:layout_weight="1"
-                android:gravity="center"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="@string/Left"
-                android:onClick="onClick" />
-
-            <TextView
-                android:id="@+id/day"
-                android:layout_weight="1"
-                android:gravity="center"         
-                android:padding="3dp"       
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/picker"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Day"
-                android:textSize="15dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="-15dp"
+                android:orientation="horizontal"
+                android:padding="5dp" >
 
-            <TextView
-                android:id="@+id/week"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="3dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Week"
-                android:textSize="15dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                <Button
+                    android:id="@+id/day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"                    
+                    android:layout_marginRight="3dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Day"
+                    android:onClick="onClick"   
+                    android:background="#218559"                    
+                    android:paddingBottom="7dp"                                    
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:id="@+id/month"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="3dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Month"
-                android:textStyle="bold"
-                android:background="#ffffff"
-                android:textSize="15dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                <Button
+                    android:id="@+id/week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Week"
+                    android:onClick="onClick"  
+                    android:background="#218559"                    
+                    android:paddingBottom="7dp"       
+                    android:layout_marginBottom="2dp"          
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <TextView
-                android:id="@+id/year"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="3dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Year"
-                android:textSize="15dp"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                <Button
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="3dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Month"                    
+                    android:onClick="onClick"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:background="#336699"
+                    android:paddingTop="7dp"
+                    android:paddingBottom="7dp"
+                    android:layout_marginBottom="2dp"
+                    android:textStyle="bold"
+                     />
 
-            <Button
-                android:id="@+id/right"
-                android:layout_weight="1"
-                android:gravity="center"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="@string/Right"
-                android:onClick="onClick" />
+                <Button
+                    android:id="@+id/year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Year"
+                    android:onClick="onClick"   
+                    android:background="#218559"
+                    android:paddingBottom="7dp"  
+                    android:layout_marginBottom="2dp"               
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lower_bar"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="#336699"
+                android:orientation="vertical" >
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"            
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"                        
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="#336699"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/miles"
                 android:padding="10dp"
-                android:layout_margin="3dp"   
-                android:background="#ff4e50"                             
+                android:layout_marginTop="3dp"  
+                android:layout_marginBottom="3dp"   
+                android:background="#e6e3e3"                             
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Miles Traveled: "
                 android:textSize="15sp"
+                android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/time"
                 android:padding="10dp"
-                android:layout_margin="3dp"
-                android:background="#ff4e50"
+                android:layout_marginBottom="3dp"
+                android:background="#e6e3e3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Time Spent: "
                 android:textSize="15sp"
+                android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
             
             <TextView
                 android:id="@+id/gas"
                 android:padding="10dp"
-                android:layout_margin="3dp"
-                android:background="#ff4e50"
+                android:layout_marginBottom="3dp"
+                android:background="#e6e3e3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Gas Used: "
                 android:textSize="15sp"
+                android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/percent"
                 android:padding="10dp"
-                android:layout_margin="3dp"
-                android:background="#ff4e50"
+                android:layout_marginBottom="3dp"
+                android:background="#e6e3e3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="% of Traveled: "
                 android:textSize="15sp"
+                android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/carbon"
                 android:padding="10dp"
-                android:layout_margin="3dp"
-                android:background="#ff4e50"
+                android:layout_marginBottom="3dp"  
+                android:background="#e6e3e3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Carbon Emitted: "
                 android:textSize="15sp"
+                android:textStyle="bold"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
                   
