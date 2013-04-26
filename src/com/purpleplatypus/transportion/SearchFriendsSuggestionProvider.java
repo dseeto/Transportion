@@ -23,37 +23,6 @@ public class SearchFriendsSuggestionProvider extends SearchRecentSuggestionsProv
 		SearchManager.SUGGEST_COLUMN_INTENT_DATA,
 		SearchManager.SUGGEST_COLUMN_INTENT_ACTION,
 		SearchManager.SUGGEST_COLUMN_SHORTCUT_ID };
-	
-	public static final String[] friends = {
-		"Cody Blagg",
-		"Jacob Blagg",
-		"Eric Greenwood",
-		"Allisa Griffis",
-		"Jeff Griffis",
-		"Christine Lomba",
-		"Emily Lomba",
-		"Emily Stockman",
-		"Joseph Stockman",
-		"Kayla Strout",
-		"Curtis Uyemoto"};
-	
-	public static final Double[] emissions = {
-		35.359059723727,
-		39.394757933633,
-		0.51416113530945,
-		69.616544544518,
-		33.429136194023,
-		8.138999267546,
-		56.177849544295,
-		66.395608110538,
-		59.750888007577,
-		50.254344297691,
-		28.375424159866,
-		0.74669325759015};
-	
-	public static final String[] iconResources = {
-		
-	};
 
 	public SearchFriendsSuggestionProvider() {
 		setupSuggestions(AUTHORITY, MODE);
@@ -69,10 +38,19 @@ public class SearchFriendsSuggestionProvider extends SearchRecentSuggestionsProv
 		}
 
 		MatrixCursor cursor = new MatrixCursor(COLUMNS);
-		for (int i = 0; i < friends.length; i++) {
-			if (friends[i].toLowerCase().contains(query.toLowerCase())) {
-				String emission = new DecimalFormat("#.##").format(emissions[i]) + " pounds of carbon emitted";
-				String name = friends[i];
+		for (int i = 0; i < FriendsActivity.friendsJsons.length(); i++) {
+      		String profileName = null, profileId = null;
+      		try {
+      			profileName = FriendsActivity.friendsJsons.getJSONObject(i).getString("name");
+      			profileId = FriendsActivity.friendsJsons.getJSONObject(i).getString("id");
+      			
+      		} catch (Exception e) {
+      			System.out.println("error while suggestions is trying to sort through friends list for names that match query: " + e.toString());
+      			return cursor;
+      		}
+			if (profileName.toLowerCase().contains(query.toLowerCase())) {
+				String emission = profileId + " pounds of carbon emitted";
+				String name = profileName;
 				Integer id = new Integer(i);
 				cursor.addRow(createRow(id, name, emission, ""));
 			}

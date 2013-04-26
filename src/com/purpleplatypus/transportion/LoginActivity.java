@@ -18,7 +18,7 @@ public class LoginActivity extends Activity {
 	    }
 	};
 	
-	private boolean isResumed = false;
+	protected boolean isResumed = false;
 	private UiLifecycleHelper uiHelper;
 	
 	@Override
@@ -36,7 +36,7 @@ public class LoginActivity extends Activity {
 		return true;
 	}
 	
-	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+	protected void onSessionStateChange(Session session, SessionState state, Exception exception) {
 	    System.out.println("login screen: session state changed to " + state.toString());
 	    if (isResumed) {
 	        if (state.isOpened()) {
