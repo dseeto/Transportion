@@ -3,6 +3,7 @@ package com.purpleplatypus.transportion;
 
 
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,8 +57,8 @@ public class MainActivity extends TransportionActivity {
 		setFrameView(R.layout.activity_main);
 
 		// SET UP MODEL
-		//appState = (ApplicationState) this.getApplication();
-		//appState.data.createDatabase(this);		
+		appState = (ApplicationState) this.getApplication();
+		appState.data.createDatabase(this);		
 
 		Parse.initialize(this, "i4mqhdigRXwjs66dfZdCdMsF7fuwcIsEGoJUV0Te", "IYX3qei450z9etih7tz7dsobEaenaQmt5oJWu7QT");
 		// track statistics around application opens
@@ -77,7 +78,9 @@ public class MainActivity extends TransportionActivity {
 		
 		System.out.println("================= RAW DATA =================");
 		
-		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)123.090, (float)134.234);
+		appState.data.mDbHelper.rawDataRemoveAll();
+		
+		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)11, (float)11);
 		//appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)100.111, (float)100.111);
 		//appState.data.mDbHelper.rawDataGetAll(); // will print
 		//appState.data.mDbHelper.rawDataRemoveAll();
@@ -90,19 +93,19 @@ public class MainActivity extends TransportionActivity {
 		}
 		
 		
-		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)111.111, (float)111.111);
-		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)121.111, (float)111.111);
-		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)131.111, (float)111.111);
-		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)141.111, (float)111.111);
+		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)12, (float)11);
+		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)13, (float)11);
+		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)14, (float)11);
+		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)15, (float)11);
 		try {
 			appState.data.sendDataToServer();
 		} catch (JSONException e) {	
 			System.out.println("DIDN'T SEND!!!");
 			e.printStackTrace();
 		}
-		
-		// appState.data.retrieveUserDataFromServer();
 		*/
+		// appState.data.retrieveUserDataFromServer();
+		
 		// MODEL TESTING - REMOVE
 		
 		

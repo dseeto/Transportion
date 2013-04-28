@@ -1,9 +1,5 @@
 package com.purpleplatypus.transportion;
 
-import org.achartengine.model.CategorySeries;
-import org.achartengine.ChartFactory;
-
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
