@@ -1,6 +1,7 @@
 package com.purpleplatypus.transportion;
 
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +19,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Document;
 
@@ -25,8 +27,10 @@ import com.facebook.Request;
 import com.facebook.Request.GraphUserListCallback;
 import com.facebook.Response;
 import com.facebook.Session;
+import com.facebook.Session.StatusCallback;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphObject;
 import com.facebook.model.GraphUser;
 
 import ws.munday.slidingmenu.SlidingMenuActivity;
@@ -61,7 +65,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 	    }
 	};
 	
-	private boolean isResumed = false;
+	protected boolean isResumed = false;
 	private UiLifecycleHelper uiHelper;
 	
 	private String userIdentifier = "";
@@ -186,13 +190,13 @@ public class TransportionActivity extends SlidingMenuActivity {
 		}
 	}
 	
-	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+	protected void onSessionStateChange(Session session, SessionState state, Exception exception) {
 	    System.out.println("transportion screen: session state changed to " + state.toString());
 	    if (isResumed) {
+            SharedPreferences savedSession = getApplicationContext().getSharedPreferences("facebook-session",Context.MODE_PRIVATE);
+            String id = savedSession.getString("id", null);
+            
 	        if (state.isOpened()) {
-	        	
-	            SharedPreferences savedSession = getApplicationContext().getSharedPreferences("facebook-session",Context.MODE_PRIVATE);
-	            String id = savedSession.getString("id", null);
 	            
 	            System.out.println("transportion screen: saved facebook id is " + id);
 	            
@@ -200,6 +204,10 @@ public class TransportionActivity extends SlidingMenuActivity {
 	            	System.out.println("transportion screen: making me request for facebook id");
 	            	makeMeRequest(Session.getActiveSession());
 	            }
+	        }
+	        else if (id == null){
+	        	System.out.println("transportion screen: id is null and session state is not open, going to login page");
+	        	onClickLogout();
 	        }
 	    }
 	}
@@ -240,7 +248,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 		super.onSaveInstanceState(outState);
 		uiHelper.onSaveInstanceState(outState);
 	}
-
+	
 	private void onClickLogout() {
 		Session session = Session.getActiveSession();
 		System.out.println("onClickLogout activated with state " + session.getState().toString());
@@ -257,7 +265,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 		startActivity(i);
 	}
 	
-	private void makeUIDRequest(final Session session) {
+	protected void makeUIDRequest(final Session session) {
 		System.out.println("making facebook graphPathRequest with access token as " + session.getAccessToken());
 		new AsyncTask<Session, Void, String>() {
 			public String doInBackground(Session... arg) {
@@ -324,26 +332,8 @@ public class TransportionActivity extends SlidingMenuActivity {
 		}.execute(session);
 	} 
 
-	private void getFriends(){
-		System.out.println("get friends called");
-	    Session activeSession = Session.getActiveSession();
-	    if(activeSession.getState().isOpened()){
-	    	System.out.println("getFriends: session is open, making the request");
-	        Request friendRequest = Request.newMyFriendsRequest(activeSession, 
-	        	new GraphUserListCallback(){
-	                @Override
-	                public void onCompleted(List<GraphUser> users, Response response) {
-	                    System.out.println("getfriends response is " + response.toString());
-	                }
-	        });
-	        Bundle params = new Bundle();
-	        params.putString("fields", "id, name, picture");
-	        friendRequest.setParameters(params);
-	        friendRequest.executeAsync();
-	    }
-	}
 
-	private void makeMeRequest(final Session session) {
+	protected void makeMeRequest(final Session session) {
 		if (facebookConnectionAttempts <= 0) {
 			System.out.println("exhausted all attempts, logging out");
 			onClickLogout();
@@ -384,6 +374,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 	    });
 	    request.executeAsync();
 	} 
+
 	public class EntryAdapter extends ArrayAdapter {
 		
 		ArrayList<Item> items;

@@ -29,6 +29,15 @@
                 android:src="@drawable/search_icon" />
             
         </LinearLayout>
+        
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/loadingHolderLayout">
+            
+        </LinearLayout>
 
         <ListView
             android:id="@+id/friendsList"
