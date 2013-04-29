@@ -60,7 +60,14 @@ public class MainActivity extends TransportionActivity {
 		appState = (ApplicationState) this.getApplication();
 		appState.data.createDatabase(this);		
 
-		Parse.initialize(this, "i4mqhdigRXwjs66dfZdCdMsF7fuwcIsEGoJUV0Te", "IYX3qei450z9etih7tz7dsobEaenaQmt5oJWu7QT");
+		//Parse.initialize(this, "i4mqhdigRXwjs66dfZdCdMsF7fuwcIsEGoJUV0Te", "IYX3qei450z9etih7tz7dsobEaenaQmt5oJWu7QT");
+		
+		Parse.initialize(this, "EL8WO95o0oQa9wKN1AMRfaQBmWpZNlLMXZlWFnXX", "JE5I5thI0ptOZaLNH6HdOHQdUuLRuwykIIRG9f0u"); 
+		
+		ParseObject testObject = new ParseObject("TestObject");
+		testObject.put("foo", "bar");
+		testObject.saveInBackground();
+		
 		// track statistics around application opens
 		ParseAnalytics.trackAppOpened(getIntent());
 		
@@ -103,11 +110,11 @@ public class MainActivity extends TransportionActivity {
 			System.out.println("DIDN'T SEND!!!");
 			e.printStackTrace();
 		}
-		*/
+		
 		// appState.data.retrieveUserDataFromServer();
 		
 		// MODEL TESTING - REMOVE
-		
+		*/
 		
 		// SET UP REST OF PAGE
 		TextView title = (TextView) findViewById(R.id.title);		
