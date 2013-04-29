@@ -9,7 +9,9 @@ import java.util.List;
 
 
 import org.achartengine.ChartFactory;
+import org.achartengine.GraphicalView;
 import org.achartengine.model.CategorySeries;
+import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 import org.json.JSONException;
@@ -42,14 +44,17 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends TransportionActivity {
 
 
 	RelativeLayout pieChartLayout;
 	DrawPieChart pieChart;
-	ChartSection[]chartValues = new ChartSection[4];
 	ApplicationState appState;
+	GraphicalView pieChartView;
+	
+	List<ChartSection> chartValues;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -124,10 +129,10 @@ public class MainActivity extends TransportionActivity {
 		
 		//hardcode values for pie chart:
 		//order: car, bus, bike, walk
-		List<ChartSection> chartValues = new ArrayList<ChartSection>();
+		chartValues = new ArrayList<ChartSection>();
 	    chartValues.add(new ChartSection("Car", Color.RED, 100));
-	    chartValues.add(new ChartSection("Bus", Color.YELLOW, 500));
 	    chartValues.add(new ChartSection("Bike", Color.BLUE, 50));
+	    chartValues.add(new ChartSection("Bus", Color.YELLOW, 500));
 	    chartValues.add(new ChartSection("Walk", Color.parseColor("#008000"), 500));	    
 	    
 //	    pieChart = new DrawPieChart(this, chartValues);
@@ -161,8 +166,45 @@ public class MainActivity extends TransportionActivity {
 		
 //		renderer.setFitLegend(true);
 
-
-		View pieChartView = ChartFactory.getPieChartView(this, series, renderer);
+		renderer.setClickEnabled(true);
+	    renderer.setSelectableBuffer(10);
+	    
+		pieChartView = ChartFactory.getPieChartView(this, series, renderer);
+	    pieChartView.setOnClickListener(new View.OnClickListener() {
+	        @Override
+	        public void onClick(View v) {
+	          SeriesSelection seriesSelection = pieChartView.getCurrentSeriesAndPoint();
+	          if (seriesSelection == null) {
+//	            Toast
+//	                .makeText(MainActivity.this, "No chart element was clicked", Toast.LENGTH_SHORT)
+//	                .show();
+	          } else {	            
+	            int chartSectIndex = seriesSelection.getPointIndex();
+	            Class<?> detailsActivity = null;
+	            switch (chartSectIndex) {
+					case 0:
+						detailsActivity = CarDetails.class;
+						break;
+					case 1:
+						detailsActivity = BikeDetails.class;
+						break;
+					case 2:
+						detailsActivity = BusDetails.class;
+						break;
+					case 3:
+						detailsActivity = WalkDetails.class;
+						break;
+	
+					default:
+						break;
+				}
+	            
+	            Intent intent = new Intent(MainActivity.this, detailsActivity);
+	            startActivity(intent);
+	          }
+	        }
+	    });
+	    
 		return pieChartView;
 	}
 

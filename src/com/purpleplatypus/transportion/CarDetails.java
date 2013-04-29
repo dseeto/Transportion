@@ -129,7 +129,7 @@ public class CarDetails extends TransportionActivity{
 			// update info
 			miles.setText("Miles Travelled: 100 Miles");
 			time.setText("Time Spent: 1 Hr 3 Min");
-			gas.setText("Gas Used: " + df.format(100/37) + " Gallons");
+			gas.setText("Gas Used: " + df.format(100/37.00) + " Gallons");
 			percent.setText("% of Travelled: " + df.format(100.00/(100+71+87)*100) + "%");
 			carbon.setText("Carbon Emitted: " + df.format(109.00*(100/1.6)) + " Grams"); // 109 per km; 1.6 km for each mile
 		
@@ -150,7 +150,9 @@ public class CarDetails extends TransportionActivity{
 		}
 		
 		// make the old place one normal
-		if (spans[oldPlace].equals("Year")) {
+		if (place == oldPlace) {
+			
+		} else if (spans[oldPlace].equals("Year")) {
 			year.setTypeface(null, Typeface.NORMAL);
 			year.setBackgroundColor(Color.parseColor("#218559"));
 			year.setPadding(0, 0, 0, 0);

@@ -147,7 +147,9 @@ public void onCreate(Bundle savedInstanceState) {
 		}
 		
 		// make the old place one normal
-		if (spans[oldPlace].equals("Year")) {
+		if (place == oldPlace) {
+			
+		} else if (spans[oldPlace].equals("Year")) {
 			year.setTypeface(null, Typeface.NORMAL);
 			year.setBackgroundColor(Color.parseColor("#218559"));
 			year.setPadding(0, 0, 0, 0);
