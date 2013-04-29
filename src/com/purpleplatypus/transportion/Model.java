@@ -8,6 +8,7 @@ import org.json.JSONException;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -22,11 +23,21 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class Model {
 	
 	// TODO: ADD FRIEND STUFF: FRIEND LIST, EDIT FRIEND LIST...
-		// Idea: keep the retrieved info in a Dictionary in the model class so if go back to that page, we don't have to retrieve it again?? 
+		// REFRESH DATA ONCE A DAY?!?!
+	
+	/*
+	 * Tables Created in Server:
+	 * Raw Data = columns: {userID, timestamps (array), geopoints (array)} (each timestamp corresponds to a geopoint) to tell the order of objects, look at created_at column
+	 * User Computed Data = columns: {userID, car, bus, bike, walk, total_carbon}; car: {day, week, month, year}; day: {miles, carbon, timespent, percent, gas}
+			
+	 */
 	
 	Context context;
 	DbHelper mDbHelper; 
 	String userID = "JOE"; 
+	ArrayList<Info_User> userList;
+	ArrayList<Info_User> friendList;
+	ArrayList<Info_Leaderboard> leaderboardList;
 	
 	public Model() {
 		
@@ -40,10 +51,6 @@ public class Model {
 	
 	/*
 	 * Sends all the raw data in UserData table to the server.
-	 * Sent in the form of time_point_*count* (ex. time_point_0, time_point_1 etc.) as the key and
-	 * 	a JSONArray that includes the timestamp, latitude, and longitude in that order as the value.
-	 * The ParseObject sent also has a count key which gives the number of time_points in the object.
-	 * Should be in the order by timestamp, earlier the time, the lower the count.
 	 * After sent, clears the local db to save room.
 	 */
 	public void sendDataToServer() throws JSONException { // should send in one object
@@ -51,18 +58,22 @@ public class Model {
 		ArrayList<Point> data = mDbHelper.rawDataGetAll();
 		System.out.println("GOT TO SEND DATA!!!");
 		ParseObject user = new ParseObject(userID);
+		JSONArray timestamps = new JSONArray();
+		JSONArray geopoints = new JSONArray();;
 		
 		int count = 0;
 		for (Point p : data) {	
-			System.out.println(count+"");
-			JSONArray time_point = new JSONArray();
-			time_point.put(p.timestamp.toString());
-			time_point.put(p.latitude);
-			time_point.put(p.longitude);			
-			user.put("time_point_"+count, time_point);
+			System.out.println(count+"");			 
+			timestamps.put(p.timestamp.toString());
+			ParseGeoPoint point = new ParseGeoPoint(p.latitude, p.longitude);
+			geopoints.put(point);
+			
 			count++;						
-		}
-		user.put("count", count); // number of time_points!!
+		}		
+		user.put("timeStamps", timestamps);	// assume this and geopoints are put in order b/c timestamp and geopoints match
+		user.put("geopoints", geopoints);
+		
+		user.put("count", count);			// number of time_points!!
 		//user.saveEventually();
 		user.saveInBackground();
 		
@@ -80,22 +91,22 @@ public class Model {
 	 * RETURN: ArrayList of Info objects (Info class described near bottom)
 	 * 
 	 * HAS NOT BEEN TESTED!!!
+	 * 
+	 * !! NEEDS TO BE FIXED TO BE LIKE retrieveLeaderboardDataFromServer!!
 	 */	
-	public ArrayList<Info> retrieveUserDataFromServer() {		
-		
-		final ArrayList<Info> list = new ArrayList<Info>();
-		
+	public ArrayList<Info_User> retrieveUserDataFromServer() {		
+		userList = new ArrayList<Info_User>();
 		ParseQuery query = new ParseQuery("UserRetrievedData");
 		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
 		query.whereEqualTo("UserID", userID);
 		query.findInBackground(new FindCallback() {
 		    public void done(List<ParseObject> infoList, ParseException e) {
 		        if (e == null) { // no exception
-		        	Info i;
+		        	Info_User i;
 		        	for (ParseObject p : infoList) {		        		
-		        		i = new Info(p.getString("mode"), p.getString("timespan"), (float)p.getDouble("miles"),
+		        		i = new Info_User(p.getString("mode"), p.getString("timespan"), (float)p.getDouble("miles"),
 		        				(float)p.getDouble("carbon"), p.getInt("timespent"), (float)p.getDouble("percent"), (float)p.getDouble("gas"));
-		        		list.add(i);
+		        		userList.add(i);
 		        	}
 		        } else {
 		            // IMPLEMENT: error
@@ -103,16 +114,15 @@ public class Model {
 		        }
 		    }
 		});
-		return list;
+		return userList;
 		
 	}
 	/*
-	 * Same as above method. NOT BEEN TESTED!!!!
+	 * Same as above method. NOT BEEN TESTED!!!! NEEDS TO BE FIXED TO BE LIKE retrieveLeaderboardDataFromServer!!
 	 */
 	
-	public ArrayList<Info> retrieveFriendDataFromServer(String friendID) {		
-		
-		final ArrayList<Info> list = new ArrayList<Info>();
+	public ArrayList<Info_User> retrieveFriendDataFromServer(String friendID) {		
+		friendList = new ArrayList<Info_User>();
 		
 		ParseQuery query = new ParseQuery(friendID + "RetrievedData");
 		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
@@ -120,11 +130,11 @@ public class Model {
 		query.findInBackground(new FindCallback() {
 		    public void done(List<ParseObject> infoList, ParseException e) {
 		        if (e == null) { // no exception
-		        	Info i;
+		        	Info_User i;
 		        	for (ParseObject p : infoList) {		        		
-		        		i = new Info(p.getString("mode"), p.getString("timespan"), (float)p.getDouble("miles"),
+		        		i = new Info_User(p.getString("mode"), p.getString("timespan"), (float)p.getDouble("miles"),
 		        				(float)p.getDouble("carbon"), p.getInt("timespent"), (float)p.getDouble("percent"), (float)p.getDouble("gas"));
-		        		list.add(i);
+		        		friendList.add(i);
 		        	}
 		        } else {
 		            // IMPLEMENT: error
@@ -132,15 +142,51 @@ public class Model {
 		        }
 		    }
 		});
-		return list;
 		
+		return friendList;
+	}
+	
+	/*
+	 * Get data for leaderboard.
+	 */
+	public void retrieveLeaderboardDataFromServer(final LeaderboardActivity l) {		
+		leaderboardList = new ArrayList<Info_Leaderboard>();
+		
+		ParseQuery query = new ParseQuery("Users");
+		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
+		query.setLimit(10);
+		query.orderByAscending("carbon");
+		query.findInBackground(new FindCallback() {
+			public void done(List<ParseObject> list, ParseException e) {
+				if (e == null) {
+					Info_Leaderboard i;
+					int j = 0;
+					for (ParseObject p : list) {
+						// REMOVE
+						System.out.println("Leaderboard!!!");
+						System.out.println(p.getString("name"));
+						System.out.println(p.getNumber("carbon"));
+						// REMOVE
+						j++;
+						i = new Info_Leaderboard(j+"", p.getString("name"), p.getNumber("carbon").toString());
+						System.out.println(i.toString());
+						System.out.println(leaderboardList.add(i));
+					}
+					// NEED TO WAIT TILL THIS IS DONE IN ORDER FOR THE LIST TO BE POPULATED, SHOULD NOT RETURN LIST
+					l.fillListView(leaderboardList);
+				} else {
+					// IMPLEMENT: error
+					System.out.println("retrieveLeaderboardDataFromServer ERROR!!!!");
+				}
+			}
+		});	
 	}
 	
 	// IMPLEMENT: once know more about functions, implement
-		public void removeFromServer() { // raw data point?!?!
+	public void removeFromServer() { // raw data point?!?!
 			
 			
-		}		
+	}		
 	
 	
 	/*
@@ -323,7 +369,7 @@ public class Model {
 	/*
 	 * Class for Retrieved Data from server
 	 */
-	public class Info {
+	public class Info_User {
 		String mode;
 		String timespan;
 		float miles;
@@ -332,7 +378,7 @@ public class Model {
 		float percent;
 		float gas;
 		
-		public Info(String m, String t, float mi, float c, int tspent, float p, float g) {
+		public Info_User(String m, String t, float mi, float c, int tspent, float p, float g) {
 			mode = m;
 			timespan = t;
 			miles = mi;
@@ -358,5 +404,24 @@ public class Model {
 		}
 	}
 	
-	// remote
+	/*
+	 * Class for leaderbaord data from server; from server its gonna be: {1 {name, pic, 
+	 * IMPLEMENT: profile pic!!
+	 */	
+	public class Info_Leaderboard {
+		String name;
+		String ranking;
+		// PROFILE PIC????
+		String carbon_amount;
+		
+		public Info_Leaderboard(String ranking, String name, String carbon_amount) {
+			this.name = name;
+			this.ranking = ranking;
+			this.carbon_amount = carbon_amount;
+		}
+		
+		public String toString() {
+			return ranking + ", " + name + ", " + carbon_amount;
+		}
+	}
 }

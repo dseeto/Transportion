@@ -136,6 +136,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 			activityClasses.put("Walk", WalkDetails.class);
 			activityClasses.put("Bike", BikeDetails.class);
 			activityClasses.put("Bus", BusDetails.class);
+			activityClasses.put("Leaderboard", LeaderboardActivity.class);
 			
 			activityPutExtras = new HashMap<String, ArrayList<String[]>>();
 			ArrayList<String[]> putExtra = new ArrayList<String[]>();
@@ -156,6 +157,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 		}
 		
 		@Override
+		
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { // CHANGE THIS FOR CATEGORIES
 			
 			String textClicked = ((TextView) view.findViewById(R.id.list_item_entry_title)).getText().toString();		
