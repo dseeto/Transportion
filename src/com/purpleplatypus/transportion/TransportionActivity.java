@@ -51,6 +51,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -90,16 +91,16 @@ public class TransportionActivity extends SlidingMenuActivity {
 		});
 		
 		 sliding_menu_items = new ArrayList<Item>();
-		 sliding_menu_items.add(new EntryItem(0, "Home"));
-		 sliding_menu_items.add(new EntryItem(1, "Logout"));
+		 sliding_menu_items.add(new EntryItem(0, "Home", R.drawable.menu_home));
+		 sliding_menu_items.add(new EntryItem(1, "Logout", R.drawable.menu_logout));
 		 sliding_menu_items.add(new SectionItem(2, "Details"));
-		 sliding_menu_items.add(new EntryItem(3, "Car"));
-		 sliding_menu_items.add(new EntryItem(4, "Bus"));
-		 sliding_menu_items.add(new EntryItem(5, "Bike"));
-		 sliding_menu_items.add(new EntryItem(6, "Walk"));
+		 sliding_menu_items.add(new EntryItem(3, "Car", R.drawable.menu_car));
+		 sliding_menu_items.add(new EntryItem(4, "Bus", R.drawable.menu_bus));
+		 sliding_menu_items.add(new EntryItem(5, "Bike", R.drawable.menu_bike));
+		 sliding_menu_items.add(new EntryItem(6, "Walk", R.drawable.menu_walk));
 		 sliding_menu_items.add(new SectionItem(7, "Compare"));
-		 sliding_menu_items.add(new EntryItem(8, "Friends"));
-		 sliding_menu_items.add(new EntryItem(9, "Leaderboard"));
+		 sliding_menu_items.add(new EntryItem(8, "Friends", R.drawable.menu_friends));
+		 sliding_menu_items.add(new EntryItem(9, "Leaderboard", R.drawable.menu_leaderboard));
 		 
 		
 		ListView menuListView = (ListView) findViewById(R.id.menuListView);
@@ -156,7 +157,8 @@ public class TransportionActivity extends SlidingMenuActivity {
 		
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) { // CHANGE THIS FOR CATEGORIES
-			String textClicked = ((TextView) view).getText().toString();		
+			
+			String textClicked = ((TextView) view.findViewById(R.id.list_item_entry_title)).getText().toString();		
 			toggleMenu();
 			if (textClicked == "Logout") {
 				onClickLogout();
@@ -405,10 +407,14 @@ public class TransportionActivity extends SlidingMenuActivity {
 	            } else {
 	                EntryItem ei = (EntryItem)i;
 	                v = li.inflate(R.layout.menu_text, null);
-	                final TextView title = (TextView)v.findViewById(R.id.list_item_entry_title);
 	                
-	                if (title != null)
-	                    title.setText(ei.name);               
+	                // put text
+	                TextView title = (TextView)v.findViewById(R.id.list_item_entry_title);
+	                if (title != null) title.setText(ei.name);
+	                
+	                // put icon
+	                ImageView icon = (ImageView) v.findViewById(R.id.icon);
+	                if (icon != null) icon.setImageResource(ei.iconId);
 	            }
 	        }
 	        return v;
@@ -442,10 +448,12 @@ public class TransportionActivity extends SlidingMenuActivity {
 	public class EntryItem implements Item {
 		int position;
 		String name;
+		int iconId;
 		
-		public EntryItem(int position, String name) {
+		public EntryItem(int position, String name, int iconId) {
 			this.position = position;
 			this.name = name;
+			this.iconId = iconId;
 		}
 		public boolean isSection() {
 			if (position == 2 || position == 7) {
