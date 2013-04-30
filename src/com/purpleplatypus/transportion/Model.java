@@ -34,7 +34,8 @@ public class Model {
 	
 	Context context;
 	DbHelper mDbHelper; 
-	String userID = "JOE"; 
+	String userID = "12345"; 
+	String userName="Joe";
 	ArrayList<Info_User> userList;
 	ArrayList<Info_User> friendList;
 	ArrayList<Info_Leaderboard> leaderboardList;
@@ -57,7 +58,7 @@ public class Model {
 		userID = "JOE"; // CHANGE THIS!!
 		ArrayList<Point> data = mDbHelper.rawDataGetAll();
 		System.out.println("GOT TO SEND DATA!!!");
-		ParseObject user = new ParseObject(userID);
+		ParseObject user = new ParseObject("Raw_Data");
 		JSONArray timestamps = new JSONArray();
 		JSONArray geopoints = new JSONArray();;
 		
@@ -74,6 +75,8 @@ public class Model {
 		user.put("geopoints", geopoints);
 		
 		user.put("count", count);			// number of time_points!!
+		user.put("id", userID);
+		user.put("name", userName);
 		//user.saveEventually();
 		user.saveInBackground();
 		
@@ -114,9 +117,9 @@ public class Model {
 		        }
 		    }
 		});
-		return userList;
-		
+		return userList;		
 	}
+	
 	/*
 	 * Same as above method. NOT BEEN TESTED!!!! NEEDS TO BE FIXED TO BE LIKE retrieveLeaderboardDataFromServer!!
 	 */
