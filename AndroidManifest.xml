@@ -95,6 +95,7 @@
             android:name="com.purpleplatypus.transportion.LeaderboardActivity"
             android:label="@string/title_activity_leaderboard" >
         </activity>
+        <activity android:name="com.purpleplatypus.transportion.FriendsCompareActivity"></activity>
     </application>
 
 </manifest>

@@ -107,7 +107,7 @@ public class FriendsActivity extends TransportionActivity {
 	    	// must be the case that a friend had been clicked on while on suggestion
 	    	System.out.println("friends page: clicked on suggestion");
 	    	
-			Intent i = new Intent(getApplicationContext(), FriendStatsActivity.class);
+			Intent i = new Intent(getApplicationContext(), FriendsCompareActivity.class);
 			
 			String name = intent.getData().getLastPathSegment().toLowerCase();
 			i.putExtra("name", name);
@@ -154,7 +154,7 @@ public class FriendsActivity extends TransportionActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				String name = ((TextView) view.findViewById(R.id.name)).getText().toString();
 				
-				Intent i = new Intent(getApplicationContext(), FriendStatsActivity.class);
+				Intent i = new Intent(getApplicationContext(), FriendsCompareActivity.class);
 				i.putExtra("name", name);
 				startActivity(i);
 			}

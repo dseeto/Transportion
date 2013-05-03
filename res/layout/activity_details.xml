@@ -74,12 +74,12 @@
                     android:onClick="onClick"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:background="#336699"
-                    android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    android:layout_marginBottom="2dp"
+                    android:paddingTop="3dp"
                     android:textStyle="bold"
+                    android:layout_marginBottom="2dp"
                      />
-
+                
                 <Button
                     android:id="@+id/year"
                     android:layout_width="wrap_content"
