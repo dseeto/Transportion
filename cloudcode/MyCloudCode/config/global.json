@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "_default": {
+            "link": "transportion2"
+        }, 
+        "transportion2": {
+            "applicationId": "EL8WO95o0oQa9wKN1AMRfaQBmWpZNlLMXZlWFnXX", 
+            "masterKey": "1uMQ41yZ4cdztZdWzgpiz6GLwQ31jYw9hKTNZ6g2"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.2.7"
+    }
+}

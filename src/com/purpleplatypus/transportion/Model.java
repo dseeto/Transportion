@@ -16,6 +16,7 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -233,7 +234,9 @@ public class Model {
 	        //db.execSQL(RETRIEVED_DATA_SQL_DELETE_ENTRIES);
 	        onCreate(db);
 	    }
-	    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+	    
+	    @SuppressLint("Override")
+		public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 	        onUpgrade(db, oldVersion, newVersion);
 	    }
 	    

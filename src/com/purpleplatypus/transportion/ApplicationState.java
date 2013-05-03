@@ -9,8 +9,8 @@ public class ApplicationState extends Application {
 	
 	public void onCreate() {
 		super.onCreate();
-		data = new Model();
 		context = getApplicationContext();
+		data = new Model();
 	}
 	
 	public static Context getContext() {
