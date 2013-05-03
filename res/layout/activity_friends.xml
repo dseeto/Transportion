@@ -9,6 +9,13 @@
     android:background="#e6e3e3"
     tools:context=".FriendsActivity" >
 
+    <Button
+ 	    android:id="@+id/button1"
+ 	    android:layout_width="wrap_content"
+ 	    android:layout_height="wrap_content"
+ 	    android:onClick="onClick"
+ 	    android:text="Button" />
+    
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"

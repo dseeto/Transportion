@@ -65,14 +65,16 @@ public class MainActivity extends TransportionActivity {
 		appState = (ApplicationState) this.getApplication();
 		appState.data.createDatabase(this);		
 
+		// Transportion Account
 		//Parse.initialize(this, "i4mqhdigRXwjs66dfZdCdMsF7fuwcIsEGoJUV0Te", "IYX3qei450z9etih7tz7dsobEaenaQmt5oJWu7QT");
 		
+		//Transportion2 Account
 		Parse.initialize(this, "EL8WO95o0oQa9wKN1AMRfaQBmWpZNlLMXZlWFnXX", "JE5I5thI0ptOZaLNH6HdOHQdUuLRuwykIIRG9f0u"); 
-		
+		/*
 		ParseObject testObject = new ParseObject("TestObject");
 		testObject.put("foo", "bar");
 		testObject.saveInBackground();
-		
+		*/
 		// track statistics around application opens
 		ParseAnalytics.trackAppOpened(getIntent());
 		
@@ -91,9 +93,9 @@ public class MainActivity extends TransportionActivity {
 		System.out.println("================= RAW DATA =================");
 		
 		appState.data.mDbHelper.rawDataRemoveAll();
-		
-		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)11, (float)11);
-		//appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)100.111, (float)100.111);
+		/*
+		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)11, (float)11, (float)22);
+		//appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)100.111, (float)100.111, (float)22);
 		//appState.data.mDbHelper.rawDataGetAll(); // will print
 		//appState.data.mDbHelper.rawDataRemoveAll();
 		//appState.data.mDbHelper.rawDataGetAll(); // will print
@@ -105,22 +107,28 @@ public class MainActivity extends TransportionActivity {
 		}
 		
 		
-		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)12, (float)11);
-		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)13, (float)11);
-		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)14, (float)11);
-		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)15, (float)11);
+		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)12, (float)11, (float)-1.0);
+		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)13, (float)11, (float)-1.0);
+		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)14, (float)11, (float)22);
+		appState.data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), (float)15, (float)11, (float)22);
+		
 		try {
 			appState.data.sendDataToServer();
 		} catch (JSONException e) {	
 			System.out.println("DIDN'T SEND!!!");
 			e.printStackTrace();
 		}
-		
+		*/
 		// appState.data.retrieveUserDataFromServer();
 		
 		// MODEL TESTING - REMOVE
-		*/
+		/*
+		// Start Tracking Location:
+		Intent intent = new Intent(this, LocationService.class);
+		startService(intent);
 		
+		// stopService(intent);
+		*/
 		// SET UP REST OF PAGE
 		TextView title = (TextView) findViewById(R.id.title);		
 		title.setText("Overall Usage");
@@ -214,4 +222,6 @@ public class MainActivity extends TransportionActivity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	
 }

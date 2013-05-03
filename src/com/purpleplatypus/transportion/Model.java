@@ -1,10 +1,14 @@
 package com.purpleplatypus.transportion;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -22,15 +26,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Model {
 	
-	// TODO: ADD FRIEND STUFF: FRIEND LIST, EDIT FRIEND LIST...
-		// REFRESH DATA ONCE A DAY?!?!
-	
-	/*
-	 * Tables Created in Server:
-	 * Raw Data = columns: {userID, timestamps (array), geopoints (array)} (each timestamp corresponds to a geopoint) to tell the order of objects, look at created_at column
-	 * User Computed Data = columns: {userID, car, bus, bike, walk, total_carbon}; car: {day, week, month, year}; day: {miles, carbon, timespent, percent, gas}
-			
-	 */
+	// TODO: keep track of friends
 	
 	Context context;
 	DbHelper mDbHelper; 
@@ -40,13 +36,24 @@ public class Model {
 	ArrayList<Info_User> friendList;
 	ArrayList<Info_Leaderboard> leaderboardList;
 	
+	int year;
+	int month;
+	int day;
+	int hour;
+	int min;
+	
 	public Model() {
 		
 	}
 		
 	public void createDatabase(Context c) {
 		context = c;		
-		mDbHelper = new DbHelper(context);		
+		mDbHelper = new DbHelper(context);
+		year = 2013;
+		month = 1;
+		day = 1;
+		hour = 4;
+		min = 0;
 		
 	}
 	
@@ -54,37 +61,41 @@ public class Model {
 	 * Sends all the raw data in UserData table to the server.
 	 * After sent, clears the local db to save room.
 	 */
-	public void sendDataToServer() throws JSONException { // should send in one object
-		userID = "JOE"; // CHANGE THIS!!
-		ArrayList<Point> data = mDbHelper.rawDataGetAll();
+	public void sendDataToServer() throws JSONException { // should send in one object		
+		ArrayList<Segment> data = mDbHelper.rawDataGetAll();
 		System.out.println("GOT TO SEND DATA!!!");
-		ParseObject user = new ParseObject("Raw_Data");
+		ParseObject user = new ParseObject("Segments");	
 		JSONArray timestamps = new JSONArray();
-		JSONArray geopoints = new JSONArray();;
+		JSONArray modes = new JSONArray();
+		JSONArray distances = new JSONArray();
+		JSONArray intervals = new JSONArray();
 		
 		int count = 0;
-		for (Point p : data) {	
-			System.out.println(count+"");			 
-			timestamps.put(p.timestamp.toString());
-			ParseGeoPoint point = new ParseGeoPoint(p.latitude, p.longitude);
-			geopoints.put(point);
+		for (Segment s : data) {	
+			System.out.println(count+"");
+			
+			timestamps.put(s.timestamp.toString());
+			modes.put( s.mode);
+			distances.put(s.distance);
+			intervals.put(s.interval);
 			
 			count++;						
 		}		
-		user.put("timeStamps", timestamps);	// assume this and geopoints are put in order b/c timestamp and geopoints match
-		user.put("geopoints", geopoints);
-		
+		user.put("timestamp", timestamps);
+		user.put("mode", modes);
+		user.put("distance", distances);
+		user.put("interval", intervals);
+	
 		user.put("count", count);			// number of time_points!!
 		user.put("id", userID);
-		user.put("name", userName);
+		
 		//user.saveEventually();
 		user.saveInBackground();
 		
 		// IMPLEMENT: check if cloud got it!!! to do this might have to keep track of the count of the number of objects to check...
 		
 		// delete table
-		mDbHelper.rawDataRemoveAll();
-		
+		mDbHelper.rawDataRemoveAll();		
 	}
 	
 	/*
@@ -228,26 +239,28 @@ public class Model {
 		// =============== RAW DATA TABLE =============== // 
 	   
 	    public static final String RAW_DATA_TABLE_NAME = "UserData";
-	    public static final String COLUMN_NAME_TIMESTAMP = "timestamp";
-	    public static final String COLUMN_NAME_LAT = "latitude";
-	    public static final String COLUMN_NAME_LON = "longitude";	    	   
+	    public static final String COLUMN_NAME_DISTANCE = "distance"; // miles
+	    public static final String COLUMN_NAME_INTERVAL = "interval"; // minutes
+	    public static final String COLUMN_NAME_MODE = "mode";	    	 
+	    public static final String COLUMN_NAME_TIMESTAMP = "time";
 
 	    public static final String RAW_DATA_SQL_CREATE_ENTRIES = 
-	    		"CREATE TABLE " + RAW_DATA_TABLE_NAME + "(" + COLUMN_NAME_TIMESTAMP + " TIMESTAMP PRIMARY KEY, " + COLUMN_NAME_LAT + " FLOAT, " + COLUMN_NAME_LON + " FLOAT" + ")";
+	    		"CREATE TABLE IF NOT EXISTS " + RAW_DATA_TABLE_NAME + " (" + COLUMN_NAME_TIMESTAMP + " TIMESTAMP PRIMARY KEY, " + COLUMN_NAME_MODE + " TEXT, " + COLUMN_NAME_DISTANCE + " FLOAT, " + COLUMN_NAME_INTERVAL + " FLOAT" + ")";
 	    
 	    public static final String RAW_DATA_SQL_DELETE_ENTRIES =
 	    		"DROP TABLE IF EXIST " + RAW_DATA_TABLE_NAME;
 	    
 	   
 		
-	    public void rawDataAddEntry(Timestamp timestamp, float lat, float lon) {
+	    public void rawDataAddEntry(Timestamp timestamp, String mode, float distance, float interval) {
 			SQLiteDatabase db;		
 			db = this.getWritableDatabase();
 			
 			ContentValues values = new ContentValues();
 			values.put(COLUMN_NAME_TIMESTAMP, timestamp.toString());
-			values.put(COLUMN_NAME_LAT, lat);
-			values.put(COLUMN_NAME_LON, lon);			
+			values.put(COLUMN_NAME_MODE, mode);
+			values.put(COLUMN_NAME_DISTANCE, distance);		
+			values.put(COLUMN_NAME_INTERVAL, interval);
 			
 			db.insert(RAW_DATA_TABLE_NAME, null, values);
 			db.close();
@@ -256,8 +269,8 @@ public class Model {
 	    /*
 	     *  Should return the points in order by timestamp.
 	     */
-	    public ArrayList<Point> rawDataGetAll() {
-	    	ArrayList<Point> list = new ArrayList<Point>();
+	    public ArrayList<Segment> rawDataGetAll() {
+	    	ArrayList<Segment> list = new ArrayList<Segment>();
 	    	String query = "SELECT * FROM " + RAW_DATA_TABLE_NAME + " ORDER BY " + COLUMN_NAME_TIMESTAMP + " ASC";
 	    	
 	    	SQLiteDatabase db = this.getWritableDatabase();
@@ -266,11 +279,11 @@ public class Model {
 	    	if (cursor.moveToFirst()) {
 	            do {
 	            	// TESTING PURPOSES	    	
-	    	    	System.out.println(cursor.getString(0) + " ," + cursor.getString(1) + " ," + cursor.getString(2));
+	    	    	System.out.println(cursor.getString(0) + " ," + cursor.getString(1) + " ," + cursor.getString(2) + " ," + cursor.getString(3));
 	    	        // TESTING PURPOSES
 	            	
 	            	
-	                Point p = new Point(Timestamp.valueOf(cursor.getString(0)), Float.parseFloat(cursor.getString(1)), Float.parseFloat(cursor.getString(2)));	                	                
+	                Segment p = new Segment(Timestamp.valueOf(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3));	                	                
 	                list.add(p);
 	            } while (cursor.moveToNext());
 	        }
@@ -281,7 +294,8 @@ public class Model {
 		
 	    public void rawDataRemoveAll() { // after data is in remote server
 			SQLiteDatabase db = this.getWritableDatabase(); 
-		    db.delete(RAW_DATA_TABLE_NAME, null, null);	    		    
+		    db.delete(RAW_DATA_TABLE_NAME, null, null);	    
+		    db.close();
 		}
 		
 	    // ================= RETRIEVED DATA TABLE ================= // 
@@ -395,15 +409,17 @@ public class Model {
 	/*
 	 * Class for Raw Data Table in local db
 	 */
-	public class Point {
+	public class Segment {
 		Timestamp timestamp;
-		float latitude;
-		float longitude;
+		String mode;
+		String distance; // decimal = meteres
+		String interval; // minutes = int
 		
-		public Point(Timestamp t, float lat, float lon) {
+		public Segment(Timestamp t, String m, String d, String i) {
 			timestamp = t;
-			latitude = lat;
-			longitude = lon;
+			mode = m;
+			distance= d;
+			interval= i;
 		}
 	}
 	
@@ -427,4 +443,79 @@ public class Model {
 			return ranking + ", " + name + ", " + carbon_amount;
 		}
 	}
+	
+	/**
+	 * FOR TESTING PURPOSES: POPULATE DATA
+	 * @throws JSONException 
+	 */
+	public void populateSegments() throws JSONException {
+		
+		ParseObject user = new ParseObject("Segments");
+		Random generator = new Random();
+		
+		Calendar c = Calendar.getInstance();		
+		c.set(year,month,day,hour,min);
+		long d = c.getTimeInMillis();
+		
+		JSONArray timestamps = new JSONArray();
+		JSONArray modes = new JSONArray();
+		JSONArray distances = new JSONArray();
+		JSONArray intervals = new JSONArray();
+		
+		timestamps.put(new Timestamp(d));
+		modes.put("car");
+		distances.put(generator.nextDouble()*50);
+		intervals.put(generator.nextInt(60));		
+		hour = hour+1;
+		if (hour > 23) {
+			day++;
+			hour = 0;
+		}
+		if (day > 30) {
+			month++;
+			day = 0;
+		}
+		c.set(year,month,day,hour,min);
+		d = c.getTimeInMillis();
+		
+		timestamps.put(new Timestamp(d));
+		modes.put("bike");
+		distances.put(generator.nextDouble()*20);
+		intervals.put(generator.nextInt(60));	
+		hour = hour+1;
+		if (hour > 23) {
+			day++;
+			hour = 0;
+		}
+		if (day > 30) {
+			month++;
+			day = 0;
+		}
+		c.set(year,month,day,hour,min);
+		d = c.getTimeInMillis();
+		
+		timestamps.put(new Timestamp(d));
+		modes.put("walk");
+		distances.put(generator.nextDouble()*10);
+		intervals.put(generator.nextInt(60));	
+		hour = hour+1;
+		if (hour > 23) {
+			day++;
+			hour = 0;
+		}
+		if (day > 30) {
+			month++;
+			day = 0;
+		}
+		c.set(year,month,day,hour,min);
+		d = c.getTimeInMillis();
+		
+		user.put("timestamp", timestamps);
+		user.put("mode", modes);
+		user.put("distance", distances);
+		user.put("interval", intervals);
+		
+		user.saveInBackground();
+	}
+	
 }
