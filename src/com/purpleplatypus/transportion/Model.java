@@ -18,6 +18,7 @@ import com.parse.ParseQuery;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
@@ -30,7 +31,7 @@ public class Model {
 	
 	Context context;
 	DbHelper mDbHelper; 
-	String userID = "12345"; 
+	String userID; 
 	String userName="Joe";
 	ArrayList<Info_User> userList;
 	ArrayList<Info_User> friendList;
@@ -43,7 +44,8 @@ public class Model {
 	int min;
 	
 	public Model() {
-		
+		SharedPreferences savedSession = ApplicationState.getContext().getSharedPreferences("facebook-session",Context.MODE_PRIVATE);
+        userID = savedSession.getString("id", null);
 	}
 		
 	public void createDatabase(Context c) {
@@ -514,6 +516,7 @@ public class Model {
 		user.put("mode", modes);
 		user.put("distance", distances);
 		user.put("interval", intervals);
+		user.put("userID", userID);
 		
 		user.saveInBackground();
 	}
