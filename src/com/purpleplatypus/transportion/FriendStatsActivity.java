@@ -27,6 +27,7 @@ public class FriendStatsActivity extends TransportionActivity {
 	RelativeLayout barChartLayout;
 	List<ChartSection> friendChartValues;
 	List<ChartSection> userChartValues;
+	String name;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class FriendStatsActivity extends TransportionActivity {
 
 		// get intent value
 		Intent intent = getIntent();
-		String name = intent.getStringExtra("name");
+		name = intent.getStringExtra("name");
 		TextView compareWith = (TextView) findViewById(R.id.friend_compare);
 		compareWith.setText("with " + name);
 		
@@ -76,7 +77,7 @@ public class FriendStatsActivity extends TransportionActivity {
 			series.add(section.transportationMode, section.amount);
 		}
 		
-		CategorySeries series2 = new CategorySeries("Cody Blagg");
+		CategorySeries series2 = new CategorySeries(name);
 		for(ChartSection section : friendVals) {
 			series2.add(section.transportationMode, section.amount);
 		}
@@ -93,9 +94,9 @@ public class FriendStatsActivity extends TransportionActivity {
 		
 		//customize bar 2
 		XYSeriesRenderer renderer2 = new XYSeriesRenderer();
-		renderer.setDisplayChartValues(true);
-		renderer.setChartValuesSpacing((float) 0.5);
-		renderer.setColor(Color.GREEN);
+		renderer2.setDisplayChartValues(true);
+		renderer2.setChartValuesSpacing((float) 0.5);
+		renderer2.setColor(Color.GREEN);
 		
 		//customization for graph itself
 		XYMultipleSeriesRenderer mRenderer = new XYMultipleSeriesRenderer();

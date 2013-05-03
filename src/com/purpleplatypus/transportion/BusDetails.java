@@ -161,7 +161,7 @@ public void onCreate(Bundle savedInstanceState) {
 			month.setTypeface(null, Typeface.NORMAL);
 			month.setBackgroundColor(Color.parseColor("#218559"));
 			month.setPadding(0, 0, 0, 0);
-		} else {
+		} else { 
 			day.setTypeface(null, Typeface.NORMAL);
 			day.setBackgroundColor(Color.parseColor("#218559"));
 			day.setPadding(0, 0, 0, 0);
