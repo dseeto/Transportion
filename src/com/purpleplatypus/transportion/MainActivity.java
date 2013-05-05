@@ -42,14 +42,14 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends TransportionActivity {
 
 
-	RelativeLayout pieChartLayout;
+	LinearLayout pieChartLayout;
 	DrawPieChart pieChart;
 	ApplicationState appState;
 	GraphicalView pieChartView;
@@ -133,7 +133,7 @@ public class MainActivity extends TransportionActivity {
 		TextView title = (TextView) findViewById(R.id.title);		
 		title.setText("Overall Usage");
 		
-		pieChartLayout = (RelativeLayout) findViewById(R.id.mainPieChart);
+		pieChartLayout = (LinearLayout) findViewById(R.id.mainPieChart);
 		
 		//hardcode values for pie chart:
 		//order: car, bus, bike, walk
@@ -170,6 +170,7 @@ public class MainActivity extends TransportionActivity {
 		renderer.setLabelsColor(Color.BLACK);
 		renderer.setLabelsTextSize(32);
 		renderer.setLegendTextSize(32);
+		renderer.setShowLegend(false);
 //		renderer.setLegendHeight(5);
 		
 //		renderer.setFitLegend(true);

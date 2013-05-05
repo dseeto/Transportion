@@ -68,11 +68,11 @@ public class BusDetails extends TransportionActivity{
 		carbon.setText("" + df.format(140*71) + " Grams");
 		/*
 		// also set background color
-		miles.setBackgroundColor(Color.parseColor("#ffff73"));
-		time.setBackgroundColor(Color.parseColor("#ffff73"));
-		gas.setBackgroundColor(Color.parseColor("#ffff73"));
-		percent.setBackgroundColor(Color.parseColor("#ffff73"));
-		carbon.setBackgroundColor(Color.parseColor("#ffff73"));
+		miles.setBackgroundResource(Color.parseColor("#ffff73"));
+		time.setBackgroundResource(Color.parseColor("#ffff73"));
+		gas.setBackgroundResource(Color.parseColor("#ffff73"));
+		percent.setBackgroundResource(Color.parseColor("#ffff73"));
+		carbon.setBackgroundResource(Color.parseColor("#ffff73"));
 		*/
 		// set pic
 		LinearLayout layout = (LinearLayout)findViewById(R.id.pic);			
@@ -95,7 +95,7 @@ public class BusDetails extends TransportionActivity{
 		case R.id.day:
 			place = 0;
 			day.setTypeface(null, Typeface.BOLD);
-			day.setBackgroundColor(Color.parseColor("#315489"));
+			day.setBackgroundResource(R.drawable.blue_button);
 			//day.setPadding(0, 10, 0, 10);
 	
 			miles.setText("2 Miles");
@@ -108,7 +108,7 @@ public class BusDetails extends TransportionActivity{
 		case R.id.week:
 			place = 1;
 			week.setTypeface(null, Typeface.BOLD);
-			week.setBackgroundColor(Color.parseColor("#315489"));
+			week.setBackgroundResource(R.drawable.blue_button);
 			//week.setPadding(0, 10, 0, 10);
 			
 			miles.setText("20 Miles");
@@ -121,7 +121,7 @@ public class BusDetails extends TransportionActivity{
 		case R.id.month:
 			place = 2;
 			month.setTypeface(null, Typeface.BOLD);
-			month.setBackgroundColor(Color.parseColor("#315489"));
+			month.setBackgroundResource(R.drawable.blue_button);
 			//month.setPadding(0, 10, 0, 10);
 		
 			miles.setText("71 Miles");
@@ -134,7 +134,7 @@ public class BusDetails extends TransportionActivity{
 		case R.id.year:
 			place = 3;
 			year.setTypeface(null, Typeface.BOLD);
-			year.setBackgroundColor(Color.parseColor("#315489"));
+			year.setBackgroundResource(R.drawable.blue_button);
 			//year.setPadding(0, 10, 0, 10);
 		
 			miles.setText("723 Miles");
@@ -151,19 +151,19 @@ public class BusDetails extends TransportionActivity{
 			
 		} else if (spans[oldPlace].equals("Year")) {
 			year.setTypeface(null, Typeface.NORMAL);
-			year.setBackgroundColor(Color.parseColor("#676767"));
+			year.setBackgroundResource(R.drawable.gray_button);
 			//year.setPadding(0, 0, 0, 10);
 		} else if (spans[oldPlace].equals("Week")) { // week
 			week.setTypeface(null, Typeface.NORMAL);
-			week.setBackgroundColor(Color.parseColor("#676767"));
+			week.setBackgroundResource(R.drawable.gray_button);
 			//week.setPadding(0, 0, 0, 10);
 		} else if (spans[oldPlace].equals("Month")) {
 			month.setTypeface(null, Typeface.NORMAL);
-			month.setBackgroundColor(Color.parseColor("#676767"));
+			month.setBackgroundResource(R.drawable.gray_button);
 			//month.setPadding(0, 0, 0, 10);
 		} else { 
 			day.setTypeface(null, Typeface.NORMAL);
-			day.setBackgroundColor(Color.parseColor("#676767"));
+			day.setBackgroundResource(R.drawable.gray_button);
 			//day.setPadding(0, 0, 0, 10);
 		}
 		// update old place

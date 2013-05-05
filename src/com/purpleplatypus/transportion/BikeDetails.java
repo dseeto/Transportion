@@ -77,11 +77,11 @@ public class BikeDetails extends TransportionActivity {
 		*/
 		/*
 		// also set background color
-		miles.setBackgroundColor(Color.parseColor("#4869d6"));
-		time.setBackgroundColor(Color.parseColor("#4869d6"));
-		gas.setBackgroundColor(Color.parseColor("#4869d6"));
-		percent.setBackgroundColor(Color.parseColor("#4869d6"));
-		carbon.setBackgroundColor(Color.parseColor("#4869d6"));
+		miles.setBackgroundResource(Color.parseColor("#4869d6"));
+		time.setBackgroundResource(Color.parseColor("#4869d6"));
+		gas.setBackgroundResource(Color.parseColor("#4869d6"));
+		percent.setBackgroundResource(Color.parseColor("#4869d6"));
+		carbon.setBackgroundResource(Color.parseColor("#4869d6"));
 		*/
 		// set pic
 		LinearLayout layout = (LinearLayout)findViewById(R.id.pic);			
@@ -119,7 +119,7 @@ public class BikeDetails extends TransportionActivity {
 		case R.id.day:
 			place = 0;
 			day.setTypeface(null, Typeface.BOLD);
-			day.setBackgroundColor(Color.parseColor("#315489"));
+			day.setBackgroundResource(R.drawable.blue_button);
 		
 			miles.setText("Miles Travelled: 0 Miles");
 			time.setText("Time Spent: 0 Min");
@@ -131,7 +131,7 @@ public class BikeDetails extends TransportionActivity {
 		case R.id.week:
 			place = 1;
 			week.setTypeface(null, Typeface.BOLD);
-			week.setBackgroundColor(Color.parseColor("#315489"));
+			week.setBackgroundResource(R.drawable.blue_button);
 			
 			miles.setText("Miles Travelled: 0 Miles");
 			time.setText("Time Spent: 0 Min");
@@ -143,7 +143,7 @@ public class BikeDetails extends TransportionActivity {
 		case R.id.month:
 			place = 2;
 			month.setTypeface(null, Typeface.BOLD);
-			month.setBackgroundColor(Color.parseColor("#315489"));
+			month.setBackgroundResource(R.drawable.blue_button);
 			
 			miles.setText("Miles Travelled: 0 Miles");
 			time.setText("Time Spent: 0 Min");
@@ -155,7 +155,7 @@ public class BikeDetails extends TransportionActivity {
 		case R.id.year:
 			place = 3;
 			year.setTypeface(null, Typeface.BOLD);
-			year.setBackgroundColor(Color.parseColor("#315489"));
+			year.setBackgroundResource(R.drawable.blue_button);
 			
 			miles.setText("Miles Travelled: 0 Miles");
 			time.setText("Time Spent: 0 Min");
@@ -171,16 +171,16 @@ public class BikeDetails extends TransportionActivity {
 		
 		} else if (spans[oldPlace].equals("Year")) {
 			year.setTypeface(null, Typeface.NORMAL);
-			year.setBackgroundColor(Color.parseColor("#676767"));			
+			year.setBackgroundResource(R.drawable.gray_button);			
 		} else if (spans[oldPlace].equals("Week")) { // week
 			week.setTypeface(null, Typeface.NORMAL);
-			week.setBackgroundColor(Color.parseColor("#676767"));			
+			week.setBackgroundResource(R.drawable.gray_button);			
 		} else if (spans[oldPlace].equals("Month")) {
 			month.setTypeface(null, Typeface.NORMAL);
-			month.setBackgroundColor(Color.parseColor("#676767"));			
+			month.setBackgroundResource(R.drawable.gray_button);			
 		} else {
 			day.setTypeface(null, Typeface.NORMAL);
-			day.setBackgroundColor(Color.parseColor("#676767"));			
+			day.setBackgroundResource(R.drawable.gray_button);			
 		}
 		// update old place
 		oldPlace = place;

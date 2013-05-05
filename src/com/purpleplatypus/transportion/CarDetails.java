@@ -69,11 +69,11 @@ public class CarDetails extends TransportionActivity{
 		carbon.setText("" + df.format(109.00*(100/1.6)) + " Grams"); // 109 per km; 1.6 km for each mile
 		/*
 		// also set background color
-		miles.setBackgroundColor(Color.parseColor("#ff4e50"));
-		time.setBackgroundColor(Color.parseColor("#ff4e50"));
-		gas.setBackgroundColor(Color.parseColor("#ff4e50"));
-		percent.setBackgroundColor(Color.parseColor("#ff4e50"));
-		carbon.setBackgroundColor(Color.parseColor("#ff4e50"));	
+		miles.setBackgroundResource(Color.parseColor("#ff4e50"));
+		time.setBackgroundResource(Color.parseColor("#ff4e50"));
+		gas.setBackgroundResource(Color.parseColor("#ff4e50"));
+		percent.setBackgroundResource(Color.parseColor("#ff4e50"));
+		carbon.setBackgroundResource(Color.parseColor("#ff4e50"));	
 		*/
 		// set pic
 		LinearLayout layout = (LinearLayout)findViewById(R.id.pic);			
@@ -97,7 +97,7 @@ public class CarDetails extends TransportionActivity{
 		case R.id.day:
 			place = 0;
 			day.setTypeface(null, Typeface.BOLD);
-			day.setBackgroundColor(Color.parseColor("#315489"));
+			day.setBackgroundResource(R.drawable.blue_button);
 					
 			miles.setText("0 Miles");
 			time.setText("0 Min");
@@ -109,7 +109,7 @@ public class CarDetails extends TransportionActivity{
 		case R.id.week:
 			place = 1;
 			week.setTypeface(null, Typeface.BOLD);
-			week.setBackgroundColor(Color.parseColor("#315489"));
+			week.setBackgroundResource(R.drawable.blue_button);
 			
 			miles.setText("0 Miles");
 			time.setText("0 Min");
@@ -121,7 +121,7 @@ public class CarDetails extends TransportionActivity{
 		case R.id.month:
 			place = 2;
 			month.setTypeface(null, Typeface.BOLD);
-			month.setBackgroundColor(Color.parseColor("#315489"));
+			month.setBackgroundResource(R.drawable.blue_button);
 			
 			// update info
 			miles.setText("100 Miles");
@@ -134,7 +134,7 @@ public class CarDetails extends TransportionActivity{
 		case R.id.year:
 			place = 3;
 			year.setTypeface(null, Typeface.BOLD);
-			year.setBackgroundColor(Color.parseColor("#315489"));
+			year.setBackgroundResource(R.drawable.blue_button);
 			
 			// update info		
 			miles.setText("1,455 Miles");
@@ -150,16 +150,16 @@ public class CarDetails extends TransportionActivity{
 			
 		} else if (spans[oldPlace].equals("Year")) {
 			year.setTypeface(null, Typeface.NORMAL);
-			year.setBackgroundColor(Color.parseColor("#676767"));			
+			year.setBackgroundResource(R.drawable.gray_button);			
 		} else if (spans[oldPlace].equals("Week")) { // week
 			week.setTypeface(null, Typeface.NORMAL);
-			week.setBackgroundColor(Color.parseColor("#676767"));
+			week.setBackgroundResource(R.drawable.gray_button);
 		} else if (spans[oldPlace].equals("Month")) {
 			month.setTypeface(null, Typeface.NORMAL);
-			month.setBackgroundColor(Color.parseColor("#676767"));
+			month.setBackgroundResource(R.drawable.gray_button);
 		} else {
 			day.setTypeface(null, Typeface.NORMAL);
-			day.setBackgroundColor(Color.parseColor("#676767"));
+			day.setBackgroundResource(R.drawable.gray_button);
 		}
 		// update old place
 		oldPlace = place;
