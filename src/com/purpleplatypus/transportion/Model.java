@@ -51,6 +51,8 @@ public class Model {
 	public void createDatabase(Context c) {
 		context = c;		
 		mDbHelper = new DbHelper(context);
+		
+		// FOR TESTING PURPOSES
 		year = 2013;
 		month = 1;
 		day = 1;
@@ -88,7 +90,6 @@ public class Model {
 		user.put("distance", distances);
 		user.put("interval", intervals);
 	
-		user.put("count", count);			// number of time_points!!
 		user.put("id", userID);
 		
 		//user.saveEventually();

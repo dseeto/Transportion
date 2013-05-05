@@ -11,7 +11,7 @@
 		android:textSize="40dp"
 		android:layout_marginLeft="5dp"
 		android:layout_gravity="center_horizontal"
-		android:textColor="#ff0000"
+		android:textColor="#315489"
 		android:text="1" />        
 		
     <ImageView
@@ -35,17 +35,31 @@
              android:textSize="20sp"          
              android:textStyle="bold"
              android:text="Tiffany Lee" />
-         	
-         
-         <TextView
-             android:id="@+id/carbonAmount_leaderboard"
+
+         <LinearLayout
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
-             android:layout_margin="3dp"
-             android:layout_weight="1"
-             android:textSize="15sp"             
-             android:textStyle="bold"
-             android:text="Carbon Emitted: 1000 grams" />
+             android:layout_weight="2" >
+
+             <TextView
+                 android:id="@+id/carbonAmount_leaderboard"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"                                  
+                 android:text="1000 GRAMS"
+                 android:textSize="15sp"
+                 android:textStyle="bold"
+                  />
+
+             <TextView
+                 android:id="@+id/textView1"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"                 
+                 android:text="CARBON EMITTED"
+                 android:paddingLeft="5dp"
+                 android:textColor="#676767"
+                 android:textSize="13sp" />
+
+         </LinearLayout>
          
      </LinearLayout>
 

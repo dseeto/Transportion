@@ -314,7 +314,7 @@ public class FriendsActivity extends TransportionActivity {
             // set misc data
             TextView carbon = (TextView) vi.findViewById(R.id.carbonAmount);
             try {
-            	carbon.setText(FriendsActivity.friendsJsons.getJSONObject(data.get(position)).getString("id") + " pounds of carbon emitted");
+            	carbon.setText(FriendsActivity.friendsJsons.getJSONObject(data.get(position)).getString("id") + " GRAMS");
             } catch (Exception e) {
             	carbon.setText(e.toString());
             }

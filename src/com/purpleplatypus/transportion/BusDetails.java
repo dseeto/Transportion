@@ -36,7 +36,7 @@ public class BusDetails extends TransportionActivity{
 	
 	DecimalFormat df;
 	
-public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		
 		// special TransportionActivity onCreate procedure
 		super.onCreate(savedInstanceState);
@@ -57,15 +57,15 @@ public void onCreate(Bundle savedInstanceState) {
 		title = (TextView) findViewById(R.id.title);						
 		
 		df = new DecimalFormat();
-		df.setMaximumFractionDigits(2);	
+		df.setMaximumFractionDigits(0);	
 		// set text	
 		title.setText("Bus Details");
 		
-		miles.setText("Miles Travelled: 71 Miles");
-		time.setText("Time Spent: 2 Hrs 14 Min");
-		gas.setText("Gas Used: " + df.format(71/6) + " Gallons"); // 6 miles per gallon
-		percent.setText("% of Travelled: " + df.format(71.00/(100+71+87)*100) + "%");
-		carbon.setText("Carbon Emitted: " + df.format(140*71) + " Grams");
+		miles.setText("71 Miles");
+		time.setText("2 Hrs 14 Min");
+		gas.setText("" + df.format(71/6) + " Gallons"); // 6 miles per gallon
+		percent.setText("" + df.format(71.00/(100+71+87)*100) + "%");
+		carbon.setText("" + df.format(140*71) + " Grams");
 		/*
 		// also set background color
 		miles.setBackgroundColor(Color.parseColor("#ffff73"));
@@ -95,53 +95,53 @@ public void onCreate(Bundle savedInstanceState) {
 		case R.id.day:
 			place = 0;
 			day.setTypeface(null, Typeface.BOLD);
-			day.setBackgroundColor(Color.parseColor("#336699"));
-			day.setPadding(0, 10, 0, 10);
+			day.setBackgroundColor(Color.parseColor("#315489"));
+			//day.setPadding(0, 10, 0, 10);
 	
-			miles.setText("Miles Travelled: 2 Miles");
-			time.setText("Time Spent: 9 Min");
-			gas.setText("Gas Used: 0.33 Gallons");
-			percent.setText("% of Travelled: 34%"); // in terms of miles
-			carbon.setText("Carbon Emitted: 280 Grams");
+			miles.setText("2 Miles");
+			time.setText("9 Min");
+			gas.setText("0.33 Gallons");
+			percent.setText("34%"); // in terms of miles
+			carbon.setText("280 Grams");
 
 			break;
 		case R.id.week:
 			place = 1;
 			week.setTypeface(null, Typeface.BOLD);
-			week.setBackgroundColor(Color.parseColor("#336699"));
-			week.setPadding(0, 10, 0, 10);
+			week.setBackgroundColor(Color.parseColor("#315489"));
+			//week.setPadding(0, 10, 0, 10);
 			
-			miles.setText("Miles Travelled: 20 Miles");
-			time.setText("Time Spent: 1 Hr 10 Min");
-			gas.setText("Gas Used: 3.33 Gallons");
-			percent.setText("% of Travelled: " + df.format(20.00/(45)*100) + "%");
-			carbon.setText("Carbon Emitted: " + 140*20 + " Grams"); // 140 grams per mile
+			miles.setText("20 Miles");
+			time.setText("1 Hr 10 Min");
+			gas.setText("3.33 Gallons");
+			percent.setText("" + df.format(20.00/(45)*100) + "%");
+			carbon.setText("" + 140*20 + " Grams"); // 140 grams per mile
 		
 			break;
 		case R.id.month:
 			place = 2;
 			month.setTypeface(null, Typeface.BOLD);
-			month.setBackgroundColor(Color.parseColor("#336699"));
-			month.setPadding(0, 10, 0, 10);
+			month.setBackgroundColor(Color.parseColor("#315489"));
+			//month.setPadding(0, 10, 0, 10);
 		
-			miles.setText("Miles Travelled: 71 Miles");
-			time.setText("Time Spent: 2 Hr 14 Min");
-			gas.setText("Gas Used: " + df.format(71.00/6) + " Gallons"); // 6 miles per gallon
-			percent.setText("% of Travelled: " + df.format(71.00/(100+71+87)*100) + "%");
-			carbon.setText("Carbon Emitted: " + 140*71 + " Grams");
+			miles.setText("71 Miles");
+			time.setText("2 Hr 14 Min");
+			gas.setText("" + df.format(71.00/6) + " Gallons"); // 6 miles per gallon
+			percent.setText("" + df.format(71.00/(100+71+87)*100) + "%");
+			carbon.setText("" + 140*71 + " Grams");
 		
 			break;
 		case R.id.year:
 			place = 3;
 			year.setTypeface(null, Typeface.BOLD);
-			year.setBackgroundColor(Color.parseColor("#336699"));
-			year.setPadding(0, 10, 0, 10);
+			year.setBackgroundColor(Color.parseColor("#315489"));
+			//year.setPadding(0, 10, 0, 10);
 		
-			miles.setText("Miles Travelled: 723 Miles");
-			time.setText("Time Spent: 36 Hr 42 Min");
-			gas.setText("Gas Used: " + df.format(723.00/6) + " Gallons");
-			percent.setText("% of Travelled: " + df.format(723.00/(1455+723+783)*100) + "%");
-			carbon.setText("Carbon Emitted: " + df.format(140*723) + " Grams");
+			miles.setText("723 Miles");
+			time.setText("36 Hr 42 Min");
+			gas.setText("" + df.format(723.00/6) + " Gallons");
+			percent.setText("" + df.format(723.00/(1455+723+783)*100) + "%");
+			carbon.setText("" + df.format(140*723) + " Grams");
 		
 			break;
 		}
@@ -151,20 +151,20 @@ public void onCreate(Bundle savedInstanceState) {
 			
 		} else if (spans[oldPlace].equals("Year")) {
 			year.setTypeface(null, Typeface.NORMAL);
-			year.setBackgroundColor(Color.parseColor("#218559"));
-			year.setPadding(0, 0, 0, 0);
+			year.setBackgroundColor(Color.parseColor("#676767"));
+			//year.setPadding(0, 0, 0, 10);
 		} else if (spans[oldPlace].equals("Week")) { // week
 			week.setTypeface(null, Typeface.NORMAL);
-			week.setBackgroundColor(Color.parseColor("#218559"));
-			week.setPadding(0, 0, 0, 0);
+			week.setBackgroundColor(Color.parseColor("#676767"));
+			//week.setPadding(0, 0, 0, 10);
 		} else if (spans[oldPlace].equals("Month")) {
 			month.setTypeface(null, Typeface.NORMAL);
-			month.setBackgroundColor(Color.parseColor("#218559"));
-			month.setPadding(0, 0, 0, 0);
+			month.setBackgroundColor(Color.parseColor("#676767"));
+			//month.setPadding(0, 0, 0, 10);
 		} else { 
 			day.setTypeface(null, Typeface.NORMAL);
-			day.setBackgroundColor(Color.parseColor("#218559"));
-			day.setPadding(0, 0, 0, 0);
+			day.setBackgroundColor(Color.parseColor("#676767"));
+			//day.setPadding(0, 0, 0, 10);
 		}
 		// update old place
 		oldPlace = place;

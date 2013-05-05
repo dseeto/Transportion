@@ -259,6 +259,10 @@ public class TransportionActivity extends SlidingMenuActivity {
 			session.closeAndClearTokenInformation();
 		}
 		
+		// Stop Tracking:
+		Intent intent = new Intent(this, LocationService.class);
+		stopService(intent);
+		
     	Editor editor = getApplicationContext().getSharedPreferences("facebook-session", Context.MODE_PRIVATE).edit();
     	editor.remove("id");
 		editor.commit();

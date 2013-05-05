@@ -27,7 +27,7 @@
             <LinearLayout
                 android:id="@+id/picker"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
@@ -45,8 +45,9 @@
                     android:gravity="center"
                     android:text="Day"
                     android:onClick="onClick"   
-                    android:background="#218559"                    
-                    android:paddingBottom="10dp"                                    
+                    android:background="#676767"                    
+                    android:paddingBottom="10dp" 
+                    android:paddingTop="3dp"                                   
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <Button
@@ -58,8 +59,9 @@
                     android:gravity="center"
                     android:text="Week"
                     android:onClick="onClick"  
-                    android:background="#218559"                    
-                    android:paddingBottom="10dp"       
+                    android:background="#676767"                    
+                    android:paddingBottom="10dp"  
+                    android:paddingTop="3dp"       
                     android:layout_marginBottom="2dp"          
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -73,12 +75,14 @@
                     android:text="Month"                    
                     android:onClick="onClick"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:background="#336699"
+                   android:background="@drawable/button"
                     android:paddingBottom="10dp"
                     android:paddingTop="3dp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="2dp"
+                    android:layout_marginBottom="2dp"                    
                      />
+                
+                <!--  android:background="#315489" -->
                 
                 <Button
                     android:id="@+id/year"
@@ -88,8 +92,9 @@
                     android:gravity="center"
                     android:text="Year"
                     android:onClick="onClick"   
-                    android:background="#218559"
+                    android:background="#676767"
                     android:paddingBottom="10dp"  
+                    android:paddingTop="3dp"
                     android:layout_marginBottom="2dp"               
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
@@ -97,10 +102,10 @@
             <LinearLayout
                 android:id="@+id/lower_bar"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="5dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="#336699"
+                android:background="#315489"
                 android:orientation="vertical" >
             </LinearLayout>
 
@@ -111,71 +116,202 @@
             android:layout_height="wrap_content"                        
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="#336699"
+            android:background="#676767"
             android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/miles"
-                android:padding="10dp"
-                android:layout_marginTop="3dp"  
-                android:layout_marginBottom="3dp"   
-                android:background="#e6e3e3"                             
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Miles Traveled: "
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-
-            <TextView
-                android:id="@+id/time"
-                android:padding="10dp"
-                android:layout_marginBottom="3dp"
                 android:background="#e6e3e3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Time Spent: "
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:layout_marginBottom="1dp"
+                 >
+
+                <TextView
+                    android:id="@+id/miles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="3dp"
+                    
+                    android:paddingTop="5dp"
+                    android:paddingLeft="20dp"
+                    android:paddingBottom="5dp"
+                    android:text="20000 MILES"                      
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                  	android:layout_marginBottom="1dp"
+                    android:layout_marginTop="3dp"
+                    
+                    android:paddingTop="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingBottom="10dp"                    
+                    android:text="TRAVELED"
+                    android:textColor="#2a2a2a"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:background="#e6e3e3"
+               android:layout_marginBottom="1dp"
+               android:layout_marginTop="1dp" >
+
+               <TextView
+                   android:id="@+id/time"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_marginBottom="1dp"
+                   android:layout_marginTop="3dp"
+                   
+                   android:paddingTop="5dp"
+                   android:paddingLeft="20dp"
+                   android:paddingBottom="5dp"
+                   android:text="20 HRS 4 MINS"                      
+                   android:textSize="20sp"
+                   android:textStyle="bold" />
+
+               <TextView
+                   android:id="@+id/time_traveled"
+                   android:layout_width="wrap_content"
+                   android:layout_height="fill_parent"
+                 	android:layout_marginBottom="1dp"
+                   android:layout_marginTop="3dp"
+                   
+                   android:paddingTop="10dp"
+                   android:paddingLeft="5dp"
+                   android:paddingBottom="10dp"                    
+                   android:text="TRAVELED"
+                   android:gravity="center"
+                   android:textColor="#2a2a2a"
+                   android:textAppearance="?android:attr/textAppearanceLarge"
+                   android:textSize="15sp" />
+
+           </LinearLayout>
             
-            <TextView
-                android:id="@+id/gas"
-                android:padding="10dp"
-                android:layout_marginBottom="3dp"
-                android:background="#e6e3e3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Gas Used: "
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+           <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:background="#e6e3e3"
+             android:layout_marginBottom="1dp"
+             android:layout_marginTop="1dp" >
 
-            <TextView
-                android:id="@+id/percent"
-                android:padding="10dp"
-                android:layout_marginBottom="3dp"
-                android:background="#e6e3e3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="% of Traveled: "
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+             <TextView
+                 android:id="@+id/gas"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginBottom="1dp"
+                 android:layout_marginTop="3dp"
+                 
+                 android:paddingTop="5dp"
+                 android:paddingLeft="20dp"
+                 android:paddingBottom="5dp"
+                 android:text="30 GALLONS"                      
+                 android:textSize="20sp"
+                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/carbon"
-                android:padding="10dp"
-                android:layout_marginBottom="3dp"  
-                android:background="#e6e3e3"
+             <TextView
+                 android:id="@+id/of_gas_used"
+                 android:layout_width="wrap_content"
+                 android:layout_height="fill_parent"
+               	 android:layout_marginBottom="1dp"
+                 android:layout_marginTop="3dp"
+                 
+                 android:paddingTop="10dp"
+                 android:paddingLeft="5dp"
+                 android:paddingBottom="10dp"                    
+                 android:text="GAS USED"
+                 android:gravity="center"
+                 android:textColor="#2a2a2a"
+                 android:textAppearance="?android:attr/textAppearanceLarge"
+                 android:textSize="15sp" />
+
+         </LinearLayout>
+        	
+		 <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Carbon Emitted: "
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
-        </LinearLayout>
+                android:background="#e6e3e3"
+                android:layout_marginBottom="1dp"
+                android:layout_marginTop="1dp" >
+
+                <TextView
+                    android:id="@+id/percent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="3dp"
+                    
+                    android:paddingTop="5dp"
+                    android:paddingLeft="20dp"
+                    android:paddingBottom="5dp"
+                    android:text="20%"                      
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView                    
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                  	android:layout_marginBottom="1dp"
+                    android:layout_marginTop="3dp"
+                    
+                    android:paddingTop="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingBottom="10dp"                    
+                    android:text="OF OVERALL TRAVEL"
+                    android:gravity="center"
+                    android:textColor="#2a2a2a"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+            
+		  <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#e6e3e3"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="1dp" >
+
+                <TextView
+                    android:id="@+id/carbon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginTop="3dp"
+                    
+                    android:paddingTop="5dp"
+                    android:paddingLeft="20dp"
+                    android:paddingBottom="5dp"
+                    android:text="4900 GRAMS"                      
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/time_traveled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                  	android:layout_marginBottom="1dp"
+                    android:layout_marginTop="3dp"
+                    android:textColor="#2a2a2a"
+                    android:paddingTop="10dp"
+                    android:paddingLeft="5dp"
+                    android:paddingBottom="10dp"                    
+                    android:text="CARBON EMITTED"
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
                   
     </LinearLayout>
 
+</LinearLayout>
 </RelativeLayout>
