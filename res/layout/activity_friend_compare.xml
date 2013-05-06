@@ -9,38 +9,151 @@
     tools:context=".FriendStatsActivity" >
 
     <TextView
-	    android:id="@+id/friend_compare"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:gravity="center"
-	    android:layout_alignParentTop="true"
-	    android:text="@string/friendCompareTitle"
-	    android:textAppearance="?android:attr/textAppearanceLarge"
-	    android:textSize="20sp"
-	  	android:textStyle="bold" />
+        android:id="@+id/friend_compare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="@string/friendCompareTitle"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/friend_compare"
+        android:layout_below="@+id/friend_compare"
+        android:orientation="vertical"
+        android:padding="10dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="5dp" >
+
+            <LinearLayout
+                android:id="@+id/cPic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingRight="10dp" >
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Small Text"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <TextView
+                        android:id="@+id/mode1SelfValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Small Text"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/mode1SelfProg"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Small Text"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                    <TextView
+                        android:id="@+id/mode1FriendValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Small Text"
+                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/mode1FriendProg"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
+
+
+
+<!-- <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".FriendStatsActivity" >
+
+    <TextView
+        android:id="@+id/friend_compare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="@string/friendCompareTitle"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/friend_compare"
         android:layout_below="@+id/friend_compare"
         android:layout_marginTop="56dp"
-        android:padding="10dp"
         android:background="#336699"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="10dp" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:padding="5dp" >
 
             <LinearLayout
-				android:id="@+id/cPic"
-				android:paddingRight="5dp"
-           	 	android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:id="@+id/cPic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingRight="5dp" >
             </LinearLayout>
 
             <LinearLayout
@@ -59,7 +172,6 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="90dp"
                     android:layout_height="wrap_content" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -80,23 +192,21 @@
                     android:layout_height="wrap_content"
                     android:text="Small Text"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
-
             </LinearLayout>
-
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-			android:padding="5dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:padding="5dp" >
 
             <LinearLayout
-				android:id="@+id/busPic"
-				android:paddingRight="5dp"
-           	 	android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:id="@+id/busPic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingRight="5dp" >
             </LinearLayout>
 
             <LinearLayout
@@ -115,7 +225,6 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="90dp"
                     android:layout_height="wrap_content" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -136,23 +245,21 @@
                     android:layout_height="wrap_content"
                     android:text="Small Text"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
-
             </LinearLayout>
-
         </LinearLayout>
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:padding="5dp" >
 
             <LinearLayout
-				android:id="@+id/bikePic"
-				android:paddingRight="5dp"
-           	 	android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:id="@+id/bikePic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingRight="5dp" >
             </LinearLayout>
 
             <LinearLayout
@@ -171,7 +278,6 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="90dp"
                     android:layout_height="wrap_content" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -192,24 +298,21 @@
                     android:layout_height="wrap_content"
                     android:text="Small Text"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
-
             </LinearLayout>
-
         </LinearLayout>
-        
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"            
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:padding="5dp" >
 
             <LinearLayout
-				android:id="@+id/wPic"
-				android:paddingRight="5dp"
-           	 	android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:id="@+id/wPic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingRight="5dp" >
             </LinearLayout>
 
             <LinearLayout
@@ -228,7 +331,6 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="90dp"
                     android:layout_height="wrap_content" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -249,11 +351,8 @@
                     android:layout_height="wrap_content"
                     android:text="Small Text"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
-
             </LinearLayout>
-
         </LinearLayout>
-        
     </LinearLayout>
 
-</RelativeLayout>
+</RelativeLayout> -->

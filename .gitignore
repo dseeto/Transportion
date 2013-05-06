@@ -49,6 +49,7 @@ local.properties
 
 
 # Merge conflict specific
+project.properties
 *.orig
 *.LOCAL.[0-9]*
 *.REMOTE.[0-9]*
