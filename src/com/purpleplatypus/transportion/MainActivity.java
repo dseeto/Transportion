@@ -44,7 +44,7 @@ import android.widget.Toast;
 
 public class MainActivity extends TransportionActivity {
 
-	Spinner dropDownMenu;
+	//Spinner dropDownMenu;
 
 	LinearLayout pieChartLayout;
 	DrawPieChart pieChart;
@@ -129,7 +129,7 @@ public class MainActivity extends TransportionActivity {
 		// SET UP REST OF PAGE
 		
 		// NOT USED YET
-		dropDownMenu = (Spinner) findViewById(R.id.spinner1);
+		//dropDownMenu = (Spinner) findViewById(R.id.spinner1);
 		// NOT USED YET
 		
 		TextView title = (TextView) findViewById(R.id.title);		
@@ -140,10 +140,10 @@ public class MainActivity extends TransportionActivity {
 		//hardcode values for pie chart:
 		//order: car, bus, bike, walk
 		chartValues = new ArrayList<ChartSection>();
-	    chartValues.add(new ChartSection("Car", Color.RED, 100));
-	    chartValues.add(new ChartSection("Bike", Color.BLUE, 50));
-	    chartValues.add(new ChartSection("Bus", Color.YELLOW, 500));
-	    chartValues.add(new ChartSection("Walk", Color.parseColor("#008000"), 500));	    
+	    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), 100));
+	    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), 50));
+	    chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), 500));
+	    chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), 500));	    
 	    
 //	    pieChart = new DrawPieChart(this, chartValues);
 	    View pieChartView = this.makePieChart(chartValues);
@@ -179,10 +179,6 @@ public class MainActivity extends TransportionActivity {
 
 		renderer.setClickEnabled(true);
 	    renderer.setSelectableBuffer(10);
-	    
-	    int[] margins = {0,0,-100,0};
-	    
-	    renderer.setMargins(margins);
 	    
 		pieChartView = ChartFactory.getPieChartView(this, series, renderer);
 	    pieChartView.setOnClickListener(new View.OnClickListener() {

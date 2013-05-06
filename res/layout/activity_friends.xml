@@ -32,7 +32,7 @@
                 android:id="@+id/searchButton"
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="wrap_content"                
                 android:src="@drawable/search_icon" />
             
         </LinearLayout>
@@ -49,8 +49,7 @@
         <ListView
             android:id="@+id/friendsList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"            
             android:layout_marginTop="10dp" >
         </ListView>
 

@@ -25,24 +25,30 @@ public class FriendsCompareActivity extends TransportionActivity {
 		Intent intent = getIntent();
 		name = intent.getStringExtra("name");
 		TextView compareWith = (TextView) findViewById(R.id.friend_compare);
-		compareWith.setText("with " + name);
+		compareWith.setText("You VS. " + name);
 		
 		
-		LinearLayout layout = (LinearLayout)findViewById(R.id.cPic);			
-		ImageView imageView1 = new ImageView(this);						
-		imageView1.setImageResource(R.drawable.menu_car);			
-		layout.addView(imageView1);
-		
+		// HARD CODE:
 		ProgressBar selfProg = (ProgressBar)findViewById(R.id.mode1SelfProg);
-		selfProg.setProgress(100);
+		selfProg.setProgress(45);
 		ProgressBar friendProg = (ProgressBar)findViewById(R.id.mode1FriendProg);
-		friendProg.setProgress(50);
+		friendProg.setProgress(22);
 		
 		TextView selfVal = (TextView)findViewById(R.id.mode1SelfValue);
-		selfVal.setText("You drove 26 miles.");
+		selfVal.setText("45 miles");
+		TextView friendNameCar = (TextView)findViewById(R.id.mode1FriendName);
+		friendNameCar.setText(name.split(" ")[0]);
 		TextView friendVal = (TextView)findViewById(R.id.mode1FriendValue);
-		friendVal.setText(name.split(" ")[0] + " drove 13 miles.");
+		friendVal.setText("22 miles");
 		
+		TextView friendNameBus = (TextView)findViewById(R.id.textView2);
+		friendNameBus.setText(name.split(" ")[0]);
+		
+		TextView friendNameBike = (TextView)findViewById(R.id.textView3);
+		friendNameBike.setText(name.split(" ")[0]);
+		
+		TextView friendNameWalk = (TextView)findViewById(R.id.textView4);
+		friendNameWalk.setText(name.split(" ")[0]);
 		
 //		layout = (LinearLayout)findViewById(R.id.busPic);			
 //		imageView1 = new ImageView(this);						

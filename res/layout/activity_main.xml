@@ -12,26 +12,33 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
         android:entries="@array/graphs" />
-
+ 
     <LinearLayout
         android:id="@+id/mainPieChart"       
         android:layout_width="wrap_content"
-        android:layout_height="250dp" >
+        android:layout_height="250dp"
+        android:layout_marginTop="5dp" >
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/legend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:layout_marginTop="-25dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"        
         android:layout_gravity="center"
+        android:background="@drawable/legend_background"
         android:orientation="horizontal" >
 
         <LinearLayout
             android:id="@+id/column1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
             android:orientation="vertical" >
@@ -47,7 +54,7 @@
                     android:id="@+id/red_color"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="#ff4040" >
+                    android:background="#315489" >
                 </LinearLayout>
 
                 <LinearLayout
@@ -80,10 +87,10 @@
                 android:layout_height="match_parent" >
 
                 <LinearLayout
-                    android:id="@+id/blue_color"
+                    android:id="@+id/yellow_color"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="#fff173" >
+                    android:background="#6194d4" >
                 </LinearLayout>
 
                 <LinearLayout
@@ -117,8 +124,8 @@
             android:id="@+id/column2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"            
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            
+            android:layout_marginRight="10dp"
             android:orientation="vertical" >        
 
             <RelativeLayout
@@ -158,7 +165,7 @@
                     android:layout_height="40dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"                     
-                    android:background="#4671d5" >
+                    android:background="#343a41" >
                 </LinearLayout>
             </RelativeLayout>
 

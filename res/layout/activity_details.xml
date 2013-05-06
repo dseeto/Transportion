@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"                        
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="#676767"
+            android:background="#cccccc"
             android:orientation="vertical" >
 
             <LinearLayout
@@ -162,7 +162,7 @@
                android:layout_height="wrap_content"
                android:background="#e6e3e3"
                android:layout_marginBottom="1dp"
-               android:layout_marginTop="1dp" >
+                >
 
                <TextView
                    android:id="@+id/time"
@@ -201,7 +201,7 @@
              android:layout_height="wrap_content"
              android:background="#e6e3e3"
              android:layout_marginBottom="1dp"
-             android:layout_marginTop="1dp" >
+              >
 
              <TextView
                  android:id="@+id/gas"
@@ -240,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:background="#e6e3e3"
                 android:layout_marginBottom="1dp"
-                android:layout_marginTop="1dp" >
+                 >
 
                 <TextView
                     android:id="@+id/percent"
@@ -277,8 +277,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#e6e3e3"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="1dp" >
+                android:layout_marginBottom="1dp"
+                 >
 
                 <TextView
                     android:id="@+id/carbon"

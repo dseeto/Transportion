@@ -283,10 +283,7 @@ public class FriendsActivity extends TransportionActivity {
             if(convertView==null) {
                 vi = inflater.inflate(R.layout.list_adapter_friend, null);
             }
-            
-            // set picture
-            ImageView image=(ImageView) vi.findViewById(R.id.profilePic);
-            image.setImageResource(R.drawable.social_person);
+           
             /*
             try {
 				JSONObject imageData = FriendsActivity.friendsJson
