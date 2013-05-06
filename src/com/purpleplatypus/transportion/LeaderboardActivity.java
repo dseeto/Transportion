@@ -36,13 +36,13 @@ public class LeaderboardActivity extends TransportionActivity {
 		// ACTUAL CODE:
 		//appState.data.retrieveLeaderboardDataFromServer(this);
 		
-		Info_Leaderboard one = appState.data.new Info_Leaderboard("1", "Bob Smith", "10 lbs");
-		Info_Leaderboard two = appState.data.new Info_Leaderboard("2", "John Doe", "19 lbs");
-		Info_Leaderboard three = appState.data.new Info_Leaderboard("3", "Jane Wee", "20 lbs");
-		Info_Leaderboard four = appState.data.new Info_Leaderboard("1", "Bob Smith", "34 lbs");
-		Info_Leaderboard five = appState.data.new Info_Leaderboard("5", "Piglet Tiger", "53 lbs");
-		Info_Leaderboard six = appState.data.new Info_Leaderboard("6", "Snoopy Bear", "76 lbs");
-		Info_Leaderboard seven = appState.data.new Info_Leaderboard("7", "Pooh Lee", "190 lbs");
+		Info_Leaderboard one = appState.data.new Info_Leaderboard("1", "Oscar Koh", "10 lbs");
+		Info_Leaderboard two = appState.data.new Info_Leaderboard("2", "Kristin Underwood", "19 lbs");
+		Info_Leaderboard three = appState.data.new Info_Leaderboard("3", "Michael Lee", "20 lbs");
+		Info_Leaderboard four = appState.data.new Info_Leaderboard("1", "Jessica Pew", "34 lbs");
+		Info_Leaderboard five = appState.data.new Info_Leaderboard("5", "Brad Chang", "53 lbs");
+		Info_Leaderboard six = appState.data.new Info_Leaderboard("6", "Joe Sarabia", "76 lbs");
+		Info_Leaderboard seven = appState.data.new Info_Leaderboard("7", "Jane Magana", "190 lbs");
 		// HARD CODE:
 		List<Model.Info_Leaderboard> list = new ArrayList<Model.Info_Leaderboard>();
 		list.add(one);

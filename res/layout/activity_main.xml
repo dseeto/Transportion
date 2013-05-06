@@ -111,7 +111,7 @@
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="23 Miles"
+                        android:text="511 Miles"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
 
                 </LinearLayout>
@@ -154,7 +154,7 @@
                         android:id="@+id/bike_miles"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10 Miles"
+                        android:text="52 Miles"
                         android:layout_gravity="right"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
@@ -193,7 +193,7 @@
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10000 Miles"
+                        android:text="502 Miles"
                         android:textAppearance="?android:attr/textAppearanceSmall" />
                 </LinearLayout>
 

@@ -50,6 +50,9 @@ public class FriendsCompareActivity extends TransportionActivity {
 		TextView friendNameWalk = (TextView)findViewById(R.id.textView4);
 		friendNameWalk.setText(name.split(" ")[0]);
 		
+		TextView friendNameTotal = (TextView)findViewById(R.id.textView5);
+		friendNameTotal.setText(name.split(" ")[0]);
+		
 //		layout = (LinearLayout)findViewById(R.id.busPic);			
 //		imageView1 = new ImageView(this);						
 //		imageView1.setImageResource(R.drawable.menu_bus);			
