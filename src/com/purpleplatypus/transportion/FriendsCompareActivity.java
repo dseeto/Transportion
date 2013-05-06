@@ -44,53 +44,53 @@ public class FriendsCompareActivity extends TransportionActivity {
 		friendVal.setText(name.split(" ")[0] + " drove 13 miles.");
 		
 		
-		layout = (LinearLayout)findViewById(R.id.busPic);			
-		imageView1 = new ImageView(this);						
-		imageView1.setImageResource(R.drawable.menu_bus);			
-		layout.addView(imageView1);
-		
-		selfProg = (ProgressBar)findViewById(R.id.mode2SelfProg);
-		selfProg.setProgress(100);
-		friendProg = (ProgressBar)findViewById(R.id.mode2FriendProg);
-		friendProg.setProgress(50);
-		
-		selfVal = (TextView)findViewById(R.id.mode2SelfValue);
-		selfVal.setText("You bused 26 miles.");
-		friendVal = (TextView)findViewById(R.id.mode2FriendValue);
-		friendVal.setText(name.split(" ")[0] + " bused 13 miles.");
-		
-		
-		layout = (LinearLayout)findViewById(R.id.bikePic);			
-		imageView1 = new ImageView(this);						
-		imageView1.setImageResource(R.drawable.menu_bike);			
-		layout.addView(imageView1);
-		
-		selfProg = (ProgressBar)findViewById(R.id.mode3SelfProg);
-		selfProg.setProgress(100);
-		friendProg = (ProgressBar)findViewById(R.id.mode3FriendProg);
-		friendProg.setProgress(50);
-		
-		selfVal = (TextView)findViewById(R.id.mode3SelfValue);
-		selfVal.setText("You biked 26 miles.");
-		friendVal = (TextView)findViewById(R.id.mode3FriendValue);
-		friendVal.setText(name.split(" ")[0] + " biked 13 miles.");
-		
-		
-		layout = (LinearLayout)findViewById(R.id.wPic);			
-		imageView1 = new ImageView(this);						
-		imageView1.setImageResource(R.drawable.menu_walk);			
-		layout.addView(imageView1);
-		
-		selfProg = (ProgressBar)findViewById(R.id.mode4SelfProg);
-		selfProg.setProgress(100);
-		friendProg = (ProgressBar)findViewById(R.id.mode4FriendProg);
-		friendProg.setProgress(50);
-		
-		selfVal = (TextView)findViewById(R.id.mode4SelfValue);
-		selfVal.setText("You walked 26 miles.");
-		friendVal = (TextView)findViewById(R.id.mode4FriendValue);
-		friendVal.setText(name.split(" ")[0] + " walked 13 miles.");
-		
+//		layout = (LinearLayout)findViewById(R.id.busPic);			
+//		imageView1 = new ImageView(this);						
+//		imageView1.setImageResource(R.drawable.menu_bus);			
+//		layout.addView(imageView1);
+//		
+//		selfProg = (ProgressBar)findViewById(R.id.mode2SelfProg);
+//		selfProg.setProgress(100);
+//		friendProg = (ProgressBar)findViewById(R.id.mode2FriendProg);
+//		friendProg.setProgress(50);
+//		
+//		selfVal = (TextView)findViewById(R.id.mode2SelfValue);
+//		selfVal.setText("You bused 26 miles.");
+//		friendVal = (TextView)findViewById(R.id.mode2FriendValue);
+//		friendVal.setText(name.split(" ")[0] + " bused 13 miles.");
+//		
+//		
+//		layout = (LinearLayout)findViewById(R.id.bikePic);			
+//		imageView1 = new ImageView(this);						
+//		imageView1.setImageResource(R.drawable.menu_bike);			
+//		layout.addView(imageView1);
+//		
+//		selfProg = (ProgressBar)findViewById(R.id.mode3SelfProg);
+//		selfProg.setProgress(100);
+//		friendProg = (ProgressBar)findViewById(R.id.mode3FriendProg);
+//		friendProg.setProgress(50);
+//		
+//		selfVal = (TextView)findViewById(R.id.mode3SelfValue);
+//		selfVal.setText("You biked 26 miles.");
+//		friendVal = (TextView)findViewById(R.id.mode3FriendValue);
+//		friendVal.setText(name.split(" ")[0] + " biked 13 miles.");
+//		
+//		
+//		layout = (LinearLayout)findViewById(R.id.wPic);			
+//		imageView1 = new ImageView(this);						
+//		imageView1.setImageResource(R.drawable.menu_walk);			
+//		layout.addView(imageView1);
+//		
+//		selfProg = (ProgressBar)findViewById(R.id.mode4SelfProg);
+//		selfProg.setProgress(100);
+//		friendProg = (ProgressBar)findViewById(R.id.mode4FriendProg);
+//		friendProg.setProgress(50);
+//		
+//		selfVal = (TextView)findViewById(R.id.mode4SelfValue);
+//		selfVal.setText("You walked 26 miles.");
+//		friendVal = (TextView)findViewById(R.id.mode4FriendValue);
+//		friendVal.setText(name.split(" ")[0] + " walked 13 miles.");
+//		
 	}
 
 	@Override
