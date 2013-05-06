@@ -1,9 +1,6 @@
 
 package com.purpleplatypus.transportion;
 
-
-
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +11,9 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
-import org.json.JSONException;
 
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
-import com.parse.ParseObject;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -43,11 +38,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends TransportionActivity {
 
+	Spinner dropDownMenu;
 
 	LinearLayout pieChartLayout;
 	DrawPieChart pieChart;
@@ -130,6 +127,11 @@ public class MainActivity extends TransportionActivity {
 		// stopService(intent);
 		*/
 		// SET UP REST OF PAGE
+		
+		// NOT USED YET
+		dropDownMenu = (Spinner) findViewById(R.id.spinner1);
+		// NOT USED YET
+		
 		TextView title = (TextView) findViewById(R.id.title);		
 		title.setText("Overall Usage");
 		
@@ -177,6 +179,10 @@ public class MainActivity extends TransportionActivity {
 
 		renderer.setClickEnabled(true);
 	    renderer.setSelectableBuffer(10);
+	    
+	    int[] margins = {0,0,-100,0};
+	    
+	    renderer.setMargins(margins);
 	    
 		pieChartView = ChartFactory.getPieChartView(this, series, renderer);
 	    pieChartView.setOnClickListener(new View.OnClickListener() {
