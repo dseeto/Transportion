@@ -8,14 +8,17 @@ import com.purpleplatypus.transportion.Model.Info_Leaderboard;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class LeaderboardActivity extends TransportionActivity {
 
@@ -36,6 +39,10 @@ public class LeaderboardActivity extends TransportionActivity {
 		// ACTUAL CODE:
 		//appState.data.retrieveLeaderboardDataFromServer(this);
 		
+		
+		
+		
+		// HARD CODE
 		Info_Leaderboard one = appState.data.new Info_Leaderboard("1", "Oscar Koh", "10 lbs");
 		Info_Leaderboard two = appState.data.new Info_Leaderboard("2", "Kristin Underwood", "19 lbs");
 		Info_Leaderboard three = appState.data.new Info_Leaderboard("3", "Michael Lee", "20 lbs");
@@ -43,7 +50,7 @@ public class LeaderboardActivity extends TransportionActivity {
 		Info_Leaderboard five = appState.data.new Info_Leaderboard("5", "Brad Chang", "53 lbs");
 		Info_Leaderboard six = appState.data.new Info_Leaderboard("6", "Joe Sarabia", "76 lbs");
 		Info_Leaderboard seven = appState.data.new Info_Leaderboard("7", "Jane Magana", "190 lbs");
-		// HARD CODE:
+		
 		List<Model.Info_Leaderboard> list = new ArrayList<Model.Info_Leaderboard>();
 		list.add(one);
 		list.add(two);
@@ -54,7 +61,7 @@ public class LeaderboardActivity extends TransportionActivity {
 		list.add(seven);
 		
 		fillListView(list);
-			
+		// HARD CODE
 	}
 
 	public void fillListView(List<Model.Info_Leaderboard> list) {
@@ -63,6 +70,17 @@ public class LeaderboardActivity extends TransportionActivity {
 		System.out.println("UGHHH");
 		lv.setAdapter(new LeaderboardAdapter(this, list));
 		System.out.println("UGHHH!!!!!!!");	
+		
+		lv.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				String name = ((TextView) view.findViewById(R.id.name_leaderboard)).getText().toString();
+				
+				Intent i = new Intent(getApplicationContext(), FriendsCompareActivity.class);
+				i.putExtra("name", name);
+				startActivity(i);
+			}
+		});
 	}
 	
 	@Override

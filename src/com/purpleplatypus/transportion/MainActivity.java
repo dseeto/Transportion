@@ -119,13 +119,13 @@ public class MainActivity extends TransportionActivity {
 		// appState.data.retrieveUserDataFromServer();
 		
 		// MODEL TESTING - REMOVE
-		/*
+		
 		// Start Tracking Location:
 		Intent intent = new Intent(this, LocationService.class);
 		startService(intent);
 		
 		// stopService(intent);
-		*/
+		
 		// SET UP REST OF PAGE
 		
 		// NOT USED YET
@@ -226,5 +226,31 @@ public class MainActivity extends TransportionActivity {
 		return true;
 	}
 	
+	/*
+	 * For Clicking on legend.
+	 */
+	public void onClick(View view) {
+		int v = view.getId();
+		Class<?> detailsActivity = null;
+		switch(v) {
+		case R.id.car:
+			detailsActivity = CarDetails.class;
+			break;
+		case R.id.bus:
+			detailsActivity = BusDetails.class;
+			break;
+		case R.id.bike:
+			detailsActivity = BikeDetails.class;
+			break;
+		case R.id.walk:
+			detailsActivity = WalkDetails.class;
+			break;
+		default:
+			System.out.println("DID NOT REGISTER THE RIGHT THING!!");
+			break;
+		}
+		Intent intent = new Intent(MainActivity.this, detailsActivity);
+        startActivity(intent);
+	}
 	
 }

@@ -48,13 +48,15 @@
                 android:layout_weight="1"              
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp" >
+                android:layout_marginBottom="10dp"
+                android:onClick="onClick" >
 
                 <LinearLayout
                     android:id="@+id/red_color"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="#315489" >
+                    android:background="#315489"
+                    android:duplicateParentState="true" >
                 </LinearLayout>
 
                 <LinearLayout
@@ -62,21 +64,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:duplicateParentState="true" >
 
                     <TextView
                         android:id="@+id/car_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Car"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:duplicateParentState="true" />
 
                     <TextView
                         android:id="@+id/car_miles"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="100 Miles"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:duplicateParentState="true" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -84,13 +89,15 @@
                 android:id="@+id/bus"   
                 android:layout_weight="1"             
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:onClick="onClick" >
 
                 <LinearLayout
                     android:id="@+id/yellow_color"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:background="#6194d4" >
+                    android:background="#6194d4"
+                    android:duplicateParentState="true" >
                 </LinearLayout>
 
                 <LinearLayout
@@ -98,21 +105,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:paddingLeft="10dp"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:duplicateParentState="true" >
 
                     <TextView
                         android:id="@+id/textView1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Bus"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:duplicateParentState="true" />
 
                     <TextView
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="511 Miles"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:duplicateParentState="true" />
 
                 </LinearLayout>
 
@@ -133,14 +143,16 @@
                 android:layout_weight="1"             
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp" >
+                android:layout_marginBottom="10dp"
+                android:onClick="onClick" >
 
                 <LinearLayout
                     android:id="@+id/bike_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"                   
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:duplicateParentState="true" >
 
                     <TextView
                         android:id="@+id/bike_text"
@@ -148,7 +160,8 @@
                         android:layout_height="wrap_content"
                         android:text="Bike"
 						android:gravity="right"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:duplicateParentState="true" />
 
                     <TextView
                         android:id="@+id/bike_miles"
@@ -156,7 +169,8 @@
                         android:layout_height="wrap_content"
                         android:text="52 Miles"
                         android:layout_gravity="right"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:duplicateParentState="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -165,7 +179,8 @@
                     android:layout_height="40dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"                     
-                    android:background="#343a41" >
+                    android:background="#343a41"
+                    android:duplicateParentState="true" >
                 </LinearLayout>
             </RelativeLayout>
 
@@ -173,28 +188,32 @@
                 android:id="@+id/walk"   
                 android:layout_weight="1"             
                 android:layout_width="wrap_content"                
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:onClick="onClick" >
 
                 <LinearLayout
                     android:id="@+id/walk_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingRight="10dp" >
+                    android:paddingRight="10dp"
+                    android:duplicateParentState="true" >
 
                     <TextView
                         android:id="@+id/textView1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Walk"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:textAppearance="?android:attr/textAppearanceMedium" 
+                        android:duplicateParentState="true"/>
 
                     <TextView
                         android:id="@+id/textView2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="502 Miles"
-                        android:textAppearance="?android:attr/textAppearanceSmall" />
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:duplicateParentState="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -203,7 +222,8 @@
                     android:layout_height="40dp"                       
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"                                                              
-                    android:background="#00ab6f" >
+                    android:background="#00ab6f"
+                    android:duplicateParentState="true" >
                 </LinearLayout>
 
             </RelativeLayout>

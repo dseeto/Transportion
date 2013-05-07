@@ -354,8 +354,21 @@ public class FriendsActivity extends TransportionActivity {
 	 */
 	
 	public void onClick(View v) throws JSONException {
-		System.out.println("GOT TO BUTTON!!!!!!");
-		ApplicationState appState = (ApplicationState) this.getApplication();
-		appState.data.populateSegments();
+		int button = v.getId();
+		switch(button) {
+		case R.id.dayDataSend:
+			ApplicationState.getModel().populateSegmentsDay();
+			
+			break;
+		case R.id.hourDataSend:
+			System.out.println("GOT TO BUTTON!!!!!!");
+			ApplicationState appState = (ApplicationState) this.getApplication();
+			appState.data.populateSegmentsHour();
+			
+			// For testing whats in the local db:
+			//appState.data.mDbHelper.rawDataGetAll();
+			break;
+		}
+		
 	}
 }

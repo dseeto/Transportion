@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 public class LocationService extends Service {
 
-	// SHOULD THIS BE RUN IN ANOTHER THREAD?!?S
+	// SHOULD THIS BE RUN IN ANOTHER THREAD?!?
 	
 	LocationManager lm;
 	MyLocationListener locationListener;
@@ -39,7 +39,6 @@ public class LocationService extends Service {
 	
 	int lastStatus = 0;
 	
-	// last known location - NOT NEED, USE GETLASTKNOWNLOCATION
 	Timestamp lastTimestamp;
 	ParseGeoPoint lastPoint;
 	
@@ -61,19 +60,19 @@ public class LocationService extends Service {
 
         locationListener = new MyLocationListener();
 
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 	// figure out which is best!
-                        minTimeMillisPoll, 
-                        minDistanceMetersPoll,
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 	// figure out which is best! - NETWORK_PROVIDER
+                        0, //minTimeMillisPoll, 
+                        0, //minDistanceMetersPoll,
                         (LocationListener) locationListener);
 
         //initDatabase();        
         data.createDatabase(context);
     }
     
-    private void shutDownLoggerService() {
-    	// IMPLEMENT:
-    	// get location
-    	// put trip into database
+    private void shutDownLoggerService() {    	
+    	// not sure if need:
+    	((LocationManager) lm).requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //NETWORK_PROVIDER
+    	
     	lm.removeUpdates(locationListener);
     }
 	 
@@ -89,24 +88,28 @@ public class LocationService extends Service {
 		@Override
 		public void onLocationChanged(Location location) {
 			// TODO Auto-generated method stub
+			System.out.println("GOT TO onLocationChanged");
+			System.out.println("TIME:");
+			System.out.println(location.getTime());
+			System.out.println("LATITUDE");
+			System.out.println(location.getLatitude());
 			if (location != null) {
-				if (location.hasAccuracy() && location.getAccuracy() <= minAccuracyMeters) {
-					// NEW CODE - CONTINUE HERE - ALSO NEED TO MODIFY MODEL TO UPDATE THE NEW VALUES FOR THE TABLE!!!!
-					//lastLocation = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER); // not sure which to use
+				//if (location.hasAccuracy() && location.getAccuracy() <= minAccuracyMeters) {	// UNCOMMENT THIS AFTER TESTING W/ EMULATOR														
 					if (lastLocation != null) {
-						float distance = (float) (location.distanceTo(lastLocation)*0.000621371); // in miles 
-						int interval = (int) ((location.getTime() - lastLocation.getTime())/1000/60); // in minutes
-						float speed = distance/interval;
+						float distance = (float) (location.distanceTo(lastLocation)*0.000621371); // in miles
+						System.out.println("MillisecondInterval: " + (location.getTime() - lastLocation.getTime()));
+						int interval = (int) ((location.getTime() - lastLocation.getTime())*.001/60); // in minutes
+						float speed = distance/interval;						
 						String mode = "";
 						if (speed >= 0.33) {
 							mode = "car";
 						} else if (speed < 0.33 && speed > 0.09) {
 							mode = "bike";
 						} else {
-							mode = "walk";
-							// max = 250 cm/s => .09 miles / minute
+							mode = "walk";	// max = 250 cm/s => .09 miles / minute
 						}
-						
+						System.out.println("GEOPOINT ADDED!!");
+						System.out.println(distance + ", " + interval + ", " + mode);
 						data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), mode, distance, interval);
 					}
 						/*
@@ -146,10 +149,9 @@ public class LocationService extends Service {
 					} 
 					*/
 					lastLocation = location;
-
 				}				
-			}
-		}
+			}			
+		//}
 
 		@Override
 		public void onProviderDisabled(String provider) {
@@ -166,12 +168,22 @@ public class LocationService extends Service {
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			String showStatus = null;
-            if (status == LocationProvider.AVAILABLE)
-                    showStatus = "Available";
-            if (status == LocationProvider.TEMPORARILY_UNAVAILABLE)
-                    showStatus = "Temporarily Unavailable";
-            if (status == LocationProvider.OUT_OF_SERVICE)
-                    showStatus = "Out of Service";
+            if (status == LocationProvider.AVAILABLE) {
+            	showStatus = "Available";
+        		System.out.println("Status: Available");
+            }
+                    
+            if (status == LocationProvider.TEMPORARILY_UNAVAILABLE) {
+            	showStatus = "Temporarily Unavailable";
+            	System.out.println("Status:TEMPORARILY_UNAVAILABLE");
+            }
+                    
+           
+            if (status == LocationProvider.OUT_OF_SERVICE) {
+            	showStatus = "Out of Service";
+                System.out.println("Status: OUT_OF_SERVICE");
+            }
+                    
             if (status != lastStatus) {
                 Toast.makeText(getBaseContext(),
                                 "new status: " + showStatus,
@@ -205,8 +217,7 @@ public class LocationService extends Service {
     }
    
     @Override
-   	public IBinder onBind(Intent arg0) {
-   		// TODO Auto-generated method stub
+   	public IBinder onBind(Intent arg0) {   	
    		return null;
    	}
     

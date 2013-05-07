@@ -29,6 +29,7 @@ public class FriendsCompareActivity extends TransportionActivity {
 		
 		
 		// HARD CODE:
+		
 		ProgressBar selfProg = (ProgressBar)findViewById(R.id.mode1SelfProg);
 		selfProg.setProgress(45);
 		ProgressBar friendProg = (ProgressBar)findViewById(R.id.mode1FriendProg);

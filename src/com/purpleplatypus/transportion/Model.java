@@ -3,7 +3,9 @@ package com.purpleplatypus.transportion;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.json.JSONArray;
@@ -11,6 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.parse.FindCallback;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
@@ -35,7 +39,7 @@ public class Model {
 	String userID; 
 	String userName="Joe";
 	ArrayList<Info_User> userList;
-	ArrayList<Info_User> friendList;
+	ArrayList<Info_FriendsList> friendsList;
 	ArrayList<Info_Leaderboard> leaderboardList;
 	
 	int year;
@@ -54,11 +58,11 @@ public class Model {
 		mDbHelper = new DbHelper(context);
 		
 		// FOR TESTING PURPOSES
-		year = 2013;
-		month = 1;
-		day = 1;
-		hour = 4;
-		min = 0;
+		year = Calendar.YEAR;
+		month = Calendar.MONTH;
+		day = Calendar.DAY_OF_MONTH;
+		hour = Calendar.HOUR;
+		min = Calendar.MINUTE;
 		
 	}
 	
@@ -114,6 +118,8 @@ public class Model {
 	 */	
 	public ArrayList<Info_User> retrieveUserDataFromServer() {		
 		userList = new ArrayList<Info_User>();
+		/*
+		// OLD CODE:		
 		ParseQuery query = new ParseQuery("UserRetrievedData");
 		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
 		query.whereEqualTo("UserID", userID);
@@ -132,6 +138,10 @@ public class Model {
 		        }
 		    }
 		});
+		*/
+		
+		// not sure what is returned here...
+		
 		return userList;		
 	}
 	
@@ -139,9 +149,10 @@ public class Model {
 	 * Same as above method. NOT BEEN TESTED!!!! NEEDS TO BE FIXED TO BE LIKE retrieveLeaderboardDataFromServer!!
 	 */
 	
-	public ArrayList<Info_User> retrieveFriendDataFromServer(String friendID) {		
-		friendList = new ArrayList<Info_User>();
-		
+	public ArrayList<Info_FriendsList> retrieveFriendDataFromServer(String friendID) {		
+		friendsList = new ArrayList<Info_FriendsList>();
+		/*
+		// OLD CODE:
 		ParseQuery query = new ParseQuery(friendID + "RetrievedData");
 		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
 		query.whereEqualTo("UserID", friendID);
@@ -152,7 +163,7 @@ public class Model {
 		        	for (ParseObject p : infoList) {		        		
 		        		i = new Info_User(p.getString("mode"), p.getString("timespan"), (float)p.getDouble("miles"),
 		        				(float)p.getDouble("carbon"), p.getInt("timespent"), (float)p.getDouble("percent"), (float)p.getDouble("gas"));
-		        		friendList.add(i);
+		        		friendsList.add(i);
 		        	}
 		        } else {
 		            // IMPLEMENT: error
@@ -160,8 +171,28 @@ public class Model {
 		        }
 		    }
 		});
+		*/
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("userID", userID);
+		ParseCloud.callFunctionInBackground("getFriends", new HashMap<String, List<String>>(), new FunctionCallback<List<ParseObject>>() {
+			   public void done(List<ParseObject> result, ParseException e) {
+			       if (e == null) {
+			    	   Info_FriendsList i;
+			        	for (ParseObject p : result) {		        		
+			        		i = new Info_FriendsList(p.getString("name"), p.getString("carbon"), p.getString("userID"));
+			        		friendsList.add(i);
+			        	}
+			        	
+			        	// IMPLEMENT: need to fill the list adapter for the friends list by calling a method here!!!!
+			        	
+			        } else {
+			            // IMPLEMENT: error
+			        	System.out.println("retriveFriendDataFromServer ERROR!!!!");
+			        }
+			   }
+			});
 		
-		return friendList;
+		return friendsList;
 	}
 	
 	/*
@@ -169,7 +200,8 @@ public class Model {
 	 */
 	public void retrieveLeaderboardDataFromServer(final LeaderboardActivity l) {		
 		leaderboardList = new ArrayList<Info_Leaderboard>();
-		
+		/*
+		// OLD CODE:
 		ParseQuery query = new ParseQuery("Users");
 		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
 		query.setLimit(10);
@@ -198,6 +230,33 @@ public class Model {
 				}
 			}
 		});	
+		*/
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("userID", userID);
+		ParseCloud.callFunctionInBackground("getLeaderBoard", new HashMap<String, String>(), new FunctionCallback<List<ParseObject>>() {
+			   public void done(List<ParseObject> result, ParseException e) {
+			       if (e == null) {
+			    	   Info_Leaderboard i;
+						int j = 0;
+						for (ParseObject p : result) {
+							// REMOVE
+							System.out.println("Leaderboard!!!");
+							System.out.println(p.getString("name"));
+							System.out.println(p.getNumber("carbon"));
+							// REMOVE
+							j++;
+							i = new Info_Leaderboard(j+"", p.getString("name"), p.getNumber("carbon").toString());
+							System.out.println(i.toString());
+							System.out.println(leaderboardList.add(i));
+						}
+						// NEED TO WAIT TILL THIS IS DONE IN ORDER FOR THE LIST TO BE POPULATED, SHOULD NOT RETURN LIST
+						l.fillListView(leaderboardList);
+					} else {
+						// IMPLEMENT: error
+						System.out.println("retrieveLeaderboardDataFromServer ERROR!!!!");					
+			       }
+			   }
+			});
 	}
 	
 	// IMPLEMENT: once know more about functions, implement
@@ -450,13 +509,25 @@ public class Model {
 		}
 	}
 	
+	public class Info_FriendsList {
+		String name;
+		String carbon;
+		String userID;
+		
+		public Info_FriendsList(String n, String c, String u) {
+			name = n;
+			carbon = c;
+			userID = u;
+		}
+	}
+	
 	/**
 	 * FOR TESTING PURPOSES: POPULATE DATA
 	 * @throws JSONException 
 	 */
-	public void populateSegments() throws JSONException {
+	public void populateSegmentsHour() throws JSONException {
 		
-		ParseObject user = new ParseObject("Segments");
+		ParseObject user = new ParseObject("FakeDataHour");
 		Random generator = new Random();
 		
 		Calendar c = Calendar.getInstance();		
@@ -472,14 +543,14 @@ public class Model {
 		modes.put("car");
 		distances.put(generator.nextDouble()*50);
 		intervals.put(generator.nextInt(60));		
-		hour = hour+1;
-		if (hour > 23) {
-			day++;
-			hour = 0;
+		hour = hour-1;
+		if (hour < 0) {
+			day--;
+			hour = 23;
 		}
-		if (day > 30) {
-			month++;
-			day = 0;
+		if (day < 0) {
+			month--;
+			day = 30;
 		}
 		c.set(year,month,day,hour,min);
 		d = c.getTimeInMillis();
@@ -488,14 +559,14 @@ public class Model {
 		modes.put("bike");
 		distances.put(generator.nextDouble()*20);
 		intervals.put(generator.nextInt(60));	
-		hour = hour+1;
-		if (hour > 23) {
-			day++;
-			hour = 0;
+		hour = hour-1;
+		if (hour < 0) {
+			day--;
+			hour = 23;
 		}
-		if (day > 30) {
-			month++;
-			day = 0;
+		if (day < 0) {
+			month--;
+			day = 30;
 		}
 		c.set(year,month,day,hour,min);
 		d = c.getTimeInMillis();
@@ -504,17 +575,80 @@ public class Model {
 		modes.put("walk");
 		distances.put(generator.nextDouble()*10);
 		intervals.put(generator.nextInt(60));	
-		hour = hour+1;
-		if (hour > 23) {
-			day++;
-			hour = 0;
+		hour = hour-1;
+		if (hour < 0) {
+			day--;
+			hour = 23;
 		}
-		if (day > 30) {
-			month++;
-			day = 0;
+		if (day < 0) {
+			month--;
+			day = 30;
 		}
 		c.set(year,month,day,hour,min);
 		d = c.getTimeInMillis();
+		
+		user.put("timestamp", timestamps);
+		user.put("mode", modes);
+		user.put("distance", distances);
+		user.put("interval", intervals);
+		user.put("userID", userID);
+		
+		user.saveInBackground();
+	}
+	
+	/**
+	 * FOR DEMO PURPOSES, WILL BE USED TO POPULATE FAKE DATA FOR A WHOLE MONTH.
+	 * Each click on will populate the distance and interval for bike, car, walk for that day
+	 * @throws JSONException
+	 */
+	public void populateSegmentsDay() throws JSONException {
+		// average car: 45 miles per hour => 45/60
+		// average bike: 15 miles per hour => 15/60
+		// average walk: 5 miles per hour => 5/60
+		
+		ParseObject user = new ParseObject("FakeDataDay");
+		Random generator = new Random();
+		
+		Calendar c = Calendar.getInstance();		
+		c.set(year, month, day, hour, min);
+		long d = c.getTimeInMillis();
+		
+		JSONArray timestamps = new JSONArray();
+		JSONArray modes = new JSONArray();
+		JSONArray distances = new JSONArray();
+		JSONArray intervals = new JSONArray();
+		
+		// right now
+		timestamps.put(new Timestamp(d));
+		modes.put("car");
+		double distanceCar = generator.nextDouble()*100;
+		distances.put(distanceCar);
+		int iCar = (int) ((distanceCar/45)*60*(distanceCar/100));
+		intervals.put(iCar);						
+		
+		timestamps.put(new Timestamp(d));
+		modes.put("bike");
+		double distanceBike = generator.nextDouble()*20; 
+		distances.put(distanceBike);
+		int iBike = (int) ((distanceBike/15)*60*(distanceBike/20));
+		intervals.put(iBike);	
+		
+		timestamps.put(new Timestamp(d));
+		modes.put("walk");
+		double distanceWalk = generator.nextDouble()*2;
+		distances.put(distanceWalk);
+		int iWalk = (int) ((distanceWalk/5)*60);
+		intervals.put(iWalk);	
+		
+		day = day-1;		
+		if (day < 0) {
+			month--;
+			day = 30;
+		}
+		if (month < 0) {
+			year--;
+			month = 12;
+		}
 		
 		user.put("timestamp", timestamps);
 		user.put("mode", modes);
