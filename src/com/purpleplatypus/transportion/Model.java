@@ -534,7 +534,7 @@ public class Model {
 	 */
 	public void populateSegmentsHour() throws JSONException {
 		
-		ParseObject user = new ParseObject("FakeDataHour");
+		ParseObject user = new ParseObject("Segments");
 		Random generator = new Random();
 		
 		Calendar c = Calendar.getInstance();		
