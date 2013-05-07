@@ -60,8 +60,8 @@ public class Model {
 		Calendar rightnow = Calendar.getInstance();
 		// FOR TESTING PURPOSES
 		year = rightnow.get(Calendar.YEAR);
-		month = rightnow.get(Calendar.MONTH);
-		day = rightnow.get(Calendar.DAY_OF_MONTH)+1;
+		month = rightnow.get(Calendar.MONTH)+1;
+		day = rightnow.get(Calendar.DAY_OF_MONTH);
 		hour = rightnow.get(Calendar.HOUR);
 		min = rightnow.get(Calendar.MINUTE);
 		
@@ -534,7 +534,7 @@ public class Model {
 	 */
 	public void populateSegmentsHour() throws JSONException {
 		
-		ParseObject user = new ParseObject("Segments");
+		ParseObject user = new ParseObject("FakeDataHour");
 		Random generator = new Random();
 		
 		Calendar c = Calendar.getInstance();		
@@ -630,14 +630,14 @@ public class Model {
 		modes.put("car");
 		double distanceCar = generator.nextDouble()*100;
 		distances.put(distanceCar);
-		int iCar = (int) ((distanceCar/45)*60*(distanceCar/100));
+		int iCar = (int) ((distanceCar/45)*60);
 		intervals.put(iCar);						
 		
 		timestamps.put(new Timestamp(d));
 		modes.put("bike");
 		double distanceBike = generator.nextDouble()*20; 
 		distances.put(distanceBike);
-		int iBike = (int) ((distanceBike/15)*60*(distanceBike/20));
+		int iBike = (int) ((distanceBike/15)*60);
 		intervals.put(iBike);	
 		
 		timestamps.put(new Timestamp(d));

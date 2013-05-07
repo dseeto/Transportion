@@ -26,7 +26,7 @@ public class LocationService extends Service {
 	
 	// location variables
 	int minTimeMillisPoll = 1000*60*5; 		// 5 minutes
-	int minDistanceMetersPoll = 500;	// 500 meters?!?! 
+	int minDistanceMetersPoll = 200;	// 500 meters?!?! 
 	int minAccuracyMeters = 35;	
 	int minDistanceMetersCheck = 20;
 	
@@ -60,9 +60,9 @@ public class LocationService extends Service {
 
         locationListener = new MyLocationListener();
 
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 	// figure out which is best! - NETWORK_PROVIDER
-                        0, //minTimeMillisPoll, 
-                        0, //minDistanceMetersPoll,
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 	// figure out which is best! - NETWORK_PROVIDER
+                        minTimeMillisPoll, 
+                        minDistanceMetersPoll,
                         (LocationListener) locationListener);
 
         //initDatabase();        
@@ -71,7 +71,7 @@ public class LocationService extends Service {
     
     private void shutDownLoggerService() {    	
     	// not sure if need:
-    	((LocationManager) lm).requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //NETWORK_PROVIDER
+    	((LocationManager) lm).requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener); //NETWORK_PROVIDER
     	
     	lm.removeUpdates(locationListener);
     }
@@ -94,7 +94,7 @@ public class LocationService extends Service {
 			System.out.println("LATITUDE");
 			System.out.println(location.getLatitude());
 			if (location != null) {
-				//if (location.hasAccuracy() && location.getAccuracy() <= minAccuracyMeters) {	// UNCOMMENT THIS AFTER TESTING W/ EMULATOR														
+				if (location.hasAccuracy() && location.getAccuracy() <= minAccuracyMeters) {														
 					if (lastLocation != null) {
 						float distance = (float) (location.distanceTo(lastLocation)*0.000621371); // in miles
 						System.out.println("MillisecondInterval: " + (location.getTime() - lastLocation.getTime()));
@@ -151,7 +151,7 @@ public class LocationService extends Service {
 					lastLocation = location;
 				}				
 			}			
-		//}
+		}
 
 		@Override
 		public void onProviderDisabled(String provider) {
