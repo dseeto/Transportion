@@ -60,6 +60,7 @@ public class MainActivity extends TransportionActivity {
 
 		// SET UP MODEL
 		appState = (ApplicationState) this.getApplication();
+		System.out.println("CREATE DATABASE:");
 		appState.data.createDatabase(this);		
 
 		// Transportion Account

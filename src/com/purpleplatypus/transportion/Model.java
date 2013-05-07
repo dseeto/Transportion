@@ -57,13 +57,20 @@ public class Model {
 		context = c;		
 		mDbHelper = new DbHelper(context);
 		
+		Calendar rightnow = Calendar.getInstance();
 		// FOR TESTING PURPOSES
-		year = Calendar.YEAR;
-		month = Calendar.MONTH;
-		day = Calendar.DAY_OF_MONTH;
-		hour = Calendar.HOUR;
-		min = Calendar.MINUTE;
+		year = rightnow.get(Calendar.YEAR);
+		month = rightnow.get(Calendar.MONTH);
+		day = rightnow.get(Calendar.DAY_OF_MONTH);
+		hour = rightnow.get(Calendar.HOUR);
+		min = rightnow.get(Calendar.MINUTE);
 		
+		System.out.println("DATE:");
+		System.out.println(year);
+		System.out.println(month);
+		System.out.println(day);
+		System.out.println(hour);
+		System.out.println(min);
 	}
 	
 	/*

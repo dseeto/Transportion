@@ -66,7 +66,7 @@ public class LocationService extends Service {
                         (LocationListener) locationListener);
 
         //initDatabase();        
-        data.createDatabase(context);
+        //data.createDatabase(context);
     }
     
     private void shutDownLoggerService() {    	
