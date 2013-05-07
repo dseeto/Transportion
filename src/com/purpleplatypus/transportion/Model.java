@@ -61,7 +61,7 @@ public class Model {
 		// FOR TESTING PURPOSES
 		year = rightnow.get(Calendar.YEAR);
 		month = rightnow.get(Calendar.MONTH);
-		day = rightnow.get(Calendar.DAY_OF_MONTH);
+		day = rightnow.get(Calendar.DAY_OF_MONTH)+1;
 		hour = rightnow.get(Calendar.HOUR);
 		min = rightnow.get(Calendar.MINUTE);
 		
