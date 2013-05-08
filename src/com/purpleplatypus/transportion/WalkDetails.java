@@ -61,12 +61,14 @@ public class WalkDetails extends TransportionActivity {
 		df.setMaximumFractionDigits(0);	
 		// set text
 		title.setText("Walk Details");
+
+		miles.setText("Miles Travelled: "+ m.getStat("walk", "month", "distance") +" Miles");
+		time.setText("Time Spent: " + m.getStat("walk", "month", "timespan") + " Min");
+		gas.setText("Gas Used: 0 Gallons");
+		percent.setText("% of Travelled: " + m.getPercent("walk", "month") + "%");
+		carbon.setText("Carbon Emitted: 0 Lbs");
 		
-		miles.setText("87 Miles");
-		time.setText("37 Hrs 23 Min");
-		gas.setText("0 Gallons");
-		percent.setText("" + df.format(87.00/(100+71+87)*100) + "%");
-		carbon.setText("0 Grams");
+		
 		/*
 		// also set background color
 		miles.setBackgroundResource(Color.parseColor("#24913c"));
@@ -98,11 +100,11 @@ public class WalkDetails extends TransportionActivity {
 			day.setTypeface(null, Typeface.BOLD);
 			day.setBackgroundResource(R.drawable.blue_button);			
 			
-			miles.setText("4 Miles");
-			time.setText("37 Min");
-			gas.setText("0 Gallons");
-			percent.setText("66%");
-			carbon.setText("0 Grams");
+			miles.setText("Miles Travelled: "+ m.getStat("walk", "day", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("walk", "day", "timespan") + " Min");
+			gas.setText("Gas Used: 0 Gallons");
+			percent.setText("% of Travelled: " + m.getPercent("walk", "day") + "%");
+			carbon.setText("Carbon Emitted: 0 Lbs");
 
 			break;
 		case R.id.week:
@@ -110,11 +112,11 @@ public class WalkDetails extends TransportionActivity {
 			week.setTypeface(null, Typeface.BOLD);
 			week.setBackgroundResource(R.drawable.blue_button);
 			
-			miles.setText("25 Miles");
-			time.setText("2 Hrs 18 Min");
-			gas.setText("0 Gallons");
-			percent.setText("" + df.format(25.00/45*100) + "%");
-			carbon.setText("0 Grams");
+			miles.setText("Miles Travelled: "+ m.getStat("walk", "week", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("walk", "week", "timespan") + " Min");
+			gas.setText("Gas Used: 0 Gallons");
+			percent.setText("% of Travelled: " + m.getPercent("walk", "week") + "%");
+			carbon.setText("Carbon Emitted: 0 Lbs");
 		
 			break;
 		case R.id.month:
@@ -122,11 +124,11 @@ public class WalkDetails extends TransportionActivity {
 			month.setTypeface(null, Typeface.BOLD);
 			month.setBackgroundResource(R.drawable.blue_button);
 			
-			miles.setText("87 Miles");
-			time.setText("37 Hr 23 Min");
-			gas.setText("0 Gallons");
-			percent.setText("" + df.format(87.00/(100+71+87)*100) + "%");
-			carbon.setText("0 Grams");
+			miles.setText("Miles Travelled: "+ m.getStat("walk", "month", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("walk", "month", "timespan") + " Min");
+			gas.setText("Gas Used: 0 Gallons");
+			percent.setText("% of Travelled: " + m.getPercent("walk", "month") + "%");
+			carbon.setText("Carbon Emitted: 0 Lbs");
 		
 			break;
 		case R.id.year:
@@ -134,11 +136,11 @@ public class WalkDetails extends TransportionActivity {
 			year.setTypeface(null, Typeface.BOLD);
 			year.setBackgroundResource(R.drawable.blue_button);
 			
-			miles.setText("783 Miles");
-			time.setText("302 Hr 27 Min");
-			gas.setText("0 Gallons");
-			percent.setText("" + df.format(783.00/(1455+723+783)*100) + "%");
-			carbon.setText("0 Grams");
+			miles.setText("Miles Travelled: "+ m.getStat("walk", "year", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("walk", "year", "timespan") + " Min");
+			gas.setText("Gas Used: 0 Gallons");
+			percent.setText("% of Travelled: " + m.getPercent("walk", "year") + "%");
+			carbon.setText("Carbon Emitted: 0 Lbs");
 		
 			break;
 		}

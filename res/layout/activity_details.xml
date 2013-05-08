@@ -140,21 +140,6 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                  	android:layout_marginBottom="1dp"
-                    android:layout_marginTop="3dp"
-                    
-                    android:paddingTop="10dp"
-                    android:paddingLeft="5dp"
-                    android:paddingBottom="10dp"                    
-                    android:text="TRAVELED"
-                    android:textColor="#2a2a2a"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="15sp" />
-
             </LinearLayout>
 
             <LinearLayout
@@ -177,22 +162,6 @@
                    android:text="20 HRS 4 MINS"                      
                    android:textSize="20sp"
                    android:textStyle="bold" />
-
-               <TextView
-                   android:id="@+id/time_traveled"
-                   android:layout_width="wrap_content"
-                   android:layout_height="fill_parent"
-                 	android:layout_marginBottom="1dp"
-                   android:layout_marginTop="3dp"
-                   
-                   android:paddingTop="10dp"
-                   android:paddingLeft="5dp"
-                   android:paddingBottom="10dp"                    
-                   android:text="TRAVELED"
-                   android:gravity="center"
-                   android:textColor="#2a2a2a"
-                   android:textAppearance="?android:attr/textAppearanceLarge"
-                   android:textSize="15sp" />
 
            </LinearLayout>
             
@@ -217,22 +186,6 @@
                  android:textSize="20sp"
                  android:textStyle="bold" />
 
-             <TextView
-                 android:id="@+id/of_gas_used"
-                 android:layout_width="wrap_content"
-                 android:layout_height="fill_parent"
-               	 android:layout_marginBottom="1dp"
-                 android:layout_marginTop="3dp"
-                 
-                 android:paddingTop="10dp"
-                 android:paddingLeft="5dp"
-                 android:paddingBottom="10dp"                    
-                 android:text="GAS USED"
-                 android:gravity="center"
-                 android:textColor="#2a2a2a"
-                 android:textAppearance="?android:attr/textAppearanceLarge"
-                 android:textSize="15sp" />
-
          </LinearLayout>
         	
 		 <LinearLayout
@@ -256,21 +209,6 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <TextView                    
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                  	android:layout_marginBottom="1dp"
-                    android:layout_marginTop="3dp"
-                    
-                    android:paddingTop="10dp"
-                    android:paddingLeft="5dp"
-                    android:paddingBottom="10dp"                    
-                    android:text="OF OVERALL TRAVEL"
-                    android:gravity="center"
-                    android:textColor="#2a2a2a"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="15sp" />
-
             </LinearLayout>
             
 		  <LinearLayout
@@ -293,21 +231,6 @@
                     android:text="4900 GRAMS"                      
                     android:textSize="20sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/time_traveled"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                  	android:layout_marginBottom="1dp"
-                    android:layout_marginTop="3dp"
-                    android:textColor="#2a2a2a"
-                    android:paddingTop="10dp"
-                    android:paddingLeft="5dp"
-                    android:paddingBottom="10dp"                    
-                    android:text="CARBON EMITTED"
-                    android:gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textSize="15sp" />
 
             </LinearLayout>
                   

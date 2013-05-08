@@ -50,8 +50,8 @@ public class BikeDetails extends TransportionActivity {
 		// special TransportionActivity onCreate procedure
 		super.onCreate(savedInstanceState);
 		// set the layout to whichever layout this activity is attached to
-		setFrameView(R.layout.activity_details);
-				
+		setFrameView(R.layout.activity_details);		
+		
 		day = (TextView) findViewById(R.id.day);
 		week = (TextView) findViewById(R.id.week);
 		month = (TextView) findViewById(R.id.month);
@@ -71,18 +71,18 @@ public class BikeDetails extends TransportionActivity {
 		title.setText("Bike Details");
 		
 		// SET INITIAL DATA
-		miles.setText("Miles Travelled: 0 Miles");
-		time.setText("Time Spent: 0 Min");
+		
+		miles.setText("Miles Travelled: " + m.getStat("bike", "month", "distance") + " Miles");
+		time.setText("Time Spent: " + m.getStat("bike", "month", "timespan") + " Min");
 		gas.setText("Gas Used: 0 Gallons");
-		percent.setText("% of Travelled: 0%");
-		carbon.setText("Carbon Emitted: 0 Grams");
+		percent.setText("% of Travelled: "+m.getPercent("bike", "month")+"%");
+		carbon.setText("Carbon Emitted: 0 Lbs");
 		
 		// set pic
 		LinearLayout layout = (LinearLayout)findViewById(R.id.pic);			
 		ImageView imageView1 = new ImageView(this);							
 		imageView1.setImageResource(R.drawable.bike);			
 		layout.addView(imageView1);
-			
 	}
 	
 	@Override
@@ -101,11 +101,11 @@ public class BikeDetails extends TransportionActivity {
 			day.setBackgroundResource(R.drawable.blue_button);				
 								
 			// HARD CODE
-			miles.setText("Miles Travelled: 0 Miles");
-			time.setText("Time Spent: 0 Min");
+			miles.setText("Miles Travelled: "+ m.getStat("bike", "day", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("bike", "day", "timespan") + " Min");
 			gas.setText("Gas Used: 0 Gallons");
-			percent.setText("% of Travelled: 0%");
-			carbon.setText("Carbon Emitted: 0 Grams");
+			percent.setText("% of Travelled: " + m.getPercent("bike", "day") + "%");
+			carbon.setText("Carbon Emitted: 0 Lbs");
 			
 			break;
 		case R.id.week:
@@ -115,11 +115,11 @@ public class BikeDetails extends TransportionActivity {
 							
 			
 			// HARD CODE
-			miles.setText("Miles Travelled: 0 Miles");
-			time.setText("Time Spent: 0 Min");
+			miles.setText("Miles Travelled: "+ m.getStat("bike", "week", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("bike", "week", "timespan") + " Min");
 			gas.setText("Gas Used: 0 Gallons");
-			percent.setText("% of Travelled: 0%");
-			carbon.setText("Carbon Emitted: 0 Grams");
+			percent.setText("% of Travelled: " + m.getPercent("bike", "week") + "%");
+			carbon.setText("Carbon Emitted: 0 Lbs");
 			
 			break;
 		case R.id.month:
@@ -129,11 +129,11 @@ public class BikeDetails extends TransportionActivity {
 			
 			
 			// HARD CODE:
-			miles.setText("Miles Travelled: 0 Miles");
-			time.setText("Time Spent: 0 Min");
+			miles.setText("Miles Travelled: "+ m.getStat("bike", "month", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("bike", "month", "timespan") + " Min");
 			gas.setText("Gas Used: 0 Gallons");
-			percent.setText("% of Travelled: 0%");
-			carbon.setText("Carbon Emitted: 0 Grams");
+			percent.setText("% of Travelled: " + m.getPercent("bike", "month") + "%");
+			carbon.setText("Carbon Emitted: 0 Lbs");
 			
 			break;
 		case R.id.year:
@@ -142,11 +142,11 @@ public class BikeDetails extends TransportionActivity {
 			year.setBackgroundResource(R.drawable.blue_button);
 			
 			// HARD CODE:
-			miles.setText("Miles Travelled: 0 Miles");
-			time.setText("Time Spent: 0 Min");
+			miles.setText("Miles Travelled: "+ m.getStat("bike", "year", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("bike", "year", "timespan") + " Min");
 			gas.setText("Gas Used: 0 Gallons");
-			percent.setText("% of Travelled: 0%");
-			carbon.setText("Carbon Emitted: 0 Grams");
+			percent.setText("% of Travelled: " + m.getPercent("bike", "year") + "%");
+			carbon.setText("Carbon Emitted: 0 Lbs");
 			
 			break;
 		}
