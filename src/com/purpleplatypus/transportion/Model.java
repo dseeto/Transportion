@@ -556,32 +556,22 @@ public class Model {
 		c.set(year, month, day, hour, min);
 		long d = c.getTimeInMillis();
 		
-		JSONArray timestamps = new JSONArray();
-		JSONArray modes = new JSONArray();
-		JSONArray distances = new JSONArray();
-		JSONArray intervals = new JSONArray();
-		
-		// right now
-		timestamps.put(new Timestamp(d));
-		modes.put("car");
+		// right now		
 		double distanceCar = generator.nextDouble()*100;
-		distances.put(distanceCar);
+		//distances.put(distanceCar);
 		int iCar = (int) ((distanceCar/45)*60);
-		intervals.put(iCar);						
+		//intervals.put(iCar);						
+		mDbHelper.updateEntry(new Timestamp(d), "car", (float) distanceCar, iCar);
 		
-		timestamps.put(new Timestamp(d));
-		modes.put("bike");
-		double distanceBike = generator.nextDouble()*20; 
-		distances.put(distanceBike);
+		double distanceBike = generator.nextDouble()*20; 		
 		int iBike = (int) ((distanceBike/15)*60);
-		intervals.put(iBike);	
+			
+		mDbHelper.updateEntry(new Timestamp(d), "bike", (float) distanceBike, iBike);
 		
-		timestamps.put(new Timestamp(d));
-		modes.put("walk");
-		double distanceWalk = generator.nextDouble()*2;
-		distances.put(distanceWalk);
+		double distanceWalk = generator.nextDouble()*2;		
 		int iWalk = (int) ((distanceWalk/5)*60);
-		intervals.put(iWalk);	
+		
+		mDbHelper.updateEntry(new Timestamp(d), "walk", (float) distanceWalk, iWalk);
 		
 		day = day-1;		
 		if (day < 0) {
@@ -591,15 +581,7 @@ public class Model {
 		if (month < 0) {
 			year--;
 			month = 12;
-		}
-		
-		user.put("timestamp", timestamps);
-		user.put("mode", modes);
-		user.put("distance", distances);
-		user.put("interval", intervals);
-		user.put("userID", userID);
-		
-		user.saveInBackground();
+		}		
 	}
 	
 	public Hashtable<String, Hashtable<String, String[]>> query_db() {
