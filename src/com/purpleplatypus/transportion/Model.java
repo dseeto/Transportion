@@ -80,7 +80,19 @@ public class Model {
 	 * Sends all the raw data in UserData table to the server.
 	 * After sent, clears the local db to save room.
 	 */
-	public void sendDataToServer() throws JSONException { // should send in one object		
+	public void sendDataToServer(Hashtable<String, JSONArray> data) throws JSONException { // should send in one object		
+		
+		ParseObject user = new ParseObject("Users");
+		
+		user.put("id", userID);
+		user.put("miles", data.get("miles"));
+		user.put("modes", data.get("modes"));
+		user.put("timespans", data.get("timespans"));
+		user.put("carbon", data.get("carbons"));
+		
+		user.saveEventually();
+		
+		/*
 		ArrayList<Segment> data = mDbHelper.rawDataGetAll();
 		System.out.println("GOT TO SEND DATA!!!");
 		ParseObject user = new ParseObject("Segments");	
@@ -111,9 +123,9 @@ public class Model {
 		user.saveInBackground();
 		
 		// IMPLEMENT: check if cloud got it!!! to do this might have to keep track of the count of the number of objects to check...
-		
+		*/
 		// delete table
-		mDbHelper.rawDataRemoveAll();		
+		// mDbHelper.rawDataRemoveAll();		
 	}
 	
 	/*
