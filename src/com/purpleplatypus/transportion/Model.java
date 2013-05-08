@@ -47,6 +47,7 @@ public class Model {
 	public static double busMilesPerGallon = 50.0;
 	
 	JSONObject carStats, bikeStats, walkStats, busStats, allStats;
+	Hashtable<String, JSONArray> forServer;
 	
 	int year;
 	int month;
@@ -87,6 +88,11 @@ public class Model {
 	public void sendDataToServer(final Hashtable<String, JSONArray> data) throws JSONException { // data for last month		
 		
 		// IMPLEMENT: need to do update
+		if (userID == null || userName == null) {
+			SharedPreferences savedSession = ApplicationState.getContext().getSharedPreferences("facebook-session",Context.MODE_PRIVATE);
+	        userID = savedSession.getString("id", null);
+	        userName = savedSession.getString("name", null); // not sure if this is saved
+		}
 		
 		ParseQuery query = new ParseQuery("Users");
 		query.whereEqualTo("user_id", userID);
@@ -109,7 +115,7 @@ public class Model {
 							e1.printStackTrace();
 						}
 		        		user.put("name", userName);
-		        		user.saveEventually();
+		        		user.saveInBackground();
 		        	} else {
 		        		if (l.size() > 1) {
 		        			// PROBLEM!! 
@@ -127,7 +133,7 @@ public class Model {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
-		        			temp.saveEventually();
+		        			temp.saveInBackground();
 		        		}
 		        	}
 		        	
@@ -697,8 +703,7 @@ public class Model {
 		
 		// right now		
 		double distanceCarDay = generator.nextDouble()*100;		
-		int iCarDay = (int) ((distanceCarDay/45)*60);							
-		int carbonCar = (int) getCarbon("car", iCarDay+"");		
+		int iCarDay = (int) ((distanceCarDay/45)*60);						
 		
 		float[] temp = {(float)distanceCarDay, (float)iCarDay};
 		result.put("car,day", temp);
@@ -741,7 +746,7 @@ public class Model {
 		int iWalk = (int) ((distanceWalk/5)*60);
 		
 		float[] temp2 = {(float)distanceWalk, (float)iWalk};
-		result.put("walk,day", temp1);
+		result.put("walk,day", temp2);
 		temp2[0] = (float)distanceWalk*7;
 		temp2[1] = (float)iWalk*7;
 		
@@ -973,7 +978,8 @@ public class Model {
         			totalTime = totalTime + (new Double(timeThisMonth)).intValue();
         		}
     			milesArray.put(totalMiles+"");
-    			carbonsArray.put((totalMiles/Model.milesPerGallon)*Model.carbonPerGallon);
+    			carbonsArray.put((totalMiles/Model.milesPerGallon)*Model.carbonPerGallon+"");
+    			
     			timeArray.put(totalTime);
     			
         		System.out.println("getAndSaveStats: milesArray is " + milesArray.toString());
@@ -986,14 +992,8 @@ public class Model {
     			e.printStackTrace();
     			System.out.println("error in getting Json information: " + e.getMessage());
     		}
-    		/*
-			try {
-				sendDataToServer(hashForServer);
-			} catch (JSONException e) {
-				e.printStackTrace();
-    			System.out.println("error in sending Json to server: " + e.getMessage());
-			}
-			*/
+    		
+    		forServer = hashForServer;
     	}
     	else {
     		// just get the old data from the db
@@ -1027,7 +1027,21 @@ public class Model {
 	}
 	
 	public Hashtable<String, float[]> query_db() {
-		return dummy_query_db();
+		return hardCode();
+		//return dummy_query_db();
+	}
+	
+	public void sendStats() {
+		if (forServer != null) {
+			Hashtable<String, JSONArray> hashForServer = forServer;
+			forServer = null;
+			try {
+				sendDataToServer(hashForServer);
+			} catch (JSONException e) {
+				e.printStackTrace();
+    			System.out.println("error in sending Json to server: " + e.getMessage());
+			}
+		}
 	}
 	
 	public JSONObject getJSONFromHash(Hashtable<String, float[]> ht, String mode) {
