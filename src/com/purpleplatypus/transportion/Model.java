@@ -500,7 +500,7 @@ public class Model {
 			day--;
 			hour = 23;
 		}
-		if (day < 0) {
+		if (day < 1) {
 			month--;
 			day = 30;
 		}
@@ -560,7 +560,6 @@ public class Model {
 		// average bike: 15 miles per hour => 15/60
 		// average walk: 5 miles per hour => 5/60
 		
-		ParseObject user = new ParseObject("FakeDataDay");
 		Random generator = new Random();
 		
 		Calendar c = Calendar.getInstance();		
@@ -568,10 +567,8 @@ public class Model {
 		long d = c.getTimeInMillis();
 		
 		// right now		
-		double distanceCar = generator.nextDouble()*100;
-		//distances.put(distanceCar);
-		int iCar = (int) ((distanceCar/45)*60);
-		//intervals.put(iCar);						
+		double distanceCar = generator.nextDouble()*100;		
+		int iCar = (int) ((distanceCar/45)*60);							
 		mDbHelper.updateEntry(new Timestamp(d), "car", (float) distanceCar, iCar);
 		
 		double distanceBike = generator.nextDouble()*20; 		
@@ -810,14 +807,14 @@ public class Model {
     			e.printStackTrace();
     			System.out.println("error in getting Json information: " + e.getMessage());
     		}
-    		
+    		/*
 			try {
 				sendDataToServer(hashForServer);
 			} catch (JSONException e) {
 				e.printStackTrace();
     			System.out.println("error in sending Json to server: " + e.getMessage());
 			}
-			
+			*/
     	}
     	else {
     		// just get the old data from the db
