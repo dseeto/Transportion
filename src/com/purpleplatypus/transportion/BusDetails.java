@@ -65,11 +65,12 @@ public class BusDetails extends TransportionActivity{
 		title.setText("Bus Details");
 		
 		// SET INITIAL DATA
-		miles.setText("71 Miles");
-		time.setText("2 Hrs 14 Min");
-		gas.setText("" + df.format(71/6) + " Gallons"); // 6 miles per gallon
-		percent.setText("" + df.format(71.00/(100+71+87)*100) + "%");
-		carbon.setText("" + df.format(140*71) + " Grams");
+		
+		miles.setText("Miles Travelled: "+ m.getStat("bus", "month", "distance") +" Miles");
+		time.setText("Time Spent: " + m.getStat("bus", "month", "timespan") + " Min");
+		gas.setText("Gas Used: " + m.getGas("bus", "month") + " Gallons");
+		percent.setText("% of Travelled: " + m.getPercent("bus", "month") + "%");
+		carbon.setText("Carbon Emitted: " + (new Double(m.getGas("bus",  "month")*Model.carbonPerGallon)).intValue() + " Lbs");
 		
 		// set pic
 		LinearLayout layout = (LinearLayout)findViewById(R.id.pic);			
@@ -96,11 +97,11 @@ public class BusDetails extends TransportionActivity{
 			day.setBackgroundResource(R.drawable.blue_button);				
 
 			// HARD CODE:
-			miles.setText("2 Miles");
-			time.setText("9 Min");
-			gas.setText("0.33 Gallons");
-			percent.setText("34%"); // in terms of miles
-			carbon.setText("280 Grams");			
+			miles.setText("Miles Travelled: "+ m.getStat("bus", "day", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("bus", "day", "timespan") + " Min");
+			gas.setText("Gas Used: " + m.getGas("bus", "day") + " Gallons");
+			percent.setText("% of Travelled: " + m.getPercent("bus", "day") + "%");
+			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("bus",  "day")*Model.carbonPerGallon)).intValue() + " Lbs");
 			
 			break;
 		case R.id.week:
@@ -109,11 +110,11 @@ public class BusDetails extends TransportionActivity{
 			week.setBackgroundResource(R.drawable.blue_button);
 						
 			// HARD CODE:
-			miles.setText("20 Miles");
-			time.setText("1 Hr 10 Min");
-			gas.setText("3.33 Gallons");
-			percent.setText("" + df.format(20.00/(45)*100) + "%");
-			carbon.setText("" + 140*20 + " Grams"); // 140 grams per mile
+			miles.setText("Miles Travelled: "+ m.getStat("bus", "week", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("bus", "week", "timespan") + " Min");
+			gas.setText("Gas Used: " + m.getGas("bus", "week") + " Gallons");
+			percent.setText("% of Travelled: " + m.getPercent("bus", "week") + "%");
+			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("bus",  "week")*Model.carbonPerGallon)).intValue() + " Lbs");
 			
 			break;
 		case R.id.month:
@@ -122,11 +123,11 @@ public class BusDetails extends TransportionActivity{
 			month.setBackgroundResource(R.drawable.blue_button);
 						
 			// HARD CODE:
-			miles.setText("71 Miles");
-			time.setText("2 Hr 14 Min");
-			gas.setText("" + df.format(71.00/6) + " Gallons"); // 6 miles per gallon
-			percent.setText("" + df.format(71.00/(100+71+87)*100) + "%");
-			carbon.setText("" + 140*71 + " Grams");
+			miles.setText("Miles Travelled: "+ m.getStat("bus", "month", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("bus", "month", "timespan") + " Min");
+			gas.setText("Gas Used: " + m.getGas("bus", "month") + " Gallons");
+			percent.setText("% of Travelled: " + m.getPercent("bus", "month") + "%");
+			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("bus",  "month")*Model.carbonPerGallon)).intValue() + " Lbs");
 			
 			break;
 		case R.id.year:
@@ -135,11 +136,11 @@ public class BusDetails extends TransportionActivity{
 			year.setBackgroundResource(R.drawable.blue_button);
 						
 			// HARD CODE:
-			miles.setText("723 Miles");
-			time.setText("36 Hr 42 Min");
-			gas.setText("" + df.format(723.00/6) + " Gallons");
-			percent.setText("" + df.format(723.00/(1455+723+783)*100) + "%");
-			carbon.setText("" + df.format(140*723) + " Grams");
+			miles.setText("Miles Travelled: "+ m.getStat("bus", "year", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("bus", "year", "timespan") + " Min");
+			gas.setText("Gas Used: " + m.getGas("bus", "year") + " Gallons");
+			percent.setText("% of Travelled: " + m.getPercent("bus", "year") + "%");
+			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("bus",  "year")*Model.carbonPerGallon)).intValue() + " Lbs");
 			
 			break;
 		}

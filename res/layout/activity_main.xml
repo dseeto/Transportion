@@ -109,7 +109,7 @@
                     android:duplicateParentState="true" >
 
                     <TextView
-                        android:id="@+id/textView1"
+                        android:id="@+id/bus_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Bus"
@@ -117,7 +117,7 @@
                         android:duplicateParentState="true" />
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/bus_miles"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="511 Miles"
@@ -200,7 +200,7 @@
                     android:duplicateParentState="true" >
 
                     <TextView
-                        android:id="@+id/textView1"
+                        android:id="@+id/walk_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Walk"
@@ -208,7 +208,7 @@
                         android:duplicateParentState="true"/>
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/walk_miles"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="502 Miles"

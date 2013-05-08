@@ -69,6 +69,8 @@ public class TransportionActivity extends SlidingMenuActivity {
 	protected boolean isResumed = false;
 	private UiLifecycleHelper uiHelper;
 	
+	public static Model m = ApplicationState.getModel();
+	
 	private String userIdentifier = "";
 	
 	private static int facebookConnectionAttempts = 5;

@@ -62,11 +62,11 @@ public class CarDetails extends TransportionActivity{
 		
 		title.setText("Car Details");
 		
-		miles.setText("100 Miles");
-		time.setText("1 Hr 3 Min");
-		gas.setText("" + df.format(100.00/37.00) + " Gallons");
-		percent.setText("" + df.format(100.00/(100+71+87)*100) + "%");
-		carbon.setText("" + df.format(109.00*(100/1.6)) + " Grams"); // 109 per km; 1.6 km for each mile
+		miles.setText("Miles Travelled: "+ m.getStat("car", "month", "distance") +" Miles");
+		time.setText("Time Spent: " + m.getStat("car", "month", "timespan") + " Min");
+		gas.setText("Gas Used: " + m.getGas("car", "month") + " Gallons");
+		percent.setText("% of Travelled: " + m.getPercent("car", "month") + "%");
+		carbon.setText("Carbon Emitted: " + (new Double(m.getGas("car", "month")*Model.carbonPerGallon)).intValue() + " Lbs");
 		/*
 		// also set background color
 		miles.setBackgroundResource(Color.parseColor("#ff4e50"));
@@ -99,11 +99,11 @@ public class CarDetails extends TransportionActivity{
 			day.setTypeface(null, Typeface.BOLD);
 			day.setBackgroundResource(R.drawable.blue_button);
 					
-			miles.setText("0 Miles");
-			time.setText("0 Min");
-			gas.setText("0 Gallons");
-			percent.setText("0%");
-			carbon.setText("0 Grams");			
+			miles.setText("Miles Travelled: "+ m.getStat("car", "day", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("car", "day", "timespan") + " Min");
+			gas.setText("Gas Used: " + m.getGas("car", "day") + " Gallons");
+			percent.setText("% of Travelled: " + m.getPercent("car", "day") + "%");
+			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("car", "day")*Model.carbonPerGallon)).intValue() + " Lbs");
 			
 			break;
 		case R.id.week:
@@ -111,11 +111,11 @@ public class CarDetails extends TransportionActivity{
 			week.setTypeface(null, Typeface.BOLD);
 			week.setBackgroundResource(R.drawable.blue_button);
 			
-			miles.setText("0 Miles");
-			time.setText("0 Min");
-			gas.setText("0 Gallons");
-			percent.setText("0%");
-			carbon.setText("0 Grams");
+			miles.setText("Miles Travelled: "+ m.getStat("car", "week", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("car", "week", "timespan") + " Min");
+			gas.setText("Gas Used: " + m.getGas("car", "week") + " Gallons");
+			percent.setText("% of Travelled: " + m.getPercent("car", "week") + "%");
+			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("car", "week")*Model.carbonPerGallon)).intValue() + " Lbs");
 
 			break;
 		case R.id.month:
@@ -123,12 +123,11 @@ public class CarDetails extends TransportionActivity{
 			month.setTypeface(null, Typeface.BOLD);
 			month.setBackgroundResource(R.drawable.blue_button);
 			
-			// update info
-			miles.setText("100 Miles");
-			time.setText("1 Hr 3 Min");
-			gas.setText("" + df.format(100/37.00) + " Gallons");
-			percent.setText("" + df.format(100.00/(100+71+87)*100) + "%");
-			carbon.setText("" + df.format(109.00*(100/1.6)) + " Grams"); // 109 per km; 1.6 km for each mile
+			miles.setText("Miles Travelled: "+ m.getStat("car", "month", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("car", "month", "timespan") + " Min");
+			gas.setText("Gas Used: " + m.getGas("car", "month") + " Gallons");
+			percent.setText("% of Travelled: " + m.getPercent("car", "month") + "%");
+			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("car", "month")*Model.carbonPerGallon)).intValue() + " Lbs");
 		
 			break;
 		case R.id.year:
@@ -136,12 +135,11 @@ public class CarDetails extends TransportionActivity{
 			year.setTypeface(null, Typeface.BOLD);
 			year.setBackgroundResource(R.drawable.blue_button);
 			
-			// update info		
-			miles.setText("1,455 Miles");
-			time.setText("25 Hr 57 Min");
-			gas.setText("" + df.format(1455/37) + " Gallons");
-			percent.setText("" + df.format(783.00/(1455+723+783)*100) + "%");
-			carbon.setText("" + df.format(109.00*(1455/1.6)) + " Grams");		
+			miles.setText("Miles Travelled: "+ m.getStat("car", "year", "distance") +" Miles");
+			time.setText("Time Spent: " + m.getStat("car", "year", "timespan") + " Min");
+			gas.setText("Gas Used: " + m.getGas("car", "year") + " Gallons");
+			percent.setText("% of Travelled: " + m.getPercent("car", "year") + "%");
+			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("car", "year")*Model.carbonPerGallon)).intValue() + " Lbs");	
 			break;
 		}
 		
