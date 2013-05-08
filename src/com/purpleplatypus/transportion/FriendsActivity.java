@@ -358,15 +358,15 @@ public class FriendsActivity extends TransportionActivity {
 		switch(button) {
 		case R.id.dayDataSend:
 			ApplicationState.getModel().populateSegmentsDay();
-			
+			//System.out.println("===========================START OF TRIP===========================");			
 			break;
 		case R.id.hourDataSend:
 			System.out.println("GOT TO BUTTON!!!!!!");
 			ApplicationState appState = (ApplicationState) this.getApplication();
-			appState.data.populateSegmentsHour();
+//			appState.data.populateSegmentsHour();
 			
 			// For testing whats in the local db:
-			//appState.data.mDbHelper.rawDataGetAll();
+			appState.data.mDbHelper.rawDataGetAll();
 			break;
 		}
 		

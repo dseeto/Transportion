@@ -25,8 +25,8 @@ public class LocationService extends Service {
 	MyLocationListener locationListener;
 	
 	// location variables
-	int minTimeMillisPoll = 1000*60*5; 		// 5 minutes
-	int minDistanceMetersPoll = 500;	// 500 meters?!?! 
+	int minTimeMillisPoll = 0;//1000*60*5; 		5 minutes
+	int minDistanceMetersPoll = 0;	// 500 meters?!?! 
 	int minAccuracyMeters = 35;	
 	int minDistanceMetersCheck = 20;
 	
@@ -61,8 +61,8 @@ public class LocationService extends Service {
         locationListener = new MyLocationListener();
 
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 	// figure out which is best! - NETWORK_PROVIDER
-                        0, //minTimeMillisPoll, 
-                        0, //minDistanceMetersPoll,
+                        minTimeMillisPoll, 
+                        minDistanceMetersPoll,
                         (LocationListener) locationListener);
 
         //initDatabase();        
@@ -71,9 +71,9 @@ public class LocationService extends Service {
     
     private void shutDownLoggerService() {    	
     	// not sure if need:
-    	((LocationManager) lm).requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener); //NETWORK_PROVIDER
+    	//((LocationManager) lm).requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener); //NETWORK_PROVIDER
     	
-    	lm.removeUpdates(locationListener);
+    	//lm.removeUpdates(locationListener);
     }
 	 
     public class MyLocationListener implements LocationListener {
@@ -94,7 +94,7 @@ public class LocationService extends Service {
 			System.out.println("LATITUDE");
 			System.out.println(location.getLatitude());
 			if (location != null) {
-				//if (location.hasAccuracy() && location.getAccuracy() <= minAccuracyMeters) {	// UNCOMMENT THIS AFTER TESTING W/ EMULATOR														
+				if (location.hasAccuracy() && location.getAccuracy() <= minAccuracyMeters) {														
 					if (lastLocation != null) {
 						float distance = (float) (location.distanceTo(lastLocation)*0.000621371); // in miles
 						System.out.println("MillisecondInterval: " + (location.getTime() - lastLocation.getTime()));
@@ -108,6 +108,8 @@ public class LocationService extends Service {
 						} else {
 							mode = "walk";	// max = 250 cm/s => .09 miles / minute
 						}
+						Toast.makeText(getBaseContext(), "GEOPOINT ADDED!", Toast.LENGTH_SHORT).show();
+						
 						System.out.println("GEOPOINT ADDED!!");
 						System.out.println(distance + ", " + interval + ", " + mode);
 						data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), mode, distance, interval);
@@ -151,7 +153,7 @@ public class LocationService extends Service {
 					lastLocation = location;
 				}				
 			}			
-		//}
+		}
 
 		@Override
 		public void onProviderDisabled(String provider) {
