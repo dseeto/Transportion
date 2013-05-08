@@ -648,8 +648,8 @@ public class Model {
 		JSONArray carbons = new JSONArray();
 		
 		// right now		
-		double distanceCar = generator.nextDouble()*100;		
-		int iCar = (int) ((distanceCar/45)*60);							
+		double distanceCarDay = generator.nextDouble()*100;		
+		int iCarDay = (int) ((distanceCarDay/45)*60);							
 		
 		
 		
