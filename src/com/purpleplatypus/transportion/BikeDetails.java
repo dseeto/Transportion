@@ -65,10 +65,10 @@ public class BikeDetails extends TransportionActivity {
 		
 		// SET INITIAL DATA
 		
-		miles.setText("Miles Travelled: " + m.getStat("bike", "month", "distance") + " Miles");
+		miles.setText("Miles Traveled: " + m.getStat("bike", "month", "distance") + " Miles");
 		time.setText("Time Spent: " + m.getStat("bike", "month", "timespan") + " Min");
 		gas.setText("Gas Used: 0 Gallons");
-		percent.setText("% of Travelled: "+m.getPercent("bike", "month")+"%");
+		percent.setText("% of Traveled: "+m.getPercent("bike", "month")+"%");
 		carbon.setText("Carbon Emitted: 0 Lbs");
 		
 		// set pic
@@ -94,10 +94,10 @@ public class BikeDetails extends TransportionActivity {
 			day.setBackgroundResource(R.drawable.blue_button);				
 								
 			// HARD CODE
-			miles.setText("Miles Travelled: "+ m.getStat("bike", "day", "distance") +" Miles");
+			miles.setText("Miles Traveled: "+ m.getStat("bike", "day", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("bike", "day", "timespan") + " Min");
 			gas.setText("Gas Used: 0 Gallons");
-			percent.setText("% of Travelled: " + m.getPercent("bike", "day") + "%");
+			percent.setText("% of Traveled: " + m.getPercent("bike", "day") + "%");
 			carbon.setText("Carbon Emitted: 0 Lbs");
 			
 			break;
@@ -108,10 +108,10 @@ public class BikeDetails extends TransportionActivity {
 							
 			
 			// HARD CODE
-			miles.setText("Miles Travelled: "+ m.getStat("bike", "week", "distance") +" Miles");
+			miles.setText("Miles Traveled: "+ m.getStat("bike", "week", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("bike", "week", "timespan") + " Min");
 			gas.setText("Gas Used: 0 Gallons");
-			percent.setText("% of Travelled: " + m.getPercent("bike", "week") + "%");
+			percent.setText("% of Traveled: " + m.getPercent("bike", "week") + "%");
 			carbon.setText("Carbon Emitted: 0 Lbs");
 			
 			break;
@@ -122,10 +122,10 @@ public class BikeDetails extends TransportionActivity {
 			
 			
 			// HARD CODE:
-			miles.setText("Miles Travelled: "+ m.getStat("bike", "month", "distance") +" Miles");
+			miles.setText("Miles Traveled: "+ m.getStat("bike", "month", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("bike", "month", "timespan") + " Min");
 			gas.setText("Gas Used: 0 Gallons");
-			percent.setText("% of Travelled: " + m.getPercent("bike", "month") + "%");
+			percent.setText("% of Traveled: " + m.getPercent("bike", "month") + "%");
 			carbon.setText("Carbon Emitted: 0 Lbs");
 			
 			break;
@@ -135,10 +135,10 @@ public class BikeDetails extends TransportionActivity {
 			year.setBackgroundResource(R.drawable.blue_button);
 			
 			// HARD CODE:
-			miles.setText("Miles Travelled: "+ m.getStat("bike", "year", "distance") +" Miles");
+			miles.setText("Miles Traveled: "+ m.getStat("bike", "year", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("bike", "year", "timespan") + " Min");
 			gas.setText("Gas Used: 0 Gallons");
-			percent.setText("% of Travelled: " + m.getPercent("bike", "year") + "%");
+			percent.setText("% of Traveled: " + m.getPercent("bike", "year") + "%");
 			carbon.setText("Carbon Emitted: 0 Lbs");
 			
 			break;
