@@ -2,9 +2,8 @@ package com.purpleplatypus.transportion;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import com.parse.ParseGeoPoint;
 
 import android.app.Service;
 import android.content.Context;
@@ -17,6 +16,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.widget.Toast;
 
+import com.parse.ParseGeoPoint;
+
 public class LocationService extends Service {
 
 	// SHOULD THIS BE RUN IN ANOTHER THREAD?!?
@@ -25,10 +26,9 @@ public class LocationService extends Service {
 	MyLocationListener locationListener;
 	
 	// location variables
-	int minTimeMillisPoll = 0;//1000*60*5; 	5 minutes
-	int minDistanceMetersPoll = 0;	// 500 meters?!?! 
+	int minTimeMillisPoll = 0;//1000*60*3; 	3 minutes
+	int minDistanceMetersPoll = 0;	// 1000 meters?!?! 
 	int minAccuracyMeters = 35;	
-	int minDistanceMetersCheck = 20;
 	
 	Location lastLocation;
 	List<Location> tripLocations = new ArrayList<Location>();
@@ -84,7 +84,6 @@ public class LocationService extends Service {
     	
 		@Override
 		public void onLocationChanged(Location location) {
-			// TODO Auto-generated method stub
 			System.out.println("GOT TO onLocationChanged");
 			System.out.println("TIME:");
 			System.out.println(location.getTime());
@@ -95,12 +94,12 @@ public class LocationService extends Service {
 					if (lastLocation != null) {
 						float distance = (float) (location.distanceTo(lastLocation)*0.000621371); // in miles
 						System.out.println("MillisecondInterval: " + (location.getTime() - lastLocation.getTime()));
-						int interval = (int) ((location.getTime() - lastLocation.getTime())*.001); // in seconds
-						float speed = distance/interval;						
+						int interval = (int) ((location.getTime() - lastLocation.getTime())*0.001*60); // in minutes
+						float speed = distance/(interval*60); // miles/hr					
 						String mode = "";
-						if (speed >= 0.33) {
+						if (speed >= 13) {
 							mode = "car";
-						} else if (speed < 0.33 && speed > 0.09) {
+						} else if (speed < 13 && speed >= 4.5) {
 							mode = "bike";
 						} else {
 							mode = "walk";	// max = 250 cm/s => .09 miles / minute
@@ -109,44 +108,14 @@ public class LocationService extends Service {
 						
 						System.out.println("GEOPOINT ADDED!!");
 						System.out.println(distance + ", " + interval + ", " + mode);
-						data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), mode, distance, interval);
+						Date date = new java.util.Date();
+						int year = date.getYear();
+						int month = date.getMonth();
+						int day = date.getDate();
+						Timestamp today = new Timestamp(new java.util.Date(year, month, day).getTime());
+						data.mDbHelper.updateEntry(today, mode, distance, interval);
 					}
-						/*
-						if (traveling && distance <= minDistanceMetersCheck) { // end of trip b/c haven't moved in 5 minutes
-							traveling = false;
-							// calculate the speed => guess the mode
-							Location beginning = tripLocations.get(0);
-							Location end = tripLocations.get(tripLocations.size()-1);
-							float tripDistanceKm = beginning.distanceTo(end)/1000;
-							float tripTimeHours = ((end.getTime() - beginning.getTime())/60000)/60;
-							
-							float speed = tripDistanceKm / tripTimeHours;
-							// average car speed: 
-							// average bike speed: 10km/hr
-							// average walk speed:
-							
-							// put it into the local database
-							
-							data.mDbHelper.rawDataAddEntry(
-			                		   new Timestamp(new java.util.Date().getTime()), (float)location.getLatitude(), (float)location.getLongitude(), 
-			                		   (float) (location.hasSpeed() ? location.getSpeed() : -1.0));
-							
-							tripLocations.clear();
-						} else if (traveling && distance > minDistanceMetersCheck) {
-							// update trip							
-							// add to tripLocations
-							tripLocations.add(location);
-						} else if (!traveling && distance > minDistanceMetersCheck) {
-							// if there is still trip data from before, push it to the local db
-							
-							// start trip
-							
-							traveling = true;
-						} else {
-							// nothing has happened - do nothing
-						}	
-					} 
-					*/
+						
 					lastLocation = location;
 				}				
 			}			

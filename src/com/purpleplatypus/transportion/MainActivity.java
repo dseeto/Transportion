@@ -1,7 +1,9 @@
 
 package com.purpleplatypus.transportion;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
@@ -11,24 +13,7 @@ import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
-import com.parse.Parse;
-import com.parse.ParseAnalytics;
-import com.parse.ParseObject;
-
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.android.Facebook;
-import com.facebook.model.GraphUser;
-
-import ws.munday.slidingmenu.SlidingMenuActivity;
-import android.os.Bundle;
-
-import android.app.Activity;
 import android.content.Intent;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -63,7 +48,18 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 		// SET UP MODEL
 		appState = (ApplicationState) this.getApplication();
 		System.out.println("CREATE DATABASE:");
-		appState.data.createDatabase(this);		
+		appState.data.createDatabase(this);	
+		
+//		appState.data.mDbHelper.rawDataRemoveAll();
+//		Date date = new java.util.Date();
+//		int year = date.getYear();
+//		int month = date.getMonth();
+//		int day = date.getDate();
+//		Timestamp today = new Timestamp(new java.util.Date(year, month, day).getTime());
+//		appState.data.mDbHelper.updateEntry(today, "walk", 153, 52);
+//		appState.data.mDbHelper.rawDataGetAll();
+//		appState.data.mDbHelper.updateEntry(today, "walk", 7, 8);
+//		appState.data.mDbHelper.rawDataGetAll();
 		
 		//Transportion2 Account
 		Parse.initialize(this, "EL8WO95o0oQa9wKN1AMRfaQBmWpZNlLMXZlWFnXX", "JE5I5thI0ptOZaLNH6HdOHQdUuLRuwykIIRG9f0u"); 
