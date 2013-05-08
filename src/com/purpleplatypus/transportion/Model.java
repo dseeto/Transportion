@@ -1,5 +1,6 @@
 package com.purpleplatypus.transportion;
 
+import java.lang.reflect.Array;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -389,6 +390,65 @@ public class Model {
 			db.close();
 		}
 	    
+	    public Hashtable<String, Float[]> queryDatabase() {
+	    	SQLiteDatabase db = this.getWritableDatabase();
+	    	Hashtable<String, Float[]> result = new Hashtable<String, Float[]>();
+	    	
+	    	Date today = new Date();
+			int year = today.getYear();
+			int month = today.getMonth();
+			int date = today.getDate();
+			long utc = new Date(year, month, date).getTime();
+			Timestamp yesterday = new Timestamp(utc - 86400000);
+			Timestamp lastWeek = new Timestamp(utc - 86400000 * 7);
+			Timestamp lastMonth = new Timestamp(utc - 86400000 * 31);
+			Timestamp lastYear = new Timestamp(utc - 86400000 * 365);
+
+	    	
+			ArrayList<Segment> allData = this.rawDataGetAll();
+			for (int i = 0; i < allData.size(); i += 1) {
+				if (allData.get(i).timestamp.after(lastYear)) {
+					if (allData.get(i).timestamp.after(lastMonth)) {
+						if (allData.get(i).timestamp.after(lastWeek)) {
+							if (allData.get(i).timestamp.after(yesterday)) {
+								String key = String.format("%s" + "," + "day" , allData.get(i).mode);
+								Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
+								if (result.containsKey(key)) {
+									val[0] += result.get(key)[0];
+									val[1] += result.get(key)[1];
+								} 
+								result.put(key, val);
+							}
+							String key = String.format("%s" + "," + "week" , allData.get(i).mode);
+							Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
+							if (result.containsKey(key)) {
+								val[0] += result.get(key)[0];
+								val[1] += result.get(key)[1];
+							} 
+							result.put(key, val);
+						}
+						String key = String.format("%s" + "," + "month" , allData.get(i).mode);
+						Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
+						if (result.containsKey(key)) {
+							val[0] += result.get(key)[0];
+							val[1] += result.get(key)[1];
+						} 
+						result.put(key, val);
+					}
+					String key = String.format("%s" + "," + "year" , allData.get(i).mode);
+					Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
+					if (result.containsKey(key)) {
+						val[0] += result.get(key)[0];
+						val[1] += result.get(key)[1];
+					} 
+					result.put(key, val);
+				}
+			}
+	    	
+	    	db.close();	
+	    	return result;
+	    }
+	    
 	    /*
 	     *  Should return the points in order by timestamp.
 	     */
@@ -500,7 +560,7 @@ public class Model {
 			day--;
 			hour = 23;
 		}
-		if (day < 0) {
+		if (day < 1) {
 			month--;
 			day = 30;
 		}
@@ -560,39 +620,26 @@ public class Model {
 		// average bike: 15 miles per hour => 15/60
 		// average walk: 5 miles per hour => 5/60
 		
-		ParseObject user = new ParseObject("FakeDataDay");
 		Random generator = new Random();
 		
 		Calendar c = Calendar.getInstance();		
 		c.set(year, month, day, hour, min);
 		long d = c.getTimeInMillis();
 		
-		JSONArray timestamps = new JSONArray();
-		JSONArray modes = new JSONArray();
-		JSONArray distances = new JSONArray();
-		JSONArray intervals = new JSONArray();
+		// right now		
+		double distanceCar = generator.nextDouble()*100;		
+		int iCar = (int) ((distanceCar/45)*60);							
+		mDbHelper.updateEntry(new Timestamp(d), "car", (float) distanceCar, iCar);
 		
-		// right now
-		timestamps.put(new Timestamp(d));
-		modes.put("car");
-		double distanceCar = generator.nextDouble()*100;
-		distances.put(distanceCar);
-		int iCar = (int) ((distanceCar/45)*60);
-		intervals.put(iCar);						
-		
-		timestamps.put(new Timestamp(d));
-		modes.put("bike");
-		double distanceBike = generator.nextDouble()*20; 
-		distances.put(distanceBike);
+		double distanceBike = generator.nextDouble()*20; 		
 		int iBike = (int) ((distanceBike/15)*60);
-		intervals.put(iBike);	
+			
+		mDbHelper.updateEntry(new Timestamp(d), "bike", (float) distanceBike, iBike);
 		
-		timestamps.put(new Timestamp(d));
-		modes.put("walk");
-		double distanceWalk = generator.nextDouble()*2;
-		distances.put(distanceWalk);
+		double distanceWalk = generator.nextDouble()*2;		
 		int iWalk = (int) ((distanceWalk/5)*60);
-		intervals.put(iWalk);	
+		
+		mDbHelper.updateEntry(new Timestamp(d), "walk", (float) distanceWalk, iWalk);
 		
 		day = day-1;		
 		if (day < 0) {
@@ -602,15 +649,7 @@ public class Model {
 		if (month < 0) {
 			year--;
 			month = 12;
-		}
-		
-		user.put("timestamp", timestamps);
-		user.put("mode", modes);
-		user.put("distance", distances);
-		user.put("interval", intervals);
-		user.put("userID", userID);
-		
-		user.saveInBackground();
+		}		
 	}
 	
 	public double getTrees(String mode, String time) {

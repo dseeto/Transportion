@@ -1,11 +1,7 @@
 
 package com.purpleplatypus.transportion;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-
-import java.util.Hashtable;
-import java.util.Date;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
@@ -14,20 +10,7 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
-
-import org.json.JSONArray;
-
-import com.parse.Parse;
-import com.parse.ParseAnalytics;
-import com.parse.ParseObject;
-
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
-import com.facebook.android.Facebook;
-import com.facebook.model.GraphUser;
+import org.json.JSONException;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -100,6 +83,17 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 		
 		TextView title = (TextView) findViewById(R.id.title);		
 		title.setText("Overall Usage");
+		
+		// TEST
+		for (int i = 0; i < 2; i++) {
+			try {
+				ApplicationState.getModel().populateSegmentsDay();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		// TEST
 		
 		LinearLayout pieChartLayout = (LinearLayout) findViewById(R.id.mainChart);
 		
