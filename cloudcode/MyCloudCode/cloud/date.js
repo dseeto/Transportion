@@ -102,3 +102,31 @@ return g._start.call({},s);};}());Date._parse=Date.parse;Date.parse=function(s){
 try{r=Date.Grammar.start.call({},s);}catch(e){return null;}
 return((r[1].length===0)?r[0]:null);};Date.getParseFunction=function(fx){var fn=Date.Grammar.formats(fx);return function(s){var r=null;try{r=fn.call({},s);}catch(e){return null;}
 return((r[1].length===0)?r[0]:null);};};Date.parseExact=function(s,fx){return Date.getParseFunction(fx)(s);};
+
+exports.today = function() {
+    return Date.today();
+}
+
+exports.now = function() {
+    return Date.today().addSeconds(new Date().getSeconds()).addMinutes(new Date().getMinutes()).addHours(new Date().getHours());
+}
+
+exports.toString = function(date) {
+    return date.toString("yyyy-MM-dd HH:mm:ss");
+}
+
+exports.add = function(date, metric, amount) {
+    if (metric == "hours") {
+        return date.addHours(amount);
+    }
+    if (metric == "days") {
+        return date.addDays(amount);
+    }
+    if (metric == "seconds") {
+        return date.addSeconds(amount);
+    }
+    if (metric == "minutes") {
+        return date.addMinutes(amount);
+    }
+    throw "metric doesn't match valid options: hours, days, seconds, or minutes: " + metric;
+}
