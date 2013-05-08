@@ -357,8 +357,8 @@ public class FriendsActivity extends TransportionActivity {
 		int button = v.getId();
 		switch(button) {
 		case R.id.dayDataSend:
-			//ApplicationState.getModel().populateSegmentsDay();
-			System.out.println("===========================START OF TRIP===========================");			
+			ApplicationState.getModel().populateSegmentsDay();
+			//System.out.println("===========================START OF TRIP===========================");			
 			break;
 		case R.id.hourDataSend:
 			System.out.println("GOT TO BUTTON!!!!!!");

@@ -108,6 +108,8 @@ public class LocationService extends Service {
 						} else {
 							mode = "walk";	// max = 250 cm/s => .09 miles / minute
 						}
+						Toast.makeText(getBaseContext(), "GEOPOINT ADDED!", Toast.LENGTH_SHORT).show();
+						
 						System.out.println("GEOPOINT ADDED!!");
 						System.out.println(distance + ", " + interval + ", " + mode);
 						data.mDbHelper.rawDataAddEntry(new Timestamp(new java.util.Date().getTime()), mode, distance, interval);

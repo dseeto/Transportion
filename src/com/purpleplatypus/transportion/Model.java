@@ -60,7 +60,7 @@ public class Model {
 		Calendar rightnow = Calendar.getInstance();
 		// FOR TESTING PURPOSES
 		year = rightnow.get(Calendar.YEAR);
-		month = rightnow.get(Calendar.MONTH)+1;
+		month = rightnow.get(Calendar.MONTH);
 		day = rightnow.get(Calendar.DAY_OF_MONTH);
 		hour = rightnow.get(Calendar.HOUR);
 		min = rightnow.get(Calendar.MINUTE);
@@ -148,6 +148,21 @@ public class Model {
 		*/
 		
 		// not sure what is returned here...
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("userID", userID);
+		ParseCloud.callFunctionInBackground("getMyStats", params, new FunctionCallback<ParseObject>() {
+			   public void done(ParseObject result, ParseException e) {
+				   if (e == null) {
+			    	   	Info_User i;
+			    	   	
+			        	// IMPLEMENT: need to fill the list adapter for the friends list by calling a method here!!!!
+			        	
+			        } else {
+			            // IMPLEMENT: error
+			        	System.out.println("retriveFriendDataFromServer ERROR!!!!");
+			        }
+			   }
+			});
 		
 		return userList;		
 	}
