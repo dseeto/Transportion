@@ -689,12 +689,6 @@ public class Model {
 		
 		Calendar c = Calendar.getInstance();		
 		c.set(year, month, day, hour, min);
-		long d = c.getTimeInMillis();
-		
-		JSONArray miles = new JSONArray();
-		JSONArray timespans = new JSONArray();
-		JSONArray modes = new JSONArray();
-		JSONArray carbons = new JSONArray();
 		
 		// right now		
 		double distanceCarDay = generator.nextDouble()*100;		
