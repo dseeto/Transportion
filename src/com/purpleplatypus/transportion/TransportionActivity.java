@@ -200,14 +200,19 @@ public class TransportionActivity extends SlidingMenuActivity {
 	    if (isResumed) {
             SharedPreferences savedSession = getApplicationContext().getSharedPreferences("facebook-session",Context.MODE_PRIVATE);
             String id = savedSession.getString("id", null);
+            String name = savedSession.getString("name", null);
             
 	        if (state.isOpened()) {
 	            
 	            System.out.println("transportion screen: saved facebook id is " + id);
+	            System.out.println("transportion screeN: saved facebook name is " + name);
 	            
-	            if (id == null) {
+	            if (id == null || name == null) {
 	            	System.out.println("transportion screen: making me request for facebook id");
 	            	makeMeRequest(Session.getActiveSession());
+	            }
+	            if (id != null && name != null) {
+	            	ApplicationState.getModel().sendStats();
 	            }
 	        }
 	        else if (id == null){
@@ -267,7 +272,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 		
     	Editor editor = getApplicationContext().getSharedPreferences("facebook-session", Context.MODE_PRIVATE).edit();
     	editor.remove("id");
-    	editor.remove("userName");
+    	editor.remove("name");
 		editor.commit();
     	
 		Intent i = new Intent(getApplicationContext(), LoginActivity.class);
@@ -363,8 +368,10 @@ public class TransportionActivity extends SlidingMenuActivity {
 	                	
 	                    Editor editor = savedSession.edit();
 	                    editor.putString("id", user.getId());
-	                    editor.putString("userName", user.getName());
+	                    editor.putString("name", user.getName());
 	                    editor.commit();
+	                    
+	                    ApplicationState.getModel().sendStats();
 	                    
 	                    facebookConnectionAttempts = 5;
 	                }
