@@ -69,7 +69,7 @@ public class BusDetails extends TransportionActivity{
 		miles.setText("Miles Traveled: "+ m.getStat("bus", "month", "distance") +" Miles");
 		time.setText("Time Spent: " + m.getStat("bus", "month", "timespan") + " Min");
 		gas.setText("Gas Used: " + m.getGas("bus", "month") + " Gallons");
-		percent.setText("% of Travelled: " + m.getPercent("bus", "month") + "%");
+		percent.setText("% of Traveled: " + m.getPercent("bus", "month") + "%");
 		carbon.setText("Carbon Emitted: " + (new Double(m.getGas("bus",  "month")*Model.carbonPerGallon)).intValue() + " Lbs");
 		
 		// set pic
@@ -100,7 +100,7 @@ public class BusDetails extends TransportionActivity{
 			miles.setText("Miles Traveled: "+ m.getStat("bus", "day", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("bus", "day", "timespan") + " Min");
 			gas.setText("Gas Used: " + m.getGas("bus", "day") + " Gallons");
-			percent.setText("% of Travelled: " + m.getPercent("bus", "day") + "%");
+			percent.setText("% of Traveled: " + m.getPercent("bus", "day") + "%");
 			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("bus",  "day")*Model.carbonPerGallon)).intValue() + " Lbs");
 			
 			break;
@@ -113,7 +113,7 @@ public class BusDetails extends TransportionActivity{
 			miles.setText("Miles Traveled: "+ m.getStat("bus", "week", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("bus", "week", "timespan") + " Min");
 			gas.setText("Gas Used: " + m.getGas("bus", "week") + " Gallons");
-			percent.setText("% of Travelled: " + m.getPercent("bus", "week") + "%");
+			percent.setText("% of Traveled: " + m.getPercent("bus", "week") + "%");
 			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("bus",  "week")*Model.carbonPerGallon)).intValue() + " Lbs");
 			
 			break;
@@ -126,7 +126,7 @@ public class BusDetails extends TransportionActivity{
 			miles.setText("Miles Traveled: "+ m.getStat("bus", "month", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("bus", "month", "timespan") + " Min");
 			gas.setText("Gas Used: " + m.getGas("bus", "month") + " Gallons");
-			percent.setText("% of Travelled: " + m.getPercent("bus", "month") + "%");
+			percent.setText("% of Traveled: " + m.getPercent("bus", "month") + "%");
 			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("bus",  "month")*Model.carbonPerGallon)).intValue() + " Lbs");
 			
 			break;
@@ -139,7 +139,7 @@ public class BusDetails extends TransportionActivity{
 			miles.setText("Miles Traveled: "+ m.getStat("bus", "year", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("bus", "year", "timespan") + " Min");
 			gas.setText("Gas Used: " + m.getGas("bus", "year") + " Gallons");
-			percent.setText("% of Travelled: " + m.getPercent("bus", "year") + "%");
+			percent.setText("% of Traveled: " + m.getPercent("bus", "year") + "%");
 			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("bus",  "year")*Model.carbonPerGallon)).intValue() + " Lbs");
 			
 			break;
