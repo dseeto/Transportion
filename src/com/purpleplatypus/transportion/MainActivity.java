@@ -11,7 +11,24 @@ import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseObject;
+
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.android.Facebook;
+import com.facebook.model.GraphUser;
+
+import ws.munday.slidingmenu.SlidingMenuActivity;
+import android.os.Bundle;
+
+import android.app.Activity;
 import android.content.Intent;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -65,8 +82,22 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 		TextView title = (TextView) findViewById(R.id.title);		
 		title.setText("Overall Usage");
 		
+		LinearLayout pieChartLayout = (LinearLayout) findViewById(R.id.mainChart);
+		
+		// HARD CODE:
+		//order: car, bus, bike, walk
+		chartValues = new ArrayList<ChartSection>();
+		chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), 100));
+		chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), 50));
+		chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), 500));
+		chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), 500));	    
+
+		View pieChartView = this.makePieChart(chartValues);
+		pieChartLayout.addView(pieChartView);
 	}
-	
+		
+	//TODO make sections of pie chart clickable
+
 	public View makePieChart(List<ChartSection> chartValues) {
 		CategorySeries series = new CategorySeries("Pie graph");
 		DefaultRenderer renderer = new DefaultRenderer();

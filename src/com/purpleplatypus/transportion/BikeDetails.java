@@ -3,6 +3,7 @@ package com.purpleplatypus.transportion;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import com.parse.ParseObject;
 import com.purpleplatypus.transportion.Model.Info_User;
 
 import android.graphics.Color;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class BikeDetails extends TransportionActivity {
 
@@ -41,7 +43,7 @@ public class BikeDetails extends TransportionActivity {
 	LinearLayout pic;
 	
 	DecimalFormat df;
-	
+		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		
@@ -68,43 +70,19 @@ public class BikeDetails extends TransportionActivity {
 		// set text
 		title.setText("Bike Details");
 		
-		/*
+		// SET INITIAL DATA
 		miles.setText("Miles Travelled: 0 Miles");
 		time.setText("Time Spent: 0 Min");
 		gas.setText("Gas Used: 0 Gallons");
 		percent.setText("% of Travelled: 0%");
 		carbon.setText("Carbon Emitted: 0 Grams");
-		*/
-		/*
-		// also set background color
-		miles.setBackgroundResource(Color.parseColor("#4869d6"));
-		time.setBackgroundResource(Color.parseColor("#4869d6"));
-		gas.setBackgroundResource(Color.parseColor("#4869d6"));
-		percent.setBackgroundResource(Color.parseColor("#4869d6"));
-		carbon.setBackgroundResource(Color.parseColor("#4869d6"));
-		*/
+		
 		// set pic
 		LinearLayout layout = (LinearLayout)findViewById(R.id.pic);			
-		ImageView imageView1 = new ImageView(this);			
-		// not sure what this is
-		//imageView1.setId(j+1);			
+		ImageView imageView1 = new ImageView(this);							
 		imageView1.setImageResource(R.drawable.bike);			
 		layout.addView(imageView1);
-		/*
-		// START GETTING RAW DATA
-		userInfo = appState.data.retrieveUserDataFromServer();
-		for (int i = 0; i < userInfo.size(); i++) {
-			if () {
-				
-			}
-		}
-		miles.setText("");
-		time.setText("");
-		gas.setText("");
-		percent.setText("");
-		carbon.setText("");
-		*/
-		
+			
 	}
 	
 	@Override
@@ -114,13 +92,15 @@ public class BikeDetails extends TransportionActivity {
 		return true;
 	}
 	
+	
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.day:
 			place = 0;
 			day.setTypeface(null, Typeface.BOLD);
-			day.setBackgroundResource(R.drawable.blue_button);
-		
+			day.setBackgroundResource(R.drawable.blue_button);				
+								
+			// HARD CODE
 			miles.setText("Miles Travelled: 0 Miles");
 			time.setText("Time Spent: 0 Min");
 			gas.setText("Gas Used: 0 Gallons");
@@ -132,7 +112,9 @@ public class BikeDetails extends TransportionActivity {
 			place = 1;
 			week.setTypeface(null, Typeface.BOLD);
 			week.setBackgroundResource(R.drawable.blue_button);
+							
 			
+			// HARD CODE
 			miles.setText("Miles Travelled: 0 Miles");
 			time.setText("Time Spent: 0 Min");
 			gas.setText("Gas Used: 0 Gallons");
@@ -145,24 +127,27 @@ public class BikeDetails extends TransportionActivity {
 			month.setTypeface(null, Typeface.BOLD);
 			month.setBackgroundResource(R.drawable.blue_button);
 			
+			
+			// HARD CODE:
 			miles.setText("Miles Travelled: 0 Miles");
 			time.setText("Time Spent: 0 Min");
 			gas.setText("Gas Used: 0 Gallons");
 			percent.setText("% of Travelled: 0%");
 			carbon.setText("Carbon Emitted: 0 Grams");
-		
+			
 			break;
 		case R.id.year:
 			place = 3;
 			year.setTypeface(null, Typeface.BOLD);
 			year.setBackgroundResource(R.drawable.blue_button);
 			
+			// HARD CODE:
 			miles.setText("Miles Travelled: 0 Miles");
 			time.setText("Time Spent: 0 Min");
 			gas.setText("Gas Used: 0 Gallons");
 			percent.setText("% of Travelled: 0%");
 			carbon.setText("Carbon Emitted: 0 Grams");
-		
+			
 			break;
 		}
 		
@@ -185,4 +170,5 @@ public class BikeDetails extends TransportionActivity {
 		// update old place
 		oldPlace = place;
 	}
+		
 }
