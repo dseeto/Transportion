@@ -678,6 +678,10 @@ public class Model {
 		}
 	}
 
+	public double getCarbon(String mode, String time) {
+		return getGas(mode, time)*Model.carbonPerGallon;
+	}
+	
 	public double getGas(String mode, String time) {
 		if (mode != "car" && mode != "bus") {
 			return 0.0;
