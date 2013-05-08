@@ -1,5 +1,9 @@
 package com.purpleplatypus.transportion;
 
+import java.util.ArrayList;
+
+import com.parse.ParseObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,8 +29,7 @@ public class FriendsCompareActivity extends TransportionActivity {
 		TextView compareWith = (TextView) findViewById(R.id.friend_compare);
 		compareWith.setText("You VS. " + name);
 		
-		
-		// HARD CODE:
+				
 		// CAR
 		int myCarMiles = (new Double(m.getStat("car", "month", "distance"))).intValue();
 		//me
@@ -35,12 +38,18 @@ public class FriendsCompareActivity extends TransportionActivity {
 		TextView selfVal = (TextView)findViewById(R.id.carSelfValue);
 		selfVal.setText(myCarMiles + " miles");
 		//friend
+		/*
+		// HARD CODE
 		ProgressBar friendProg = (ProgressBar)findViewById(R.id.carFriendProg);
 		friendProg.setProgress(22);
 		TextView friendVal = (TextView)findViewById(R.id.carFriendValue);
 		friendVal.setText("22 miles");
 		TextView friendNameCar = (TextView)findViewById(R.id.carFriendName);
 		friendNameCar.setText(name.split(" ")[0]);
+		*/
+		// Connection:
+		ProgressBar friendProg = (ProgressBar)findViewById(R.id.carFriendProg);
+		ArrayList<ParseObject> fl = (ArrayList<ParseObject>) ApplicationState.getModel().friendsList;
 		
 		
 		//BUS
