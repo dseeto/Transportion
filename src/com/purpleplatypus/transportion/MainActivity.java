@@ -14,6 +14,7 @@ import org.achartengine.renderer.SimpleSeriesRenderer;
 
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
+import com.parse.ParseObject;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -138,22 +139,18 @@ public class MainActivity extends TransportionActivity {
 		
 		pieChartLayout = (LinearLayout) findViewById(R.id.mainPieChart);
 		
-		//hardcode values for pie chart:
+		// HARD CODE:
 		//order: car, bus, bike, walk
 		chartValues = new ArrayList<ChartSection>();
-	    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), 100));
-	    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), 50));
-	    chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), 500));
-	    chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), 500));	    
-	    
-//	    pieChart = new DrawPieChart(this, chartValues);
-	    View pieChartView = this.makePieChart(chartValues);
-	    pieChartLayout.addView(pieChartView);
-	    
-	}
-	
+		chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), 100));
+		chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), 50));
+		chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), 500));
+		chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), 500));	    
 
-	
+		View pieChartView = this.makePieChart(chartValues);
+		pieChartLayout.addView(pieChartView);
+	}
+		
 	//TODO make sections of pie chart clickable
 	public View makePieChart(List<ChartSection> chartValues) {
 		CategorySeries series = new CategorySeries("Pie graph");

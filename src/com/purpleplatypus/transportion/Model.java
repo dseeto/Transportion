@@ -21,6 +21,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -28,6 +29,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 
 public class Model {
@@ -47,7 +49,7 @@ public class Model {
 	int day;
 	int hour;
 	int min;
-	
+
 	public Model() {
 		SharedPreferences savedSession = ApplicationState.getContext().getSharedPreferences("facebook-session",Context.MODE_PRIVATE);
         userID = savedSession.getString("id", null);
@@ -114,65 +116,12 @@ public class Model {
 	}
 	
 	/*
-	 * Should have data saved in cache. IMPLEMENT: need to test if need a backup table (already implemented - Retrieved Data) if cache fails!!
-	 * ASSUMPTION: Object for user data received from server: mode (string), timespan (string), 
-	 * 	miles (double), carbon (double), timespent (int - in minutes), percent (double), gas (double)
-	 * RETURN: ArrayList of Info objects (Info class described near bottom)
-	 * 
-	 * HAS NOT BEEN TESTED!!!
-	 * 
-	 * !! NEEDS TO BE FIXED TO BE LIKE retrieveLeaderboardDataFromServer!!
-	 */	
-	public ArrayList<Info_User> retrieveUserDataFromServer() {		
-		userList = new ArrayList<Info_User>();
-		/*
-		// OLD CODE:		
-		ParseQuery query = new ParseQuery("UserRetrievedData");
-		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
-		query.whereEqualTo("UserID", userID);
-		query.findInBackground(new FindCallback() {
-		    public void done(List<ParseObject> infoList, ParseException e) {
-		        if (e == null) { // no exception
-		        	Info_User i;
-		        	for (ParseObject p : infoList) {		        		
-		        		i = new Info_User(p.getString("mode"), p.getString("timespan"), (float)p.getDouble("miles"),
-		        				(float)p.getDouble("carbon"), p.getInt("timespent"), (float)p.getDouble("percent"), (float)p.getDouble("gas"));
-		        		userList.add(i);
-		        	}
-		        } else {
-		            // IMPLEMENT: error
-		        	System.out.println("retriveUserDataFromServer ERROR!!!!");
-		        }
-		    }
-		});
-		*/
-		
-		// not sure what is returned here...
-		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("userID", userID);
-		ParseCloud.callFunctionInBackground("getMyStats", params, new FunctionCallback<ParseObject>() {
-			   public void done(ParseObject result, ParseException e) {
-				   if (e == null) {
-			    	   	Info_User i;
-			    	   	
-			        	// IMPLEMENT: need to fill the list adapter for the friends list by calling a method here!!!!
-			        	
-			        } else {
-			            // IMPLEMENT: error
-			        	System.out.println("retriveFriendDataFromServer ERROR!!!!");
-			        }
-			   }
-			});
-		
-		return userList;		
-	}
-	
-	/*
 	 * Same as above method. NOT BEEN TESTED!!!! NEEDS TO BE FIXED TO BE LIKE retrieveLeaderboardDataFromServer!!
 	 */
 	
 	public ArrayList<Info_FriendsList> retrieveFriendDataFromServer(String friendID) {		
 		friendsList = new ArrayList<Info_FriendsList>();
+		
 		/*
 		// OLD CODE:
 		ParseQuery query = new ParseQuery(friendID + "RetrievedData");
@@ -280,13 +229,6 @@ public class Model {
 			   }
 			});
 	}
-	
-	// IMPLEMENT: once know more about functions, implement
-	public void removeFromServer() { // raw data point?!?!
-			
-			
-	}		
-	
 	
 	/*
 	 * Sets up the database for the Raw Data
@@ -544,8 +486,10 @@ public class Model {
 	}
 	
 	/**
-	 * FOR TESTING PURPOSES: POPULATE DATA
+	 * FOR TESTING PURPOSES: POPULATE DATA 
 	 * @throws JSONException 
+	 * 
+	 * IMPLEMENT: NEED TO BE CHANGED TO LOCALDB
 	 */
 	public void populateSegmentsHour() throws JSONException {
 		
@@ -622,6 +566,8 @@ public class Model {
 	 * FOR DEMO PURPOSES, WILL BE USED TO POPULATE FAKE DATA FOR A WHOLE MONTH.
 	 * Each click on will populate the distance and interval for bike, car, walk for that day
 	 * @throws JSONException
+	 * 
+	 * IMPLEMENT: NEED TO BE CHANGED TO LOCALDB
 	 */
 	public void populateSegmentsDay() throws JSONException {
 		// average car: 45 miles per hour => 45/60

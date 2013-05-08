@@ -98,7 +98,7 @@ public class LocationService extends Service {
 					if (lastLocation != null) {
 						float distance = (float) (location.distanceTo(lastLocation)*0.000621371); // in miles
 						System.out.println("MillisecondInterval: " + (location.getTime() - lastLocation.getTime()));
-						int interval = (int) ((location.getTime() - lastLocation.getTime())*.001/60); // in minutes
+						int interval = (int) ((location.getTime() - lastLocation.getTime())*.001); // in seconds
 						float speed = distance/interval;						
 						String mode = "";
 						if (speed >= 0.33) {
