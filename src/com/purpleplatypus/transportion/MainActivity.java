@@ -83,7 +83,7 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 		
 		TextView title = (TextView) findViewById(R.id.title);		
 		title.setText("Overall Usage");
-		
+		/*
 		// TEST
 		for (int i = 0; i < 2; i++) {
 			try {
@@ -94,7 +94,7 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 			}
 		}
 		// TEST
-		
+		*/
 		LinearLayout pieChartLayout = (LinearLayout) findViewById(R.id.mainChart);
 		
 		// HARD CODE:

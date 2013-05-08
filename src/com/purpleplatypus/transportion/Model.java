@@ -125,6 +125,13 @@ public class Model {
 		        			temp.put("modes", data.get("modes"));
 		        			temp.put("timespans", data.get("timespans"));
 		        			temp.put("carbons", data.get("carbons"));
+		        			try {
+								temp.put("total_carbon", data.get("carbons").get(data.get("carbons").length()-1));
+							} catch (JSONException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+		        			temp.saveEventually();
 		        		}
 		        	}
 		        	
@@ -620,27 +627,44 @@ public class Model {
 		// average bike: 15 miles per hour => 15/60
 		// average walk: 5 miles per hour => 5/60
 		
+		//public void sendDataToServer(final Hashtable<String, JSONArray> data) throws JSONException { // data for last month	
+		/*
+		user.put("user_id", userID);
+		user.put("miles", data.get("miles"));
+		user.put("modes", data.get("modes"));
+		user.put("timespans", data.get("timespans"));
+		user.put("carbons", data.get("carbons"));
+		*/
+		
 		Random generator = new Random();
 		
 		Calendar c = Calendar.getInstance();		
 		c.set(year, month, day, hour, min);
 		long d = c.getTimeInMillis();
 		
+		JSONArray miles = new JSONArray();
+		JSONArray timespans = new JSONArray();
+		JSONArray modes = new JSONArray();
+		JSONArray carbons = new JSONArray();
+		
 		// right now		
 		double distanceCar = generator.nextDouble()*100;		
 		int iCar = (int) ((distanceCar/45)*60);							
-		mDbHelper.updateEntry(new Timestamp(d), "car", (float) distanceCar, iCar);
+		
+		
+		
+		//mDbHelper.updateEntry(new Timestamp(d), "car", (float) distanceCar, iCar);
 		
 		double distanceBike = generator.nextDouble()*20; 		
 		int iBike = (int) ((distanceBike/15)*60);
 			
-		mDbHelper.updateEntry(new Timestamp(d), "bike", (float) distanceBike, iBike);
+		//mDbHelper.updateEntry(new Timestamp(d), "bike", (float) distanceBike, iBike);
 		
 		double distanceWalk = generator.nextDouble()*2;		
 		int iWalk = (int) ((distanceWalk/5)*60);
 		
-		mDbHelper.updateEntry(new Timestamp(d), "walk", (float) distanceWalk, iWalk);
-		
+		//mDbHelper.updateEntry(new Timestamp(d), "walk", (float) distanceWalk, iWalk);
+		/*
 		day = day-1;		
 		if (day < 0) {
 			month--;
@@ -649,7 +673,8 @@ public class Model {
 		if (month < 0) {
 			year--;
 			month = 12;
-		}		
+		}
+		*/		
 	}
 	
 	public double getTrees(String mode, String time) {
