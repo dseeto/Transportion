@@ -265,6 +265,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 		
     	Editor editor = getApplicationContext().getSharedPreferences("facebook-session", Context.MODE_PRIVATE).edit();
     	editor.remove("id");
+    	editor.remove("userName");
 		editor.commit();
     	
 		Intent i = new Intent(getApplicationContext(), LoginActivity.class);
@@ -360,6 +361,7 @@ public class TransportionActivity extends SlidingMenuActivity {
 	                	
 	                    Editor editor = savedSession.edit();
 	                    editor.putString("id", user.getId());
+	                    editor.putString("userName", user.getName());
 	                    editor.commit();
 	                    
 	                    facebookConnectionAttempts = 5;
