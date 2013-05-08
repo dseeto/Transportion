@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -384,7 +385,7 @@ public class Model {
 			values.put(COLUMN_NAME_DISTANCE, distance);		
 			values.put(COLUMN_NAME_INTERVAL, interval);
 			
-			String query = "SELECT * FROM " + DATA_TABLE_NAME + " WHERE (" + COLUMN_NAME_TIMESTAMP + " = " + String.format("\"%s\"", timestamp.toString()) + " AND " + COLUMN_NAME_MODE + " = " + String.format("\"%s\"", mode) + ")";
+			String query = "SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + COLUMN_NAME_TIMESTAMP + " = " + String.format("\"%s\"", timestamp.toString()) + " AND " + COLUMN_NAME_MODE + " = " + String.format("\"%s\"", mode);
 	    	Cursor cursor = db.rawQuery(query, null);
 	    	
 	    	if (cursor.moveToFirst()) {
@@ -393,7 +394,12 @@ public class Model {
 	            String update = "UPDATE " + DATA_TABLE_NAME + " SET " + COLUMN_NAME_DISTANCE + " = " + distance + ", " + COLUMN_NAME_INTERVAL + " = " + interval + " WHERE (" + COLUMN_NAME_TIMESTAMP + " = " + String.format("\"%s\"", timestamp.toString()) + " AND " + COLUMN_NAME_MODE + " = " + String.format("\"%s\"", mode) + ")";
 	            db.execSQL(update);
 	        } else {
-	        	db.insert(DATA_TABLE_NAME, null, values);
+//	        	db.insert(DATA_TABLE_NAME, null, values);
+	        	try {
+	        		db.insertOrThrow(DATA_TABLE_NAME, null, values);
+	        	} catch (SQLException e) {
+	        		System.out.println(e.toString());
+	        	}
 	        }
 	    	cursor.close();
 			db.close();
@@ -646,21 +652,21 @@ public class Model {
 		int year = date.getYear();
 		int month = date.getMonth();
 		int day = date.getDate();
-		Timestamp today = new Timestamp(new java.util.Date(year, month, day).getTime());
 		
 		// right now	
 		while (numRepeat > 0) {
-			double distanceCar = generator.nextDouble()*100;		
+			Timestamp today = new Timestamp(new java.util.Date(year, month, day).getTime());
+			float distanceCar = generator.nextFloat()*100;		
 			int iCar = (int) ((distanceCar/45)*60);							
-			mDbHelper.updateEntry(today, "car", (float)distanceCar, iCar);
+			mDbHelper.updateEntry(today, "car", distanceCar, iCar);
 			
-			double distanceBike = generator.nextDouble()*20; 		
+			float distanceBike = generator.nextFloat()*20; 		
 			int iBike = (int) ((distanceBike/15)*60);		
-			mDbHelper.updateEntry(today, "bike", (float) distanceBike, iBike);
+			mDbHelper.updateEntry(today, "bike", distanceBike, iBike);
 			
-			double distanceWalk = generator.nextDouble()*2;		
+			float distanceWalk = generator.nextFloat()*2;		
 			int iWalk = (int) ((distanceWalk/5)*60);
-			mDbHelper.updateEntry(today, "walk", (float) distanceWalk, iWalk);
+			mDbHelper.updateEntry(today, "walk", distanceWalk, iWalk);
 			
 			day = day-1;		
 			if (day < 0) {
