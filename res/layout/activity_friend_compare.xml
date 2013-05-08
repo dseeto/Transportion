@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content" >
 
                         <TextView
-                            android:id="@+id/textView1"
+                            android:id="@+id/totalSelfName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="You"
@@ -119,7 +119,7 @@
                         android:layout_height="wrap_content" >
 
                         <TextView
-                            android:id="@+id/textView5"
+                            android:id="@+id/totalFriendName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Small Text"
@@ -177,14 +177,14 @@
                         android:layout_height="wrap_content" >
 
                         <TextView
-                            android:id="@+id/mode1SelfName"
+                            android:id="@+id/carSelfName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="You"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
                         <TextView
-                            android:id="@+id/mode1SelfValue"
+                            android:id="@+id/carSelfValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -194,7 +194,7 @@
                     </RelativeLayout>
 
                     <ProgressBar
-                        android:id="@+id/mode1SelfProg"
+                        android:id="@+id/carSelfProg"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:progressDrawable="@drawable/blue_progress"
                         android:layout_width="match_parent"
@@ -212,14 +212,14 @@
                         android:layout_height="wrap_content" >
 
                         <TextView
-                            android:id="@+id/mode1FriendName"
+                            android:id="@+id/carFriendName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Small Text"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
                         <TextView
-                            android:id="@+id/mode1FriendValue"
+                            android:id="@+id/carFriendValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -229,7 +229,7 @@
                     </RelativeLayout>
 
                     <ProgressBar
-                        android:id="@+id/mode1FriendProg"
+                        android:id="@+id/carFriendProg"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:progressDrawable="@drawable/green_progress"
                         android:layout_width="match_parent"
@@ -271,14 +271,14 @@
                         android:layout_height="wrap_content" >
 
                         <TextView
-                            android:id="@+id/textView1"
+                            android:id="@+id/busSelfName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="You"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
                         <TextView
-                            android:id="@+id/mode2SelfValue"
+                            android:id="@+id/busSelfValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -288,7 +288,7 @@
                     </RelativeLayout>
 
                     <ProgressBar
-                        android:id="@+id/mode2SelfProg"
+                        android:id="@+id/busSelfProg"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:progressDrawable="@drawable/blue_progress"
                         android:layout_width="match_parent"
@@ -307,14 +307,14 @@
                         android:layout_height="wrap_content" >
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/busFriendName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Small Text"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
                         <TextView
-                            android:id="@+id/mode2FriendValue"
+                            android:id="@+id/busFriendValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -324,7 +324,7 @@
                     </RelativeLayout>
 
                     <ProgressBar
-                        android:id="@+id/mode2FriendProg"
+                        android:id="@+id/busFriendProg"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:progressDrawable="@drawable/green_progress"
                         android:layout_width="match_parent"
@@ -366,14 +366,14 @@
                         android:layout_height="wrap_content" >
 
                         <TextView
-                            android:id="@+id/textView1"
+                            android:id="@+id/bikeSelfName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="You"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
                         <TextView
-                            android:id="@+id/mode3SelfValue"
+                            android:id="@+id/bikeSelfValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -383,7 +383,7 @@
                     </RelativeLayout>
 
                     <ProgressBar
-                        android:id="@+id/mode3SelfProg"
+                        android:id="@+id/bikeSelfProg"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:progressDrawable="@drawable/blue_progress"
                         android:layout_width="match_parent"
@@ -402,7 +402,7 @@
                         android:layout_height="wrap_content" >
 
                         <TextView
-                            android:id="@+id/mode3FriendValue"
+                            android:id="@+id/bikeFriendValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -411,7 +411,7 @@
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
                         <TextView
-                            android:id="@+id/textView3"
+                            android:id="@+id/bikeFriendName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
@@ -422,7 +422,7 @@
                     </RelativeLayout>
 
                     <ProgressBar
-                        android:id="@+id/mode3FriendProg"
+                        android:id="@+id/bikeFriendProg"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:progressDrawable="@drawable/green_progress"
                         android:layout_width="match_parent"
@@ -464,14 +464,14 @@
                         android:layout_height="wrap_content" >
 
                         <TextView
-                            android:id="@+id/textView1"
+                            android:id="@+id/walkSelfName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="You"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
                         <TextView
-                            android:id="@+id/mode4SelfValue"
+                            android:id="@+id/walkSelfValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -481,7 +481,7 @@
                     </RelativeLayout>
 
                     <ProgressBar
-                        android:id="@+id/mode4SelfProg"
+                        android:id="@+id/walkSelfProg"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:progressDrawable="@drawable/blue_progress"
                         android:layout_width="match_parent"
@@ -500,14 +500,14 @@
                         android:layout_height="wrap_content" >
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/walkFriendName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Small Text"                            
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
                         <TextView
-                            android:id="@+id/mode4FriendValue"
+                            android:id="@+id/walkFriendValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
@@ -517,7 +517,7 @@
                     </RelativeLayout>
 
                     <ProgressBar
-                        android:id="@+id/mode4FriendProg"
+                        android:id="@+id/walkFriendProg"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:progressDrawable="@drawable/green_progress"
                         android:layout_width="match_parent"

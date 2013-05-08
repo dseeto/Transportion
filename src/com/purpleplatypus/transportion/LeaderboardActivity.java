@@ -37,11 +37,11 @@ public class LeaderboardActivity extends TransportionActivity {
 		appState = (ApplicationState) this.getApplication();
 		
 		// ACTUAL CODE:
-		//appState.data.retrieveLeaderboardDataFromServer(this);
+		ApplicationState.getModel().retrieveLeaderboardDataFromServer(this);
 		
 		
 		
-		
+		/*
 		// HARD CODE
 		Info_Leaderboard one = appState.data.new Info_Leaderboard("1", "Oscar Koh", "10 lbs");
 		Info_Leaderboard two = appState.data.new Info_Leaderboard("2", "Kristin Underwood", "19 lbs");
@@ -62,6 +62,8 @@ public class LeaderboardActivity extends TransportionActivity {
 		
 		fillListView(list);
 		// HARD CODE
+		 * */
+		 
 	}
 
 	public void fillListView(List<Model.Info_Leaderboard> list) {

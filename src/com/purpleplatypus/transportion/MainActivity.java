@@ -3,6 +3,8 @@ package com.purpleplatypus.transportion;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+
+import java.util.Hashtable;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +14,20 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
+
+import org.json.JSONArray;
+
+import com.parse.Parse;
+import com.parse.ParseAnalytics;
+import com.parse.ParseObject;
+
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.android.Facebook;
+import com.facebook.model.GraphUser;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -97,6 +113,8 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 
 		View pieChartView = this.makePieChart(chartValues);
 		pieChartLayout.addView(pieChartView);
+		
+		ApplicationState.getModel().getAndSaveStats();
 	}
 		
 	//TODO make sections of pie chart clickable
@@ -198,30 +216,49 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 	    chartLayout.removeAllViews();
 		View pieChartView;
 		View legend = (LinearLayout) findViewById(R.id.legend);
+		
+		Model m = ApplicationState.getModel();
+		
 		switch((int)itemSelected) {
 		case 0:	
+			int carMiles = Integer.parseInt(m.getStat("car", "month", "distance"));
+			int bikeMiles = Integer.parseInt(m.getStat("bike", "month", "distance"));
+			int busMiles = Integer.parseInt(m.getStat("bus", "month", "distance"));
+			int walkMiles = Integer.parseInt(m.getStat("walk", "month", "distance"));
 			//hardcode values for pie chart:
 			//order: car, bus, bike, walk
 			chartValues = new ArrayList<ChartSection>();
-		    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), 100));
-		    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), 50));
-		    chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), 500));
-		    chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), 20));	    
+		    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), carMiles));
+		    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), bikeMiles));
+		    chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), busMiles));
+		    chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), walkMiles));	    
 		    
 		    pieChartView = this.makePieChart(chartValues);
 		    chartLayout.addView(pieChartView);
 			legend.setVisibility(View.VISIBLE);
+			((TextView) legend.findViewById(R.id.car_miles)).setText(carMiles + " Miles");
+			((TextView) legend.findViewById(R.id.bike_miles)).setText(bikeMiles + " Miles");
+			((TextView) legend.findViewById(R.id.bus_miles)).setText(busMiles + " Miles");
+			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkMiles + " Miles");
 		    break;
 		case 1:
+			int carTime = Integer.parseInt(m.getStat("car", "month", "timespan"));
+			int bikeTime = Integer.parseInt(m.getStat("bike", "month", "timespan"));
+			int busTime = Integer.parseInt(m.getStat("bus", "month", "timespan"));
+			int walkTime = Integer.parseInt(m.getStat("walk", "month", "timespan"));
 			chartValues = new ArrayList<ChartSection>();
-		    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), 50));
-		    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), 80));
-		    chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), 200));
-		    chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), 20));	    
+		    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), carTime));
+		    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), bikeTime));
+		    chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), busTime));
+		    chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), walkTime));	    
 		    
 		    pieChartView = this.makePieChart(chartValues);
 		    chartLayout.addView(pieChartView);
 			legend.setVisibility(View.VISIBLE);
+			((TextView) legend.findViewById(R.id.car_miles)).setText(carTime + " Minutes");
+			((TextView) legend.findViewById(R.id.bike_miles)).setText(bikeTime + " Minutes");
+			((TextView) legend.findViewById(R.id.bus_miles)).setText(busTime + " Minutes");
+			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkTime + " Minutes");
 		    break;
 		case 2:
 			LayoutInflater factory = LayoutInflater.from(this);

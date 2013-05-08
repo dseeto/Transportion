@@ -2,8 +2,10 @@ package com.purpleplatypus.transportion;
 
 import java.lang.reflect.Array;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -12,19 +14,23 @@ import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.parse.FindCallback;
 import com.parse.FunctionCallback;
 import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 
 public class Model {
@@ -33,9 +39,18 @@ public class Model {
 	Context context;
 	DbHelper mDbHelper; 
 	String userID; 
-	String userName="Joe";
-	ArrayList<Info_FriendsList> friendsList;
-	ArrayList<Info_Leaderboard> leaderboardList;
+
+	String userName;
+	List<ParseObject> friendsList = null;
+	ArrayList<Info_Leaderboard> leaderboardList = null;
+	
+	public static int carbonPerGallon = 13;
+	public static double treesPerCarbon = 0.0000165;
+	public static double milesPerGallon = 25.0;
+	
+	public static double busMilesPerGallon = 50.0;
+	
+	JSONObject carStats, bikeStats, walkStats, busStats, allStats;
 	
 	int year;
 	int month;
@@ -46,6 +61,7 @@ public class Model {
 	public Model() {
 		SharedPreferences savedSession = ApplicationState.getContext().getSharedPreferences("facebook-session",Context.MODE_PRIVATE);
         userID = savedSession.getString("id", null);
+        userName = savedSession.getString("name", null); // not sure if this is saved
 	}
 		
 	public void createDatabase(Context c) {
@@ -72,17 +88,53 @@ public class Model {
 	 * Sends all the raw data in UserData table to the server.
 	 * After sent, clears the local db to save room.
 	 */
-	public void sendDataToServer(Hashtable<String, JSONArray> data) throws JSONException { // should send in one object		
+	public void sendDataToServer(final Hashtable<String, JSONArray> data) throws JSONException { // data for last month		
 		
-		ParseObject user = new ParseObject("Users");
+		// IMPLEMENT: need to do update
 		
-		user.put("id", userID);
-		user.put("miles", data.get("miles"));
-		user.put("modes", data.get("modes"));
-		user.put("timespans", data.get("timespans"));
-		user.put("carbon", data.get("carbons"));
+		ParseQuery query = new ParseQuery("Users");
+		query.whereEqualTo("user_id", userID);
+		query.findInBackground(new FindCallback() {
+		    public void done(List<ParseObject> l, ParseException e) {
+		        if (e == null) { // no exception
+		        	if (l.size() == 0) {
+		        		
+		        		ParseObject user = new ParseObject("Users");
+		        		
+		        		user.put("user_id", userID);
+		        		user.put("miles", data.get("miles"));
+		        		user.put("modes", data.get("modes"));
+		        		user.put("timespans", data.get("timespans"));
+		        		user.put("carbons", data.get("carbons"));
+		        		try {
+							user.put("total_carbon", data.get("carbons").get(data.get("carbons").length()-1));
+						} catch (JSONException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+		        		user.put("name", userName);
+		        		user.saveEventually();
+		        	} else {
+		        		if (l.size() > 1) {
+		        			// PROBLEM!! 
+		        			System.out.println("MORE THAN ONE ENTRY OF SAME USER IN TABLE!!!");
+		        		} else { // update
+		        			ParseObject temp = l.get(0);
+		        			temp.put("user_id", userID);
+		        			temp.put("miles", data.get("miles"));
+		        			temp.put("modes", data.get("modes"));
+		        			temp.put("timespans", data.get("timespans"));
+		        			temp.put("carbons", data.get("carbons"));
+		        		}
+		        	}
+		        	
+		        } else {
+		            // IMPLEMENT: error
+		        	System.out.println("retriveFriendDataFromServer ERROR!!!!");
+		        }
+		    }
+		});
 		
-		user.saveEventually();
 		
 		/*
 		ArrayList<Segment> data = mDbHelper.rawDataGetAll();
@@ -124,30 +176,37 @@ public class Model {
 	 * Same as above method. NOT BEEN TESTED!!!! NEEDS TO BE FIXED TO BE LIKE retrieveLeaderboardDataFromServer!!
 	 */
 	
-	public ArrayList<Info_FriendsList> retrieveFriendDataFromServer(String friendID) {		
-		friendsList = new ArrayList<Info_FriendsList>();
+	public void retrieveFriendDataFromServer(JSONArray fbFriends, final FriendsActivity a) throws JSONException {	// called by FriendsActivity.java	
+		//friendsList = new ArrayList<Info_FriendsList>();
 		
-		/*
-		// OLD CODE:
-		ParseQuery query = new ParseQuery(friendID + "RetrievedData");
+		// get list of ids from JSON
+		List<String> ids = new ArrayList<String>(); // not sure if this has to be an array
+		for (int i = 0; i < fbFriends.length(); i++) {
+			ids.add(((JSONObject) fbFriends.get(i)).getString("id"));			
+		}
+			
+		ParseQuery query = new ParseQuery("Users");
 		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
-		query.whereEqualTo("UserID", friendID);
+		
+		query.whereContainedIn("user_id", ids);
+		query.orderByAscending("name"); // not sure if you can do that for string
 		query.findInBackground(new FindCallback() {
-		    public void done(List<ParseObject> infoList, ParseException e) {
+		    public void done(List<ParseObject> fl, ParseException e) {
 		        if (e == null) { // no exception
-		        	Info_User i;
-		        	for (ParseObject p : infoList) {		        		
-		        		i = new Info_User(p.getString("mode"), p.getString("timespan"), (float)p.getDouble("miles"),
-		        				(float)p.getDouble("carbon"), p.getInt("timespent"), (float)p.getDouble("percent"), (float)p.getDouble("gas"));
-		        		friendsList.add(i);
-		        	}
+		        	// save this info in model (not in local db)
+		        	System.out.println(fl.size());
+		        	friendsList = fl;
+		        	a.showFriends(fl);
+		        	
 		        } else {
 		            // IMPLEMENT: error
 		        	System.out.println("retriveFriendDataFromServer ERROR!!!!");
+		        	System.out.println(e.toString());
 		        }
 		    }
 		});
-		*/
+		
+		/*
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("userID", userID);
 		ParseCloud.callFunctionInBackground("getFriends", new HashMap<String, List<String>>(), new FunctionCallback<List<ParseObject>>() {
@@ -167,8 +226,8 @@ public class Model {
 			        }
 			   }
 			});
-		
-		return friendsList;
+		*/
+		//return friendsList;
 	}
 	
 	/*
@@ -176,12 +235,11 @@ public class Model {
 	 */
 	public void retrieveLeaderboardDataFromServer(final LeaderboardActivity l) {		
 		leaderboardList = new ArrayList<Info_Leaderboard>();
-		/*
-		// OLD CODE:
+		
 		ParseQuery query = new ParseQuery("Users");
 		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
 		query.setLimit(10);
-		query.orderByAscending("carbon");
+		query.orderByAscending("total_carbon");
 		query.findInBackground(new FindCallback() {
 			public void done(List<ParseObject> list, ParseException e) {
 				if (e == null) {
@@ -191,10 +249,10 @@ public class Model {
 						// REMOVE
 						System.out.println("Leaderboard!!!");
 						System.out.println(p.getString("name"));
-						System.out.println(p.getNumber("carbon"));
+						System.out.println(p.getString("total_carbon"));
 						// REMOVE
 						j++;
-						i = new Info_Leaderboard(j+"", p.getString("name"), p.getNumber("carbon").toString());
+						i = new Info_Leaderboard(j+"", p.getString("name"), p.getString("total_carbon"));
 						System.out.println(i.toString());
 						System.out.println(leaderboardList.add(i));
 					}
@@ -206,7 +264,8 @@ public class Model {
 				}
 			}
 		});	
-		*/
+		
+		/*
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("userID", userID);
 		ParseCloud.callFunctionInBackground("getLeaderBoard", new HashMap<String, String>(), new FunctionCallback<List<ParseObject>>() {
@@ -233,6 +292,7 @@ public class Model {
 			       }
 			   }
 			});
+			*/
 	}
 	
 	/*
@@ -567,32 +627,22 @@ public class Model {
 		c.set(year, month, day, hour, min);
 		long d = c.getTimeInMillis();
 		
-		JSONArray timestamps = new JSONArray();
-		JSONArray modes = new JSONArray();
-		JSONArray distances = new JSONArray();
-		JSONArray intervals = new JSONArray();
-		
-		// right now
-		timestamps.put(new Timestamp(d));
-		modes.put("car");
+		// right now		
 		double distanceCar = generator.nextDouble()*100;
-		distances.put(distanceCar);
+		//distances.put(distanceCar);
 		int iCar = (int) ((distanceCar/45)*60);
-		intervals.put(iCar);						
+		//intervals.put(iCar);						
+		mDbHelper.updateEntry(new Timestamp(d), "car", (float) distanceCar, iCar);
 		
-		timestamps.put(new Timestamp(d));
-		modes.put("bike");
-		double distanceBike = generator.nextDouble()*20; 
-		distances.put(distanceBike);
+		double distanceBike = generator.nextDouble()*20; 		
 		int iBike = (int) ((distanceBike/15)*60);
-		intervals.put(iBike);	
+			
+		mDbHelper.updateEntry(new Timestamp(d), "bike", (float) distanceBike, iBike);
 		
-		timestamps.put(new Timestamp(d));
-		modes.put("walk");
-		double distanceWalk = generator.nextDouble()*2;
-		distances.put(distanceWalk);
+		double distanceWalk = generator.nextDouble()*2;		
 		int iWalk = (int) ((distanceWalk/5)*60);
-		intervals.put(iWalk);	
+		
+		mDbHelper.updateEntry(new Timestamp(d), "walk", (float) distanceWalk, iWalk);
 		
 		day = day-1;		
 		if (day < 0) {
@@ -602,19 +652,289 @@ public class Model {
 		if (month < 0) {
 			year--;
 			month = 12;
+		}		
+	}
+	
+	public double getTrees(String mode, String time) {
+		JSONObject data = null;
+		if (mode == "car") {
+			data = carStats;
+		} else if (mode == "bike") {
+			data = bikeStats;
+		} else if (mode == "walk") {
+			data = walkStats;
+		} else if (mode == "bus") {
+			data = busStats;
+		} else if (mode == "all") {
+			data = allStats;
 		}
 		
-		user.put("timestamp", timestamps);
-		user.put("mode", modes);
-		user.put("distance", distances);
-		user.put("interval", intervals);
-		user.put("userID", userID);
+		try {
+			String miles = ((JSONArray)data.get(time)).getString(0);
+			return (Double.parseDouble(miles)/Model.milesPerGallon)*Model.carbonPerGallon*Model.treesPerCarbon;
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("error on trying to get trees: " + e.getMessage());
+			return -1.0;
+		}
+	}
+
+	public double getGas(String mode, String time) {
+		if (mode != "car" && mode != "bus") {
+			return 0.0;
+		}
 		
-		user.saveInBackground();
+		if (mode == "bus") {
+			try {
+				String miles = ((JSONArray)busStats.get(time)).getString(0);
+				return Double.parseDouble(miles)/Model.busMilesPerGallon;
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("error on trying to get gas: " + e.getMessage());
+				return -1.0;
+			}
+		}
+		
+		try {
+			String miles = ((JSONArray)carStats.get(time)).getString(0);
+			return Double.parseDouble(miles)/Model.milesPerGallon;
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("error on trying to get gas: " + e.getMessage());
+			return -1.0;
+		}
+	}
+	
+	public int getPercent(String mode, String time) {
+		int miles = Integer.parseInt(getStat(mode, time, "distance"));
+		int allMiles = (new Double(getStat("all", time, "distance"))).intValue();
+		return (int) ((miles+0.0)/(allMiles+0.0)*100);
+	}
+	
+	public String getStat(String mode, String time, String stat) {
+		JSONObject data = null;
+		if (mode == "car") {
+			data = carStats;
+		} else if (mode == "bike") {
+			data = bikeStats;
+		} else if (mode == "walk") {
+			data = walkStats;
+		} else if (mode == "bus") {
+			data = busStats;
+		} else if (mode == "all") {
+			data = allStats;
+		}
+		
+		int index = -1;
+		if (stat == "distance") {
+			index = 0;
+		}
+		if (stat == "timespan") {
+			index = 1;
+		}
+		
+		try {
+			String result = ((JSONArray)data.get(time)).getString(index);
+			return result;
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("error on trying to get trees: " + e.getMessage());
+			return "";
+		}
+	}
+	
+	public void getAndSaveStats() {
+    	SharedPreferences saved = context.getSharedPreferences("transportion-data", Context.MODE_PRIVATE);
+		Editor edit = saved.edit();
+    	String lastSave = saved.getString("last_query_db", "");
+    	
+    	Calendar cal = Calendar.getInstance();
+    	cal.add(Calendar.DATE, -1);
+    	SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+    	String yesterday = format.format(cal.getTime());
+    	
+    	System.out.println("getAndSaveStats: last_query_db was " + lastSave + ", and yesterday is " + yesterday);
+    	//if (lastSave == "" || lastSave.compareTo(yesterday) < 0) {
+    	if (true) {
+    		System.out.println("getAnSaveStats: updating last_query_db");
+    		// time to query db again, it's been a day.
+    		// mark as edited
+    		cal = Calendar.getInstance();
+    		String now = format.format(cal.getTime());
+    		edit.putString("last_query_db", now);
+    		edit.commit();
+    		
+    		System.out.println("getAndSaveStats: last_query_db is now " + now);
+    		
+    		//put jsons into sharedpreferences
+    		Hashtable<String, Hashtable<String, String[]>> queryResult = query_db();
+    		System.out.println("getAndSaveStats: making json objects out of query_db() output...");
+    		JSONObject carJson = getJSONFromHash(queryResult.get("car"));
+    		System.out.println("getAndSaveStats: carJson: " + carJson.toString());
+    		JSONObject bikeJson = getJSONFromHash(queryResult.get("bike"));
+    		System.out.println("getAndSaveStats: bikeJson: " + bikeJson.toString());    		
+    		JSONObject walkJson = getJSONFromHash(queryResult.get("walk"));
+    		System.out.println("getAndSaveStats: walkJson: " + walkJson.toString());
+    		JSONObject busJson = getJSONFromHash(queryResult.get("bus"));
+    		System.out.println("getAndSaveStats: busJson: " + busJson.toString());
+    		
+    		edit.putString("car_stats", carJson.toString());
+    		edit.putString("bike_stats", bikeJson.toString());
+    		edit.putString("walk_stats", walkJson.toString());
+    		edit.putString("bus_stats", walkJson.toString());
+    		edit.commit();
+    		
+    		JSONObject allJson = new JSONObject();
+    		String[] spans = {"month", "year", "day", "week"};
+    		for (int i = 0; i < spans.length; i++) {
+    			String span = spans[i];
+    			int totalTime = 0;
+    			double totalMiles = 0.0;
+    			JSONObject[] fields = {carJson, bikeJson, walkJson, busJson};
+    			try {
+    			for (int j = 0; j < fields.length; j++) {
+    				JSONArray info = fields[j].getJSONArray(span);
+    				totalTime = totalTime + Integer.parseInt(info.getString(1));
+    				totalMiles = totalMiles + Double.parseDouble(info.getString(0));
+    			}
+    			JSONArray milesAndTime = new JSONArray();
+    			milesAndTime.put(totalMiles);
+    			milesAndTime.put(totalTime);
+    			allJson.put(span, milesAndTime);
+    			} catch (JSONException e) {
+    				e.printStackTrace();
+    				System.out.println("error in trying to create allJson: " + e.getMessage());
+    			}
+    		}
+    		
+    		edit.putString("all_stats", allJson.toString());
+    		System.out.println("getAndSaveStats: allJson: " + allJson.toString());
+    		
+    		// put json into instance variables
+    		carStats = carJson;
+    		bikeStats = bikeJson;
+    		walkStats = walkJson;
+    		busStats = busJson;
+    		allStats = allJson;
+    		
+    		System.out.println("getAndSaveStats: making hash to send to sendDataToServer");
+    		// pass to sendDataToServer:
+    		Hashtable<String, JSONArray> hashForServer = new Hashtable<String, JSONArray>();
+    		JSONArray modesArray = new JSONArray();
+    		modesArray.put("car");
+    		modesArray.put("bike");
+    		modesArray.put("walk");
+    		modesArray.put("bus");
+    		modesArray.put("total");
+    		System.out.println("getAndSaveStats: modesArray is " + modesArray.toString());
+    		hashForServer.put("modes", modesArray);
+    		try {
+        		JSONArray milesArray = new JSONArray();
+        		JSONArray carbonsArray = new JSONArray();
+        		JSONArray timeArray = new JSONArray();
+        		String milesThisMonth;
+        		String timeThisMonth;
+        		
+        		String[] fields = {"car", "bike", "walk", "bus", "total"};
+        		JSONObject[] objs = {carJson, bikeJson, walkJson, busJson};
+        		
+        		double totalMiles = 0.0;
+        		int totalTime = 0;
+        		for (int i = 0; i < fields.length-1; i++) {
+            		milesThisMonth = ((JSONArray)objs[i].get("month")).getString(0);
+        			milesArray.put(milesThisMonth);
+        			carbonsArray.put((Double.parseDouble(milesThisMonth)/Model.milesPerGallon)*Model.carbonPerGallon);
+        			totalMiles = totalMiles + Double.parseDouble(milesThisMonth);
+        			
+        			timeThisMonth = ((JSONArray)objs[i].get("month")).getString(1);
+        			timeArray.put(timeThisMonth);
+        			totalTime = totalTime + Integer.parseInt(timeThisMonth);
+        		}
+    			milesArray.put(totalMiles+"");
+    			carbonsArray.put((totalMiles/Model.milesPerGallon)*Model.carbonPerGallon);
+    			timeArray.put(totalTime);
+    			
+        		System.out.println("getAndSaveStats: milesArray is " + milesArray.toString());
+    			hashForServer.put("miles", milesArray);
+    			System.out.println("getAndSaveStats: carbonsArray is " + carbonsArray.toString());
+    			hashForServer.put("carbons", carbonsArray);
+    			System.out.println("getAndSaveStats: timeArray is " + timeArray.toString());
+    			hashForServer.put("timespans", timeArray);
+    		} catch (JSONException e) {
+    			e.printStackTrace();
+    			System.out.println("error in getting Json information: " + e.getMessage());
+    		}
+    		
+			try {
+				sendDataToServer(hashForServer);
+			} catch (JSONException e) {
+				e.printStackTrace();
+    			System.out.println("error in sending Json to server: " + e.getMessage());
+			}
+			
+    	}
+    	else {
+    		// just get the old data from the db
+    		try {
+    		if (carStats == null) {
+    			System.out.println("attempting to get carStats from sharedPreferences");
+    			carStats = new JSONObject(saved.getString("car_stats", null));
+    			System.out.println("carStats is now " + carStats.toString());
+    			System.out.println("carStats month distance is " + ((JSONArray)carStats.get("month")).getString(0));
+    		}
+    		if (bikeStats == null) {
+    			System.out.println("attempting to get bikeStats from sharedPreferences");
+    			bikeStats = new JSONObject(saved.getString("bike_stats", null));
+    			System.out.println("bikeStats is now " + bikeStats.toString());
+    		}
+    		if (walkStats == null) {
+    			System.out.println("attempting to get walkStats from sharedPreferences");
+    			walkStats = new JSONObject(saved.getString("walk_stats", null));
+    			System.out.println("walkStats is now " + walkStats.toString());
+    		}
+    		if (busStats == null) {
+    			System.out.println("attempting to get busStats from sharedPreferences");
+    			busStats = new JSONObject(saved.getString("bus_stats", null));
+    			System.out.println("busStats is now " + busStats.toString());
+    		}
+    		} catch (JSONException e) {
+    			e.printStackTrace();
+    			System.out.println("getting JSON's from saved strings failed: " + e.getMessage());
+    		}
+    	}
 	}
 	
 	public Hashtable<String, Hashtable<String, String[]>> query_db() {
 		return dummy_query_db();
+	}
+	
+	public JSONObject getJSONFromHash(Hashtable<String, String[]> ht) {
+		JSONObject result = new JSONObject();
+		Enumeration<String> keys = ht.keys();
+		
+		while(keys.hasMoreElements()) {
+			String key = keys.nextElement();
+			try {
+				String[] strArray = ht.get(key);
+				JSONArray strJSONArray = new JSONArray();
+				for (int i = 0; i < strArray.length; i++) {
+					strJSONArray.put(strArray[i]);
+				}
+				
+				result.put(key, strJSONArray);
+			} catch (JSONException e1) {
+				e1.printStackTrace();
+				System.out.println("error in putting element in json: " + e1.getMessage());
+			}
+		}
+		
+		return result;
 	}
 	
 	public Hashtable<String, Hashtable<String, String[]>> dummy_query_db() {
