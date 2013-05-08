@@ -691,7 +691,7 @@ public class Model {
 		c.set(year, month, day, hour, min);
 		
 		// right now		
-		double distanceCarDay = generator.nextDouble()*100;		
+		double distanceCarDay = generator.nextDouble()*30;		
 		int iCarDay = (int) ((distanceCarDay/45)*60);							
 		
 		float[] tempCarDay = {(float)distanceCarDay, (float)iCarDay};
@@ -715,7 +715,7 @@ public class Model {
 		
 		result.put("car,year", tempCarYear);
 		
-		double distanceBike = generator.nextDouble()*20; 		
+		double distanceBike = generator.nextDouble()*10; 		
 		int iBike = (int) ((distanceBike/15)*60);
 		
 		float[] tempBikeDay = {(float)distanceBike, (float)iBike};
