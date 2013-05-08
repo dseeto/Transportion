@@ -38,18 +38,14 @@ public class SearchFriendsSuggestionProvider extends SearchRecentSuggestionsProv
 		}
 
 		MatrixCursor cursor = new MatrixCursor(COLUMNS);
-		for (int i = 0; i < FriendsActivity.friendsJsons.length(); i++) {
-      		String profileName = null, profileId = null;
-      		try {
-      			profileName = FriendsActivity.friendsJsons.getJSONObject(i).getString("name");
-      			profileId = FriendsActivity.friendsJsons.getJSONObject(i).getString("id");
-      			
-      		} catch (Exception e) {
-      			System.out.println("error while suggestions is trying to sort through friends list for names that match query: " + e.toString());
-      			return cursor;
-      		}
+		for (int i = 0; i < FriendsActivity.transportionFriends.size(); i++) {
+      		String profileName = null, carbon = null;
+  		
+  			profileName = FriendsActivity.transportionFriends.get(i)[0];
+  			carbon = FriendsActivity.transportionFriends.get(i)[1];
+  			
 			if (profileName.toLowerCase().contains(query.toLowerCase())) {
-				String emission = profileId + " pounds of carbon emitted";
+				String emission = carbon + " pounds of carbon emitted";
 				String name = profileName;
 				Integer id = new Integer(i);
 				cursor.addRow(createRow(id, name, emission, ""));

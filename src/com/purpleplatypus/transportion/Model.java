@@ -5,48 +5,43 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.parse.FindCallback;
-import com.parse.FunctionCallback;
-import com.parse.ParseCloud;
-import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
+
+import com.parse.FindCallback;
+import com.parse.FunctionCallback;
+import com.parse.ParseCloud;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 
 public class Model {
 	
-	// TODO: keep track of friends
 	
 	Context context;
 	DbHelper mDbHelper; 
 	String userID; 
-	String userName="Joe";
-	ArrayList<Info_User> userList;
-	ArrayList<Info_FriendsList> friendsList;
-	ArrayList<Info_Leaderboard> leaderboardList;
+
+	String userName;
+	List<ParseObject> friendsList = null;
+	ArrayList<Info_Leaderboard> leaderboardList = null;
 	
 	public static int carbonPerGallon = 13;
 	public static double treesPerCarbon = 0.0000165;
@@ -65,6 +60,7 @@ public class Model {
 	public Model() {
 		SharedPreferences savedSession = ApplicationState.getContext().getSharedPreferences("facebook-session",Context.MODE_PRIVATE);
         userID = savedSession.getString("id", null);
+        userName = savedSession.getString("name", null); // not sure if this is saved
 	}
 		
 	public void createDatabase(Context c) {
@@ -91,17 +87,53 @@ public class Model {
 	 * Sends all the raw data in UserData table to the server.
 	 * After sent, clears the local db to save room.
 	 */
-	public void sendDataToServer(Hashtable<String, JSONArray> data) throws JSONException { // should send in one object		
+	public void sendDataToServer(final Hashtable<String, JSONArray> data) throws JSONException { // data for last month		
 		
-		ParseObject user = new ParseObject("Users");
+		// IMPLEMENT: need to do update
 		
-		user.put("id", userID);
-		user.put("miles", data.get("miles"));
-		user.put("modes", data.get("modes"));
-		user.put("timespans", data.get("timespans"));
-		user.put("carbon", data.get("carbons"));
+		ParseQuery query = new ParseQuery("Users");
+		query.whereEqualTo("user_id", userID);
+		query.findInBackground(new FindCallback() {
+		    public void done(List<ParseObject> l, ParseException e) {
+		        if (e == null) { // no exception
+		        	if (l.size() == 0) {
+		        		
+		        		ParseObject user = new ParseObject("Users");
+		        		
+		        		user.put("user_id", userID);
+		        		user.put("miles", data.get("miles"));
+		        		user.put("modes", data.get("modes"));
+		        		user.put("timespans", data.get("timespans"));
+		        		user.put("carbons", data.get("carbons"));
+		        		try {
+							user.put("total_carbon", data.get("carbons").get(data.get("carbons").length()-1));
+						} catch (JSONException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+		        		user.put("name", userName);
+		        		user.saveEventually();
+		        	} else {
+		        		if (l.size() > 1) {
+		        			// PROBLEM!! 
+		        			System.out.println("MORE THAN ONE ENTRY OF SAME USER IN TABLE!!!");
+		        		} else { // update
+		        			ParseObject temp = l.get(0);
+		        			temp.put("user_id", userID);
+		        			temp.put("miles", data.get("miles"));
+		        			temp.put("modes", data.get("modes"));
+		        			temp.put("timespans", data.get("timespans"));
+		        			temp.put("carbons", data.get("carbons"));
+		        		}
+		        	}
+		        	
+		        } else {
+		            // IMPLEMENT: error
+		        	System.out.println("retriveFriendDataFromServer ERROR!!!!");
+		        }
+		    }
+		});
 		
-		user.saveEventually();
 		
 		/*
 		ArrayList<Segment> data = mDbHelper.rawDataGetAll();
@@ -143,30 +175,37 @@ public class Model {
 	 * Same as above method. NOT BEEN TESTED!!!! NEEDS TO BE FIXED TO BE LIKE retrieveLeaderboardDataFromServer!!
 	 */
 	
-	public ArrayList<Info_FriendsList> retrieveFriendDataFromServer(String friendID) {		
-		friendsList = new ArrayList<Info_FriendsList>();
+	public void retrieveFriendDataFromServer(JSONArray fbFriends, final FriendsActivity a) throws JSONException {	// called by FriendsActivity.java	
+		//friendsList = new ArrayList<Info_FriendsList>();
 		
-		/*
-		// OLD CODE:
-		ParseQuery query = new ParseQuery(friendID + "RetrievedData");
+		// get list of ids from JSON
+		List<String> ids = new ArrayList<String>(); // not sure if this has to be an array
+		for (int i = 0; i < fbFriends.length(); i++) {
+			ids.add(((JSONObject) fbFriends.get(i)).getString("id"));			
+		}
+			
+		ParseQuery query = new ParseQuery("Users");
 		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
-		query.whereEqualTo("UserID", friendID);
+		
+		query.whereContainedIn("user_id", ids);
+		query.orderByAscending("name"); // not sure if you can do that for string
 		query.findInBackground(new FindCallback() {
-		    public void done(List<ParseObject> infoList, ParseException e) {
+		    public void done(List<ParseObject> fl, ParseException e) {
 		        if (e == null) { // no exception
-		        	Info_User i;
-		        	for (ParseObject p : infoList) {		        		
-		        		i = new Info_User(p.getString("mode"), p.getString("timespan"), (float)p.getDouble("miles"),
-		        				(float)p.getDouble("carbon"), p.getInt("timespent"), (float)p.getDouble("percent"), (float)p.getDouble("gas"));
-		        		friendsList.add(i);
-		        	}
+		        	// save this info in model (not in local db)
+		        	System.out.println(fl.size());
+		        	friendsList = fl;
+		        	a.showFriends(fl);
+		        	
 		        } else {
 		            // IMPLEMENT: error
 		        	System.out.println("retriveFriendDataFromServer ERROR!!!!");
+		        	System.out.println(e.toString());
 		        }
 		    }
 		});
-		*/
+		
+		/*
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("userID", userID);
 		ParseCloud.callFunctionInBackground("getFriends", new HashMap<String, List<String>>(), new FunctionCallback<List<ParseObject>>() {
@@ -186,8 +225,8 @@ public class Model {
 			        }
 			   }
 			});
-		
-		return friendsList;
+		*/
+		//return friendsList;
 	}
 	
 	/*
@@ -195,12 +234,11 @@ public class Model {
 	 */
 	public void retrieveLeaderboardDataFromServer(final LeaderboardActivity l) {		
 		leaderboardList = new ArrayList<Info_Leaderboard>();
-		/*
-		// OLD CODE:
+		
 		ParseQuery query = new ParseQuery("Users");
 		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
 		query.setLimit(10);
-		query.orderByAscending("carbon");
+		query.orderByAscending("total_carbon");
 		query.findInBackground(new FindCallback() {
 			public void done(List<ParseObject> list, ParseException e) {
 				if (e == null) {
@@ -210,10 +248,10 @@ public class Model {
 						// REMOVE
 						System.out.println("Leaderboard!!!");
 						System.out.println(p.getString("name"));
-						System.out.println(p.getNumber("carbon"));
+						System.out.println(p.getString("total_carbon"));
 						// REMOVE
 						j++;
-						i = new Info_Leaderboard(j+"", p.getString("name"), p.getNumber("carbon").toString());
+						i = new Info_Leaderboard(j+"", p.getString("name"), p.getString("total_carbon"));
 						System.out.println(i.toString());
 						System.out.println(leaderboardList.add(i));
 					}
@@ -225,7 +263,8 @@ public class Model {
 				}
 			}
 		});	
-		*/
+		
+		/*
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("userID", userID);
 		ParseCloud.callFunctionInBackground("getLeaderBoard", new HashMap<String, String>(), new FunctionCallback<List<ParseObject>>() {
@@ -252,6 +291,7 @@ public class Model {
 			       }
 			   }
 			});
+			*/
 	}
 	
 	/*
@@ -273,12 +313,12 @@ public class Model {
 	    }
 	    public void onCreate(SQLiteDatabase db) {
 	    	//db.execSQL(RETRIEVED_DATA_SQL_CREATE_ENTRIES);
-	        db.execSQL(RAW_DATA_SQL_CREATE_ENTRIES);	        
+	        db.execSQL(DATA_SQL_CREATE_ENTRIES);
 	    }
 	    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 	        // This database is only a cache for online data, so its upgrade policy is
 	        // to simply to discard the data and start over
-	        db.execSQL(RAW_DATA_SQL_DELETE_ENTRIES);
+	        db.execSQL(DATA_SQL_DELETE_ENTRIES);
 	        //db.execSQL(RETRIEVED_DATA_SQL_DELETE_ENTRIES);
 	        onCreate(db);
 	    }
@@ -289,33 +329,63 @@ public class Model {
 	    }
 	    
 	    
-		// =============== RAW DATA TABLE =============== // 
+		// =============== RAW & DAY DATA TABLE =============== // 
 	   
-	    public static final String RAW_DATA_TABLE_NAME = "UserData";
+	    public static final String DATA_TABLE_NAME = "UserData";
 	    public static final String COLUMN_NAME_DISTANCE = "distance"; // miles
 	    public static final String COLUMN_NAME_INTERVAL = "interval"; // minutes
 	    public static final String COLUMN_NAME_MODE = "mode";	    	 
 	    public static final String COLUMN_NAME_TIMESTAMP = "time";
 
-	    public static final String RAW_DATA_SQL_CREATE_ENTRIES = 
-	    		"CREATE TABLE IF NOT EXISTS " + RAW_DATA_TABLE_NAME + " (" + COLUMN_NAME_TIMESTAMP + " TIMESTAMP PRIMARY KEY, " + COLUMN_NAME_MODE + " TEXT, " + COLUMN_NAME_DISTANCE + " FLOAT, " + COLUMN_NAME_INTERVAL + " FLOAT" + ")";
+	    public static final String DATA_SQL_CREATE_ENTRIES = 
+	    		"CREATE TABLE IF NOT EXISTS " + DATA_TABLE_NAME + " (" + COLUMN_NAME_TIMESTAMP + " TIMESTAMP PRIMARY KEY, " + COLUMN_NAME_MODE + " TEXT, " + COLUMN_NAME_DISTANCE + " FLOAT, " + COLUMN_NAME_INTERVAL + " INT" + ")";
 	    
-	    public static final String RAW_DATA_SQL_DELETE_ENTRIES =
-	    		"DROP TABLE IF EXIST " + RAW_DATA_TABLE_NAME;
+	    public static final String DATA_SQL_DELETE_ENTRIES =
+	    		"DROP TABLE IF EXIST " + DATA_TABLE_NAME;
 	    
-	   
-		
-	    public void rawDataAddEntry(Timestamp timestamp, String mode, float distance, float interval) {
-			SQLiteDatabase db;		
-			db = this.getWritableDatabase();
+	    public void cleanTable() {
+	    	SQLiteDatabase db = this.getWritableDatabase();
+	    	Date date = new java.util.Date();
+			int year = date.getYear();
+			int month = date.getMonth();
+			int day = date.getDate();
+			Timestamp lastYearToday = new Timestamp(new java.util.Date(year-1, month, day+1).getTime());
 			
+	    	String query = "SELECT * FROM " + DATA_TABLE_NAME + " ORDER BY " + COLUMN_NAME_TIMESTAMP + " ASC";
+	    	Cursor cursor = db.rawQuery(query, null);
+	    	if (cursor.moveToFirst()) {
+	            do {
+	            	if (Timestamp.valueOf(cursor.getString(0)).before(lastYearToday)) {
+	            		db.delete(DATA_TABLE_NAME, "time=?", new String[]{String.valueOf(cursor.getString(0))});
+	            	} else {
+	            		break;
+	            	}
+	            } while (cursor.moveToNext());
+	        }
+	    	cursor.close();
+	    	db.close();	
+	    }
+	    
+	    public void updateEntry(Timestamp timestamp, String mode, float distance, int interval) {
+			SQLiteDatabase db = this.getWritableDatabase();
 			ContentValues values = new ContentValues();
 			values.put(COLUMN_NAME_TIMESTAMP, timestamp.toString());
 			values.put(COLUMN_NAME_MODE, mode);
 			values.put(COLUMN_NAME_DISTANCE, distance);		
 			values.put(COLUMN_NAME_INTERVAL, interval);
 			
-			db.insert(RAW_DATA_TABLE_NAME, null, values);
+			String query = "SELECT * FROM " + DATA_TABLE_NAME + " WHERE (" + COLUMN_NAME_TIMESTAMP + " = " + String.format("\"%s\"", timestamp.toString()) + " AND " + COLUMN_NAME_MODE + " = " + String.format("\"%s\"", mode) + ")";
+	    	Cursor cursor = db.rawQuery(query, null);
+	    	
+	    	if (cursor.moveToFirst()) {
+	            distance = distance + cursor.getFloat(2);
+	            interval = interval + cursor.getInt(3);	    
+	            String update = "UPDATE " + DATA_TABLE_NAME + " SET " + COLUMN_NAME_DISTANCE + " = " + distance + ", " + COLUMN_NAME_INTERVAL + " = " + interval + " WHERE (" + COLUMN_NAME_TIMESTAMP + " = " + String.format("\"%s\"", timestamp.toString()) + " AND " + COLUMN_NAME_MODE + " = " + String.format("\"%s\"", mode) + ")";
+	            db.execSQL(update);
+	        } else {
+	        	db.insert(DATA_TABLE_NAME, null, values);
+	        }
+	    	cursor.close();
 			db.close();
 		}
 	    
@@ -324,7 +394,7 @@ public class Model {
 	     */
 	    public ArrayList<Segment> rawDataGetAll() {
 	    	ArrayList<Segment> list = new ArrayList<Segment>();
-	    	String query = "SELECT * FROM " + RAW_DATA_TABLE_NAME + " ORDER BY " + COLUMN_NAME_TIMESTAMP + " ASC";
+	    	String query = "SELECT * FROM " + DATA_TABLE_NAME + " ORDER BY " + COLUMN_NAME_TIMESTAMP + " ASC";
 	    	
 	    	SQLiteDatabase db = this.getWritableDatabase();
 	    	Cursor cursor = db.rawQuery(query, null);
@@ -334,7 +404,6 @@ public class Model {
 	            	// TESTING PURPOSES	    	
 	    	    	System.out.println(cursor.getString(0) + " ," + cursor.getString(1) + " ," + cursor.getString(2) + " ," + cursor.getString(3));
 	    	        // TESTING PURPOSES
-	            	
 	            	
 	                Segment p = new Segment(Timestamp.valueOf(cursor.getString(0)), cursor.getString(1), cursor.getFloat(2), cursor.getInt(3));	                	                
 	                list.add(p);
@@ -347,116 +416,10 @@ public class Model {
 		
 	    public void rawDataRemoveAll() { // after data is in remote server
 			SQLiteDatabase db = this.getWritableDatabase(); 
-		    db.delete(RAW_DATA_TABLE_NAME, null, null);	    
+		    db.delete(DATA_TABLE_NAME, null, null);	    
 		    db.close();
 		}
 		
-	    // ================= RETRIEVED DATA TABLE ================= // 
-	    /*
-		public static final String RETRIEVED_DATA_TABLE_NAME = "RetrievedData";
-		public static final String COLUMN_NAME_MODE = "mode";
-		public static final String COLUMN_NAME_TIMESPAN = "timespan";
-		public static final String COLUMN_NAME_MILES = "miles";
-		public static final String COLUMN_NAME_CARBON = "carbon";
-		public static final String COLUMN_NAME_TIMESPENT = "timespent";
-		public static final String COLUMN_NAME_PERCENT = "percent";
-		public static final String COLUMN_NAME_GAS = "gas";
-
-		public static final String RETRIEVED_DATA_SQL_CREATE_ENTRIES = 
-			 "CREATE TABLE " + RETRIEVED_DATA_TABLE_NAME + " (" + 
-					 COLUMN_NAME_MODE + " VARCHAR(5), " + // CAR, WALK ETC.
-					 COLUMN_NAME_TIMESPAN + " VARCHAR(10), " + // DAY, WEEK ETC.
-					 COLUMN_NAME_MILES + " FLOAT, " +
-					 COLUMN_NAME_CARBON + " FLOAT, " + // GRAMS?
-					 COLUMN_NAME_TIMESPENT + " INT, " + // MINUTES?
-					 COLUMN_NAME_PERCENT + " FLOAT, " + // PERCENTAGE POINTS
-					 COLUMN_NAME_GAS + " FLOAT, " + // GALLONS - INT OF FLOAT?!?
-					 "PRIMARY KEY(" + COLUMN_NAME_MODE + ", " + COLUMN_NAME_TIMESPAN + "))";
-		   
-		public static final String RETRIEVED_DATA_SQL_DELETE_ENTRIES =
-		    		"DROP TABLE IF EXIST " + RETRIEVED_DATA_TABLE_NAME;
-	  
-		public Info retrievedDataGetEntry(String mode, String timespan) {			
-			// IMPLEMENT: make sure that this query only returns one entry!!!!
-			
-			mode = "'" + mode + "'";
-			timespan = "'" + timespan + "'";
-			String query = "SELECT * FROM " + RETRIEVED_DATA_TABLE_NAME + " WHERE " + COLUMN_NAME_MODE + " = " + mode + " AND " + COLUMN_NAME_TIMESPAN + " = " + timespan;
-			
-			SQLiteDatabase db = this.getWritableDatabase();
-	    	Cursor cursor = db.rawQuery(query, null);
-	    	Info i;
-	    	if (cursor.moveToFirst()) {
-	            do {
-	            	// TESTING PURPOSES	    	
-	    	    	System.out.println(cursor.getString(0) + " ," + cursor.getString(1) + " ," + cursor.getString(2)
-	    	    			+ ", " + cursor.getString(3) + ", " + cursor.getString(4) + ", " + cursor.getString(3));
-	    	        // TESTING PURPOSES
-	            	
-	            	
-	                i = new Info(cursor.getString(0), cursor.getString(1), 
-	                	Float.parseFloat(cursor.getString(2)), Float.parseFloat(cursor.getString(3)), Integer.parseInt(cursor.getString(4)),
-	                	Float.parseFloat(cursor.getString(5)), Float.parseFloat(cursor.getString(6)));	                	                
-	                break;
-	            } while (cursor.moveToNext());
-	            db.close();
-	            cursor.close();
-	            return i;
-	        } else {
-	        	db.close();
-	        	return null;
-	        }
-	    	
-		}
-		
-		// for testing purposes:
-		public void retrievedDataAddEntry(String mode, String timespan, float miles, float carbon,
-				int timespent, float percent, float gas) {
-			SQLiteDatabase db;		
-			db = this.getWritableDatabase();
-			
-			ContentValues values = new ContentValues();
-			values.put(COLUMN_NAME_MODE, mode);
-			values.put(COLUMN_NAME_TIMESPAN, timespan);
-			values.put(COLUMN_NAME_MILES, miles);
-			values.put(COLUMN_NAME_CARBON, carbon);
-			values.put(COLUMN_NAME_TIMESPENT, timespent);
-			values.put(COLUMN_NAME_PERCENT, percent);
-			values.put(COLUMN_NAME_GAS, gas);
-			
-			db.insert(RETRIEVED_DATA_TABLE_NAME, null, values);
-			db.close();
-		}
-		
-		public void retrievedDataRemoveAll() {
-			SQLiteDatabase db = this.getWritableDatabase(); 
-		    db.delete(RETRIEVED_DATA_TABLE_NAME, null, null);
-		    db.close();
-		}
-		*/
-	}
-	
-	/*
-	 * Class for Retrieved Data from server
-	 */
-	public class Info_User {
-		String mode;
-		String timespan;
-		float miles;
-		float carbon;
-		int timespent;
-		float percent;
-		float gas;
-		
-		public Info_User(String m, String t, float mi, float c, int tspent, float p, float g) {
-			mode = m;
-			timespan = t;
-			miles = mi;
-			carbon = c;
-			timespent = tspent;
-			percent = p;
-			gas = g;
-		}
 	}
 	
 	/*
@@ -465,7 +428,7 @@ public class Model {
 	public class Segment {
 		Timestamp timestamp;
 		String mode;
-		float distance; // decimal = meteres
+		float distance; // decimal = miles
 		int interval; // minutes = int
 		
 		public Segment(Timestamp t, String m, float d, int i) {
@@ -483,7 +446,6 @@ public class Model {
 	public class Info_Leaderboard {
 		String name;
 		String ranking;
-		// PROFILE PIC????
 		String carbon_amount;
 		
 		public Info_Leaderboard(String ranking, String name, String carbon_amount) {
@@ -866,14 +828,14 @@ public class Model {
     			e.printStackTrace();
     			System.out.println("error in getting Json information: " + e.getMessage());
     		}
-    		/*
+    		
 			try {
 				sendDataToServer(hashForServer);
 			} catch (JSONException e) {
 				e.printStackTrace();
     			System.out.println("error in sending Json to server: " + e.getMessage());
 			}
-			*/
+			
     	}
     	else {
     		// just get the old data from the db

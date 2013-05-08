@@ -1,12 +1,7 @@
 package com.purpleplatypus.transportion;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
-import com.parse.ParseObject;
-import com.purpleplatypus.transportion.Model.Info_User;
-
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,12 +9,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class BikeDetails extends TransportionActivity {
 
 	ApplicationState appState = (ApplicationState) this.getApplication();
-	ArrayList<Info_User> userInfo;
 	
 	String span = "Month";
 	String[] spans = {"Day", "Week", "Month", "Year"};
