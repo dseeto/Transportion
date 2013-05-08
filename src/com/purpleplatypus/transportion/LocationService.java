@@ -25,12 +25,11 @@ public class LocationService extends Service {
 	MyLocationListener locationListener;
 	
 	// location variables
-	int minTimeMillisPoll = 0;//1000*60*5; 		5 minutes
+	int minTimeMillisPoll = 0;//1000*60*5; 	5 minutes
 	int minDistanceMetersPoll = 0;	// 500 meters?!?! 
 	int minAccuracyMeters = 35;	
 	int minDistanceMetersCheck = 20;
 	
-	//boolean traveling = false;
 	Location lastLocation;
 	List<Location> tripLocations = new ArrayList<Location>();
 	
@@ -65,8 +64,6 @@ public class LocationService extends Service {
                         minDistanceMetersPoll,
                         (LocationListener) locationListener);
 
-        //initDatabase();        
-        //data.createDatabase(context);
     }
     
     private void shutDownLoggerService() {    	

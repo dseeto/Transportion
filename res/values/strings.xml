@@ -16,9 +16,9 @@
     <string name="friendCompareTitle">Compare</string>
     <string name="app_id">529518360420126</string>
     <string-array name="graphs">
-        <item>Miles Traveled this Month</item>
-        <item>Time Spent this Month</item>
-        <item>Trees Saved this Month</item>
+        <item>Miles Traveled This Month</item>
+        <item>Time Spent This Month</item>
+        <item>Trees Saved This Month</item>
     </string-array>
 
 </resources>

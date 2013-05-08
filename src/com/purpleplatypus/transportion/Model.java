@@ -313,7 +313,7 @@ public class Model {
 	    	        // TESTING PURPOSES
 	            	
 	            	
-	                Segment p = new Segment(Timestamp.valueOf(cursor.getString(0)), cursor.getString(1), cursor.getString(2), cursor.getString(3));	                	                
+	                Segment p = new Segment(Timestamp.valueOf(cursor.getString(0)), cursor.getString(1), cursor.getFloat(2), cursor.getInt(3));	                	                
 	                list.add(p);
 	            } while (cursor.moveToNext());
 	        }
@@ -442,10 +442,10 @@ public class Model {
 	public class Segment {
 		Timestamp timestamp;
 		String mode;
-		String distance; // decimal = meteres
-		String interval; // minutes = int
+		float distance; // decimal = meteres
+		int interval; // minutes = int
 		
-		public Segment(Timestamp t, String m, String d, String i) {
+		public Segment(Timestamp t, String m, float d, int i) {
 			timestamp = t;
 			mode = m;
 			distance= d;
