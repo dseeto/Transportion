@@ -40,21 +40,6 @@ public class LoginActivity extends Activity {
 	    uiHelper = new UiLifecycleHelper(this, callback);
 	    uiHelper.onCreate(savedInstanceState);
 	    
-	    try {
-	        PackageInfo info = getPackageManager().getPackageInfo(
-	                "com.purpleplatypus.transportion", 
-	                PackageManager.GET_SIGNATURES);
-	        for (Signature signature : info.signatures) {
-	            MessageDigest md = MessageDigest.getInstance("SHA");
-	            md.update(signature.toByteArray());
-	            Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-	            Toast.makeText(getApplicationContext(), "KeyHash:" + Base64.encodeToString(md.digest(), Base64.DEFAULT), Toast.LENGTH_LONG).show();
-	            }
-	    } catch (NameNotFoundException e) {
-
-	    } catch (NoSuchAlgorithmException e) {
-
-	    }
 	}
 
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -74,7 +59,7 @@ public class LoginActivity extends Activity {
 	    }
 	    String exceptionString = null;
 	    if (exception != null) exceptionString = exception.toString();
-	    Toast.makeText(getApplicationContext(), state + " : " + exceptionString, Toast.LENGTH_LONG).show();
+//	    Toast.makeText(getApplicationContext(), state + " : " + exceptionString, Toast.LENGTH_LONG).show();
 	}
 
 	@Override
