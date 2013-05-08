@@ -402,7 +402,7 @@ Parse.Cloud.define("getFriendStats", function(request, response) {
     query.find({
         success: function(statsList) { 
             if (statsList.length == 0) {
-                response.error("no stats found");
+                response.success([]);
                 return;
             }
             response.success(statsList[0].get("stats"));
