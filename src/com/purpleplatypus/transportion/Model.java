@@ -760,7 +760,7 @@ public class Model {
 		}
 		
 		try {
-			String result = ((JSONArray)data.get(time)).getString(index);
+			String result = (new Double(((JSONArray)data.get(time)).getString(index))).intValue()+"";
 			return result;
 			
 		} catch (JSONException e) {
@@ -795,15 +795,15 @@ public class Model {
     		System.out.println("getAndSaveStats: last_query_db is now " + now);
     		
     		//put jsons into sharedpreferences
-    		Hashtable<String, Hashtable<String, String[]>> queryResult = query_db();
+    		Hashtable<String, float[]> queryResult = query_db();
     		System.out.println("getAndSaveStats: making json objects out of query_db() output...");
-    		JSONObject carJson = getJSONFromHash(queryResult.get("car"));
+    		JSONObject carJson = getJSONFromHash(queryResult, "car");
     		System.out.println("getAndSaveStats: carJson: " + carJson.toString());
-    		JSONObject bikeJson = getJSONFromHash(queryResult.get("bike"));
+    		JSONObject bikeJson = getJSONFromHash(queryResult, "bike");
     		System.out.println("getAndSaveStats: bikeJson: " + bikeJson.toString());    		
-    		JSONObject walkJson = getJSONFromHash(queryResult.get("walk"));
+    		JSONObject walkJson = getJSONFromHash(queryResult, "walk");
     		System.out.println("getAndSaveStats: walkJson: " + walkJson.toString());
-    		JSONObject busJson = getJSONFromHash(queryResult.get("bus"));
+    		JSONObject busJson = getJSONFromHash(queryResult, "bus");
     		System.out.println("getAndSaveStats: busJson: " + busJson.toString());
     		
     		edit.putString("car_stats", carJson.toString());
@@ -822,7 +822,7 @@ public class Model {
     			try {
     			for (int j = 0; j < fields.length; j++) {
     				JSONArray info = fields[j].getJSONArray(span);
-    				totalTime = totalTime + Integer.parseInt(info.getString(1));
+    				totalTime = totalTime + (new Double(info.getString(1))).intValue();
     				totalMiles = totalMiles + Double.parseDouble(info.getString(0));
     			}
     			JSONArray milesAndTime = new JSONArray();
@@ -876,7 +876,7 @@ public class Model {
         			
         			timeThisMonth = ((JSONArray)objs[i].get("month")).getString(1);
         			timeArray.put(timeThisMonth);
-        			totalTime = totalTime + Integer.parseInt(timeThisMonth);
+        			totalTime = totalTime + (new Double(timeThisMonth)).intValue();
         		}
     			milesArray.put(totalMiles+"");
     			carbonsArray.put((totalMiles/Model.milesPerGallon)*Model.carbonPerGallon);
@@ -892,16 +892,14 @@ public class Model {
     			e.printStackTrace();
     			System.out.println("error in getting Json information: " + e.getMessage());
     		}
-
-    		
-//			try {
-//				sendDataToServer(hashForServer);
-//			} catch (JSONException e) {
-//				e.printStackTrace();
-//    			System.out.println("error in sending Json to server: " + e.getMessage());
-//			}
-			
-
+    		/*
+			try {
+				sendDataToServer(hashForServer);
+			} catch (JSONException e) {
+				e.printStackTrace();
+    			System.out.println("error in sending Json to server: " + e.getMessage());
+			}
+			*/
     	}
     	else {
     		// just get the old data from the db
@@ -934,71 +932,68 @@ public class Model {
     	}
 	}
 	
-	public Hashtable<String, Hashtable<String, String[]>> query_db() {
+	public Hashtable<String, float[]> query_db() {
 		return dummy_query_db();
 	}
 	
-	public JSONObject getJSONFromHash(Hashtable<String, String[]> ht) {
+	public JSONObject getJSONFromHash(Hashtable<String, float[]> ht, String mode) {
 		JSONObject result = new JSONObject();
-		Enumeration<String> keys = ht.keys();
+		Enumeration en = ht.keys();
 		
-		while(keys.hasMoreElements()) {
-			String key = keys.nextElement();
-			try {
-				String[] strArray = ht.get(key);
-				JSONArray strJSONArray = new JSONArray();
-				for (int i = 0; i < strArray.length; i++) {
-					strJSONArray.put(strArray[i]);
-				}
+		System.out.println(ht.size());
+
+		while (en.hasMoreElements()){
+			String key = (String) en.nextElement();
+			String[] keyParts = key.split(",");
+			
+		    if (keyParts[0].equals(mode)) {
+		    	JSONArray arr = new JSONArray();
+					
+				float[] distanceTime = ht.get(key);
+				if (distanceTime == null) return null;
+				try {
+					arr.put(distanceTime[0]);
+					arr.put(distanceTime[1]);
 				
-				result.put(key, strJSONArray);
-			} catch (JSONException e1) {
-				e1.printStackTrace();
-				System.out.println("error in putting element in json: " + e1.getMessage());
-			}
+					result.put(keyParts[1], arr);
+				} catch (JSONException e) {
+					e.printStackTrace();
+					System.out.println("error in getJSONFromHash: " + e.getMessage());
+				}
+		    }
 		}
+		return result;
+	}
+	
+	public Hashtable<String, float[]> dummy_query_db() {
+		Random rand = new Random();
+		
+		Hashtable result = new Hashtable<String, float[]>();
+		result.put("car,day", generateRandom(rand));
+		result.put("car,week", generateRandom(rand));
+		result.put("car,month", generateRandom(rand));
+		result.put("car,year", generateRandom(rand));
+		
+		result.put("bike,day", generateRandom(rand));
+		result.put("bike,month", generateRandom(rand));
+		result.put("bike,year", generateRandom(rand));
+		result.put("bike,week", generateRandom(rand));
+
+		result.put("bus,year", generateRandom(rand));
+		result.put("bus,month", generateRandom(rand));
+		result.put("bus,week", generateRandom(rand));
+		result.put("bus,day", generateRandom(rand));
+		
+		result.put("walk,day", generateRandom(rand));
+		result.put("walk,week", generateRandom(rand));
+		result.put("walk,year", generateRandom(rand));
+		result.put("walk,month", generateRandom(rand));
 		
 		return result;
 	}
 	
-	public Hashtable<String, Hashtable<String, String[]>> dummy_query_db() {
-		Random rand = new Random();
-		
-		Hashtable carHash = new Hashtable<String, String[]>();
-		carHash.put("day", generateRandom(rand));
-		carHash.put("week", generateRandom(rand));
-		carHash.put("month", generateRandom(rand));
-		carHash.put("year", generateRandom(rand));
-		
-		Hashtable bikeHash = new Hashtable<String, String[]>();
-		bikeHash.put("day", generateRandom(rand));
-		bikeHash.put("week", generateRandom(rand));
-		bikeHash.put("month", generateRandom(rand));
-		bikeHash.put("year", generateRandom(rand));
-		
-		Hashtable busHash = new Hashtable<String, String[]>();
-		busHash.put("day", generateRandom(rand));
-		busHash.put("week", generateRandom(rand));
-		busHash.put("month", generateRandom(rand));
-		busHash.put("year", generateRandom(rand));
-		
-		Hashtable walkHash = new Hashtable<String, String[]>();
-		walkHash.put("day", generateRandom(rand));
-		walkHash.put("week", generateRandom(rand));
-		walkHash.put("month", generateRandom(rand));
-		walkHash.put("year", generateRandom(rand));
-
-		Hashtable resultHash = new Hashtable<String, Hashtable<String, String[]>>();
-		resultHash.put("car", carHash);
-		resultHash.put("bike", bikeHash);
-		resultHash.put("bus", busHash);
-		resultHash.put("walk", walkHash);
-		
-		return resultHash;
-	}
-	
-	public String[] generateRandom(Random rand) {
-		String[] result = {rand.nextInt(50)+"", rand.nextInt(50)+""};
+	public float[] generateRandom(Random rand) {
+		float[] result = {rand.nextInt(50), rand.nextInt(50)};
 		return result;
 	}
 }
