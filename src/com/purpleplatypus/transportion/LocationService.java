@@ -25,8 +25,8 @@ public class LocationService extends Service {
 	MyLocationListener locationListener;
 	
 	// location variables
-	int minTimeMillisPoll = 1000*60*5; 		// 5 minutes
-	int minDistanceMetersPoll = 200;	// 500 meters?!?! 
+	int minTimeMillisPoll = 0;//1000*60*5; 		5 minutes
+	int minDistanceMetersPoll = 0;	// 500 meters?!?! 
 	int minAccuracyMeters = 35;	
 	int minDistanceMetersCheck = 20;
 	
@@ -60,7 +60,7 @@ public class LocationService extends Service {
 
         locationListener = new MyLocationListener();
 
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 	// figure out which is best! - NETWORK_PROVIDER
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 	// figure out which is best! - NETWORK_PROVIDER
                         minTimeMillisPoll, 
                         minDistanceMetersPoll,
                         (LocationListener) locationListener);
@@ -71,9 +71,9 @@ public class LocationService extends Service {
     
     private void shutDownLoggerService() {    	
     	// not sure if need:
-    	((LocationManager) lm).requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener); //NETWORK_PROVIDER
+    	//((LocationManager) lm).requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener); //NETWORK_PROVIDER
     	
-    	lm.removeUpdates(locationListener);
+    	//lm.removeUpdates(locationListener);
     }
 	 
     public class MyLocationListener implements LocationListener {
