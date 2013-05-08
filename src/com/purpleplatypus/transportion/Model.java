@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -681,4 +682,48 @@ public class Model {
 		user.saveInBackground();
 	}
 	
+	public Hashtable<String, Hashtable<String, String[]>> query_db() {
+		return dummy_query_db();
+	}
+	
+	public Hashtable<String, Hashtable<String, String[]>> dummy_query_db() {
+		Random rand = new Random();
+		
+		Hashtable carHash = new Hashtable<String, String[]>();
+		carHash.put("day", generateRandom(rand));
+		carHash.put("week", generateRandom(rand));
+		carHash.put("month", generateRandom(rand));
+		carHash.put("year", generateRandom(rand));
+		
+		Hashtable bikeHash = new Hashtable<String, String[]>();
+		bikeHash.put("day", generateRandom(rand));
+		bikeHash.put("week", generateRandom(rand));
+		bikeHash.put("month", generateRandom(rand));
+		bikeHash.put("year", generateRandom(rand));
+		
+		Hashtable busHash = new Hashtable<String, String[]>();
+		busHash.put("day", generateRandom(rand));
+		busHash.put("week", generateRandom(rand));
+		busHash.put("month", generateRandom(rand));
+		busHash.put("year", generateRandom(rand));
+		
+		Hashtable walkHash = new Hashtable<String, String[]>();
+		walkHash.put("day", generateRandom(rand));
+		walkHash.put("week", generateRandom(rand));
+		walkHash.put("month", generateRandom(rand));
+		walkHash.put("year", generateRandom(rand));
+
+		Hashtable resultHash = new Hashtable<String, Hashtable<String, String[]>>();
+		resultHash.put("car", carHash);
+		resultHash.put("bike", bikeHash);
+		resultHash.put("bus", busHash);
+		resultHash.put("walk", walkHash);
+		
+		return resultHash;
+	}
+	
+	public String[] generateRandom(Random rand) {
+		String[] result = {rand.nextInt(50)+"", rand.nextInt(50)+""};
+		return result;
+	}
 }
