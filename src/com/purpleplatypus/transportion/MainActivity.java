@@ -253,10 +253,10 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 		    pieChartView = this.makePieChart(chartValues);
 		    chartLayout.addView(pieChartView);
 			legend.setVisibility(View.VISIBLE);
-			((TextView) legend.findViewById(R.id.car_miles)).setText(carTime + " Minutes");
-			((TextView) legend.findViewById(R.id.bike_miles)).setText(bikeTime + " Minutes");
-			((TextView) legend.findViewById(R.id.bus_miles)).setText(busTime + " Minutes");
-			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkTime + " Minutes");
+			((TextView) legend.findViewById(R.id.car_miles)).setText(carTime + " Min");
+			((TextView) legend.findViewById(R.id.bike_miles)).setText(bikeTime + " Min");
+			((TextView) legend.findViewById(R.id.bus_miles)).setText(busTime + " Min");
+			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkTime + " Min");
 		    break;
 		case 2:
 			LayoutInflater factory = LayoutInflater.from(this);

@@ -18,7 +18,6 @@
     <string-array name="graphs">
         <item>Miles Traveled This Month</item>
         <item>Time Spent This Month</item>
-        <item>Carbon Offset This Month</item>
     </string-array>
 
 </resources>
