@@ -108,7 +108,7 @@ public class FriendsCompareActivity extends TransportionActivity {
 		ProgressBar friendProg = (ProgressBar)findViewById(R.id.carFriendProg);
 		friendProg.setProgress(new Double(friendCarMiles/total*100).intValue());
 		TextView friendVal = (TextView)findViewById(R.id.carFriendValue);
-		friendVal.setText(friendCarMiles+" miles");
+		friendVal.setText(new Double(friendCarMiles).intValue() +" miles");
 		TextView friendNameCar = (TextView)findViewById(R.id.carFriendName);
 		friendNameCar.setText(name.split(" ")[0]);
 		
@@ -122,7 +122,7 @@ public class FriendsCompareActivity extends TransportionActivity {
 		TextView friendNameBus = (TextView)findViewById(R.id.busFriendName);
 		friendNameBus.setText(name.split(" ")[0]);
 		TextView friendBusVal = (TextView)findViewById(R.id.busFriendValue);
-		friendBusVal.setText(friendBusMiles+" miles");
+		friendBusVal.setText(new Double(friendBusMiles).intValue() +" miles");
 		ProgressBar friendBusProg = (ProgressBar)findViewById(R.id.busFriendProg);
 		friendBusProg.setProgress(new Double(friendBusMiles/total*100).intValue());
 		
@@ -138,7 +138,7 @@ public class FriendsCompareActivity extends TransportionActivity {
 		friendNameBike.setText(name.split(" ")[0]);
 		
 		TextView friendBikeVal = (TextView)findViewById(R.id.bikeFriendValue);
-		friendBikeVal.setText(friendBikeMiles+" miles");
+		friendBikeVal.setText(new Double(friendBikeMiles).intValue()+" miles");
 		ProgressBar friendBikeProg = (ProgressBar)findViewById(R.id.bikeFriendProg);
 		friendBikeProg.setProgress(new Double(friendBikeMiles/total*100).intValue());
 		
@@ -153,7 +153,7 @@ public class FriendsCompareActivity extends TransportionActivity {
 		TextView friendNameWalk = (TextView)findViewById(R.id.walkFriendName);
 		friendNameWalk.setText(name.split(" ")[0]);
 		TextView friendWalkVal = (TextView)findViewById(R.id.walkFriendValue);
-		friendWalkVal.setText(friendWalkMiles+" miles");
+		friendWalkVal.setText(new Double(friendWalkMiles).intValue()+" miles");
 		ProgressBar friendWalkProg = (ProgressBar)findViewById(R.id.walkFriendProg);
 		friendWalkProg.setProgress(new Double(friendWalkMiles/total*100).intValue());
 		//TOTAL
@@ -167,7 +167,7 @@ public class FriendsCompareActivity extends TransportionActivity {
 		TextView friendNameTotal = (TextView)findViewById(R.id.totalFriendName);
 		friendNameTotal.setText(name.split(" ")[0]);
 		TextView friendTotalVal = (TextView)findViewById(R.id.totalFriendValue);
-		friendTotalVal.setText(friendTotalMiles+" miles");
+		friendTotalVal.setText(new Double(friendTotalMiles).intValue()+" miles");
 		ProgressBar friendTotalProg = (ProgressBar)findViewById(R.id.totalFriendProg);
 		friendTotalProg.setProgress(new Double(friendTotalMiles/total*100).intValue());
 		

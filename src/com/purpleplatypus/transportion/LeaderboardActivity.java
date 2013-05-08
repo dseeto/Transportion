@@ -130,7 +130,7 @@ public class LeaderboardActivity extends TransportionActivity {
 				name.setText(list.get(position).name);
 				System.out.println("INFO_LEADERBOARD STUFF:");
 				System.out.println(list.get(position).name);
-				carbon.setText(list.get(position).carbon_amount);
+				carbon.setText(Double.valueOf(list.get(position).carbon_amount).intValue()+"");
 				System.out.println(list.get(position).carbon_amount);				  
 			}
 			
