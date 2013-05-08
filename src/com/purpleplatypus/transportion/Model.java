@@ -682,8 +682,9 @@ public class Model {
 		user.put("modes", data.get("modes"));
 		user.put("timespans", data.get("timespans"));
 		user.put("carbons", data.get("carbons"));
-		*/
-		Hashtable result = new Hashtable<String, float[]>();
+		*/				
+		
+		Hashtable<String, float[]> result = new Hashtable<String, float[]>();
 		Random generator = new Random();
 		
 		Calendar c = Calendar.getInstance();		
@@ -698,64 +699,81 @@ public class Model {
 		// right now		
 		double distanceCarDay = generator.nextDouble()*100;		
 		int iCarDay = (int) ((distanceCarDay/45)*60);							
-		int carbonCar = (int) getCarbon("car", iCarDay+"");		
 		
-		float[] temp = {(float)distanceCarDay, (float)iCarDay};
-		result.put("car,day", temp);
-		temp[0] = (float)distanceCarDay*7;
-		temp[1] = (float)iCarDay*7;
+		float[] tempCarDay = {(float)distanceCarDay, (float)iCarDay};
+		result.put("car,day", tempCarDay);
 		
-		result.put("car,week", temp);
+		float[] tempCarWeek = {(float)distanceCarDay*7,(float)iCarDay*7};
 		
-		temp[0] = temp[0]*4;
-		temp[1] = temp[1]*4;
+		result.put("car,week", tempCarWeek);
 		
-		result.put("car,month", temp);
+		float[] tempCarMonth = new float[2];
 		
-		temp[0] = temp[0]*12;
-		temp[1] = temp[1]*12;
+		tempCarMonth[0] = tempCarWeek[0]*4;
+		tempCarMonth[1] = tempCarWeek[1]*4;
 		
-		result.put("car,year", temp);
+		result.put("car,month", tempCarMonth);
+		
+		float[] tempCarYear = new float[2];
+		
+		tempCarYear[0] = tempCarMonth[0]*12;
+		tempCarYear[1] = tempCarMonth[1]*12;
+		
+		result.put("car,year", tempCarYear);
 		
 		double distanceBike = generator.nextDouble()*20; 		
 		int iBike = (int) ((distanceBike/15)*60);
 		
-		float[] temp1 = {(float)distanceBike, (float)iBike};
-		result.put("bike,day", temp1);
-		temp1[0] = (float)distanceBike*7;
-		temp1[1] = (float)iBike*7;
+		float[] tempBikeDay = {(float)distanceBike, (float)iBike};
+		result.put("bike,day", tempBikeDay);
 		
-		result.put("bike,week", temp1);
+		float[] tempBikeWeek = new float[2];
 		
-		temp1[0] = temp1[0]*4;
-		temp1[1] = temp1[1]*4;
+		tempBikeWeek[0] = (float)distanceBike*7;
+		tempBikeWeek[1] = (float)iBike*7;
 		
-		result.put("bike,month", temp1);
+		result.put("bike,week", tempBikeWeek);
 		
-		temp1[0] = temp1[0]*12;
-		temp1[1] = temp1[1]*12;
+		float[] tempBikeMonth = new float[2];
 		
-		result.put("bike,year", temp1);		
+		tempBikeMonth[0] = tempBikeWeek[0]*4;
+		tempBikeMonth[1] = tempBikeWeek[1]*4;
+		
+		result.put("bike,month", tempBikeMonth);
+		
+		float[] tempBikeYear = new float[2];
+		
+		tempBikeYear[0] = tempBikeMonth[0]*12;
+		tempBikeYear[1] = tempBikeMonth[1]*12;
+		
+		result.put("bike,year", tempBikeYear);		
 		
 		double distanceWalk = generator.nextDouble()*2;		
 		int iWalk = (int) ((distanceWalk/5)*60);
 		
-		float[] temp2 = {(float)distanceWalk, (float)iWalk};
-		result.put("walk,day", temp1);
-		temp2[0] = (float)distanceWalk*7;
-		temp2[1] = (float)iWalk*7;
+		float[] tempWalkDay = {(float)distanceWalk, (float)iWalk};
+		result.put("walk,day", tempWalkDay);
 		
-		result.put("walk,week", temp2);
+		float[] tempWalkWeek = new float[2];
 		
-		temp2[0] = temp2[0]*4;
-		temp2[1] = temp2[1]*4;
+		tempWalkWeek[0] = (float)distanceWalk*7;
+		tempWalkWeek[1] = (float)iWalk*7;
 		
-		result.put("walk,month", temp2);
+		result.put("walk,week", tempWalkWeek);
 		
-		temp2[0] = temp2[0]*12;
-		temp2[1] = temp2[1]*12;
+		float[] tempWalkMonth = new float[2];
 		
-		result.put("walk,year", temp2);
+		tempWalkMonth[0] = tempWalkWeek[0]*4;
+		tempWalkMonth[1] = tempWalkWeek[1]*4;
+		
+		result.put("walk,month", tempWalkMonth);
+		
+		float[] tempWalkYear = new float[2];
+		
+		tempWalkYear[0] = tempWalkMonth[0]*12;
+		tempWalkYear[1] = tempWalkMonth[1]*12;
+		
+		result.put("walk,year", tempWalkYear);
 		
 		float[] temp3 = {0, 0};
 		result.put("bus,day", temp3);
