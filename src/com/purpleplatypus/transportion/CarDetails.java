@@ -62,7 +62,7 @@ public class CarDetails extends TransportionActivity{
 		
 		title.setText("Car Details");
 		
-		miles.setText("Miles Travelled: "+ m.getStat("car", "month", "distance") +" Miles");
+		miles.setText("Miles Traveled: "+ m.getStat("car", "month", "distance") +" Miles");
 		time.setText("Time Spent: " + m.getStat("car", "month", "timespan") + " Min");
 		gas.setText("Gas Used: " + m.getGas("car", "month") + " Gallons");
 		percent.setText("% of Travelled: " + m.getPercent("car", "month") + "%");
@@ -99,7 +99,7 @@ public class CarDetails extends TransportionActivity{
 			day.setTypeface(null, Typeface.BOLD);
 			day.setBackgroundResource(R.drawable.blue_button);
 					
-			miles.setText("Miles Travelled: "+ m.getStat("car", "day", "distance") +" Miles");
+			miles.setText("Miles Traveled: "+ m.getStat("car", "day", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("car", "day", "timespan") + " Min");
 			gas.setText("Gas Used: " + m.getGas("car", "day") + " Gallons");
 			percent.setText("% of Travelled: " + m.getPercent("car", "day") + "%");
@@ -111,7 +111,7 @@ public class CarDetails extends TransportionActivity{
 			week.setTypeface(null, Typeface.BOLD);
 			week.setBackgroundResource(R.drawable.blue_button);
 			
-			miles.setText("Miles Travelled: "+ m.getStat("car", "week", "distance") +" Miles");
+			miles.setText("Miles Traveled: "+ m.getStat("car", "week", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("car", "week", "timespan") + " Min");
 			gas.setText("Gas Used: " + m.getGas("car", "week") + " Gallons");
 			percent.setText("% of Travelled: " + m.getPercent("car", "week") + "%");
@@ -123,7 +123,7 @@ public class CarDetails extends TransportionActivity{
 			month.setTypeface(null, Typeface.BOLD);
 			month.setBackgroundResource(R.drawable.blue_button);
 			
-			miles.setText("Miles Travelled: "+ m.getStat("car", "month", "distance") +" Miles");
+			miles.setText("Miles Traveled: "+ m.getStat("car", "month", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("car", "month", "timespan") + " Min");
 			gas.setText("Gas Used: " + m.getGas("car", "month") + " Gallons");
 			percent.setText("% of Travelled: " + m.getPercent("car", "month") + "%");
@@ -135,7 +135,7 @@ public class CarDetails extends TransportionActivity{
 			year.setTypeface(null, Typeface.BOLD);
 			year.setBackgroundResource(R.drawable.blue_button);
 			
-			miles.setText("Miles Travelled: "+ m.getStat("car", "year", "distance") +" Miles");
+			miles.setText("Miles Traveled: "+ m.getStat("car", "year", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("car", "year", "timespan") + " Min");
 			gas.setText("Gas Used: " + m.getGas("car", "year") + " Gallons");
 			percent.setText("% of Travelled: " + m.getPercent("car", "year") + "%");

@@ -66,7 +66,7 @@ public class BusDetails extends TransportionActivity{
 		
 		// SET INITIAL DATA
 		
-		miles.setText("Miles Travelled: "+ m.getStat("bus", "month", "distance") +" Miles");
+		miles.setText("Miles Traveled: "+ m.getStat("bus", "month", "distance") +" Miles");
 		time.setText("Time Spent: " + m.getStat("bus", "month", "timespan") + " Min");
 		gas.setText("Gas Used: " + m.getGas("bus", "month") + " Gallons");
 		percent.setText("% of Travelled: " + m.getPercent("bus", "month") + "%");
@@ -97,7 +97,7 @@ public class BusDetails extends TransportionActivity{
 			day.setBackgroundResource(R.drawable.blue_button);				
 
 			// HARD CODE:
-			miles.setText("Miles Travelled: "+ m.getStat("bus", "day", "distance") +" Miles");
+			miles.setText("Miles Traveled: "+ m.getStat("bus", "day", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("bus", "day", "timespan") + " Min");
 			gas.setText("Gas Used: " + m.getGas("bus", "day") + " Gallons");
 			percent.setText("% of Travelled: " + m.getPercent("bus", "day") + "%");
@@ -110,7 +110,7 @@ public class BusDetails extends TransportionActivity{
 			week.setBackgroundResource(R.drawable.blue_button);
 						
 			// HARD CODE:
-			miles.setText("Miles Travelled: "+ m.getStat("bus", "week", "distance") +" Miles");
+			miles.setText("Miles Traveled: "+ m.getStat("bus", "week", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("bus", "week", "timespan") + " Min");
 			gas.setText("Gas Used: " + m.getGas("bus", "week") + " Gallons");
 			percent.setText("% of Travelled: " + m.getPercent("bus", "week") + "%");
@@ -123,7 +123,7 @@ public class BusDetails extends TransportionActivity{
 			month.setBackgroundResource(R.drawable.blue_button);
 						
 			// HARD CODE:
-			miles.setText("Miles Travelled: "+ m.getStat("bus", "month", "distance") +" Miles");
+			miles.setText("Miles Traveled: "+ m.getStat("bus", "month", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("bus", "month", "timespan") + " Min");
 			gas.setText("Gas Used: " + m.getGas("bus", "month") + " Gallons");
 			percent.setText("% of Travelled: " + m.getPercent("bus", "month") + "%");
@@ -136,7 +136,7 @@ public class BusDetails extends TransportionActivity{
 			year.setBackgroundResource(R.drawable.blue_button);
 						
 			// HARD CODE:
-			miles.setText("Miles Travelled: "+ m.getStat("bus", "year", "distance") +" Miles");
+			miles.setText("Miles Traveled: "+ m.getStat("bus", "year", "distance") +" Miles");
 			time.setText("Time Spent: " + m.getStat("bus", "year", "timespan") + " Min");
 			gas.setText("Gas Used: " + m.getGas("bus", "year") + " Gallons");
 			percent.setText("% of Travelled: " + m.getPercent("bus", "year") + "%");
