@@ -634,6 +634,8 @@ public class Model {
 		user.put("modes", data.get("modes"));
 		user.put("timespans", data.get("timespans"));
 		user.put("carbons", data.get("carbons"));
+		
+		getCarbon(String mode, String time) {
 		*/
 		
 		Random generator = new Random();
@@ -652,12 +654,11 @@ public class Model {
 		int iCarDay = (int) ((distanceCarDay/45)*60);							
 		
 		
-		
 		//mDbHelper.updateEntry(new Timestamp(d), "car", (float) distanceCar, iCar);
 		
 		double distanceBike = generator.nextDouble()*20; 		
 		int iBike = (int) ((distanceBike/15)*60);
-			
+				
 		//mDbHelper.updateEntry(new Timestamp(d), "bike", (float) distanceBike, iBike);
 		
 		double distanceWalk = generator.nextDouble()*2;		
@@ -675,6 +676,103 @@ public class Model {
 			month = 12;
 		}
 		*/		
+	}
+	
+	public Hashtable<String, float[]> hardCode() {
+		// average car: 45 miles per hour => 45/60
+		// average bike: 15 miles per hour => 15/60
+		// average walk: 5 miles per hour => 5/60
+		
+		//public void sendDataToServer(final Hashtable<String, JSONArray> data) throws JSONException { // data for last month	
+		/*
+		user.put("user_id", userID);
+		user.put("miles", data.get("miles"));
+		user.put("modes", data.get("modes"));
+		user.put("timespans", data.get("timespans"));
+		user.put("carbons", data.get("carbons"));
+		*/
+		Hashtable result = new Hashtable<String, float[]>();
+		Random generator = new Random();
+		
+		Calendar c = Calendar.getInstance();		
+		c.set(year, month, day, hour, min);
+		long d = c.getTimeInMillis();
+		
+		JSONArray miles = new JSONArray();
+		JSONArray timespans = new JSONArray();
+		JSONArray modes = new JSONArray();
+		JSONArray carbons = new JSONArray();
+		
+		// right now		
+		double distanceCarDay = generator.nextDouble()*100;		
+		int iCarDay = (int) ((distanceCarDay/45)*60);							
+		int carbonCar = (int) getCarbon("car", iCarDay+"");		
+		
+		float[] temp = {(float)distanceCarDay, (float)iCarDay};
+		result.put("car,day", temp);
+		temp[0] = (float)distanceCarDay*7;
+		temp[1] = (float)iCarDay*7;
+		
+		result.put("car,week", temp);
+		
+		temp[0] = temp[0]*4;
+		temp[1] = temp[1]*4;
+		
+		result.put("car,month", temp);
+		
+		temp[0] = temp[0]*12;
+		temp[1] = temp[1]*12;
+		
+		result.put("car,year", temp);
+		
+		double distanceBike = generator.nextDouble()*20; 		
+		int iBike = (int) ((distanceBike/15)*60);
+		
+		float[] temp1 = {(float)distanceBike, (float)iBike};
+		result.put("bike,day", temp1);
+		temp1[0] = (float)distanceBike*7;
+		temp1[1] = (float)iBike*7;
+		
+		result.put("bike,week", temp1);
+		
+		temp1[0] = temp1[0]*4;
+		temp1[1] = temp1[1]*4;
+		
+		result.put("bike,month", temp1);
+		
+		temp1[0] = temp1[0]*12;
+		temp1[1] = temp1[1]*12;
+		
+		result.put("bike,year", temp1);		
+		
+		double distanceWalk = generator.nextDouble()*2;		
+		int iWalk = (int) ((distanceWalk/5)*60);
+		
+		float[] temp2 = {(float)distanceWalk, (float)iWalk};
+		result.put("walk,day", temp1);
+		temp2[0] = (float)distanceWalk*7;
+		temp2[1] = (float)iWalk*7;
+		
+		result.put("walk,week", temp2);
+		
+		temp2[0] = temp2[0]*4;
+		temp2[1] = temp2[1]*4;
+		
+		result.put("walk,month", temp2);
+		
+		temp2[0] = temp2[0]*12;
+		temp2[1] = temp2[1]*12;
+		
+		result.put("walk,year", temp2);
+		
+		float[] temp3 = {0, 0};
+		result.put("bus,day", temp3);
+		result.put("bus,week", temp3);
+		result.put("bus,month", temp3);
+		result.put("bus,year", temp3);
+		
+		return result;
+		
 	}
 	
 	public double getTrees(String mode, String time) {
