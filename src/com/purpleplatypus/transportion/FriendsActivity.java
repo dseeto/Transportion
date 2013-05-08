@@ -377,7 +377,7 @@ public class FriendsActivity extends TransportionActivity {
 	 * FOR TESTING PURPOSES - CLICK TO POPULATE DATA IN SERVER
 	 * @throws JSONException 
 	 */
-	
+	/*
 	public void onClick(View v) throws JSONException {
 		int button = v.getId();
 		switch(button) {
@@ -397,4 +397,5 @@ public class FriendsActivity extends TransportionActivity {
 		}
 		
 	}
+	*/
 }
