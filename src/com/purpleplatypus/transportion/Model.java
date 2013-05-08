@@ -829,7 +829,8 @@ public class Model {
 		if (mode == "bus") {
 			try {
 				String miles = ((JSONArray)busStats.get(time)).getString(0);
-				return Double.parseDouble(miles)/Model.busMilesPerGallon;
+				double result = Double.parseDouble(miles)/Model.busMilesPerGallon;
+				return (double) Math.round(result * 100) / 100;
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -840,7 +841,8 @@ public class Model {
 		
 		try {
 			String miles = ((JSONArray)carStats.get(time)).getString(0);
-			return Double.parseDouble(miles)/Model.milesPerGallon;
+			double result = Double.parseDouble(miles)/Model.milesPerGallon;
+			return (double) Math.round(result * 100) / 100;
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -997,7 +999,11 @@ public class Model {
         			totalTime = totalTime + (new Double(timeThisMonth)).intValue();
         		}
     			milesArray.put(totalMiles+"");
-    			carbonsArray.put((totalMiles/Model.milesPerGallon)*Model.carbonPerGallon+"");
+    			
+    			double totalCarbon = (totalMiles/Model.milesPerGallon)*Model.carbonPerGallon;
+    			totalCarbon = (double) Math.round(totalCarbon*100)/100;
+    			
+    			carbonsArray.put(totalCarbon+"");
     			
     			timeArray.put(totalTime);
     			
