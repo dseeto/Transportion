@@ -1,13 +1,11 @@
 package com.purpleplatypus.transportion;
 
-import java.lang.reflect.Array;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Enumeration;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
@@ -26,8 +24,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.parse.FindCallback;
-import com.parse.FunctionCallback;
-import com.parse.ParseCloud;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -346,7 +342,7 @@ public class Model {
 	    public static final String COLUMN_NAME_TIMESTAMP = "time";
 
 	    public static final String DATA_SQL_CREATE_ENTRIES = 
-	    		"CREATE TABLE IF NOT EXISTS " + DATA_TABLE_NAME + " (" + COLUMN_NAME_TIMESTAMP + " TIMESTAMP PRIMARY KEY, " + COLUMN_NAME_MODE + " TEXT, " + COLUMN_NAME_DISTANCE + " FLOAT, " + COLUMN_NAME_INTERVAL + " INT" + ")";
+	    		"CREATE TABLE IF NOT EXISTS " + DATA_TABLE_NAME + " (" + COLUMN_NAME_TIMESTAMP + " TIMESTAMP, " + COLUMN_NAME_MODE + " TEXT, " + COLUMN_NAME_DISTANCE + " FLOAT, " + COLUMN_NAME_INTERVAL + " INT" + "PRIMARY KEY (" + COLUMN_NAME_TIMESTAMP + ", " + COLUMN_NAME_MODE + ") )";
 	    
 	    public static final String DATA_SQL_DELETE_ENTRIES =
 	    		"DROP TABLE IF EXIST " + DATA_TABLE_NAME;
@@ -622,7 +618,7 @@ public class Model {
 	 * 
 	 * IMPLEMENT: NEED TO BE CHANGED TO LOCALDB
 	 */
-	public void populateSegmentsDay() throws JSONException {
+	public void populateSegmentsDay(int numRepeat) throws JSONException {
 		// average car: 45 miles per hour => 45/60
 		// average bike: 15 miles per hour => 15/60
 		// average walk: 5 miles per hour => 5/60
@@ -639,43 +635,39 @@ public class Model {
 		*/
 		
 		Random generator = new Random();
+
+		Date date = new java.util.Date();
+		int year = date.getYear();
+		int month = date.getMonth();
+		int day = date.getDate();
+		Timestamp today = new Timestamp(new java.util.Date(year, month, day).getTime());
 		
-		Calendar c = Calendar.getInstance();		
-		c.set(year, month, day, hour, min);
-		long d = c.getTimeInMillis();
-		
-		JSONArray miles = new JSONArray();
-		JSONArray timespans = new JSONArray();
-		JSONArray modes = new JSONArray();
-		JSONArray carbons = new JSONArray();
-		
-		// right now		
-		double distanceCarDay = generator.nextDouble()*100;		
-		int iCarDay = (int) ((distanceCarDay/45)*60);							
-		
-		
-		//mDbHelper.updateEntry(new Timestamp(d), "car", (float) distanceCar, iCar);
-		
-		double distanceBike = generator.nextDouble()*20; 		
-		int iBike = (int) ((distanceBike/15)*60);
-				
-		//mDbHelper.updateEntry(new Timestamp(d), "bike", (float) distanceBike, iBike);
-		
-		double distanceWalk = generator.nextDouble()*2;		
-		int iWalk = (int) ((distanceWalk/5)*60);
-		
-		//mDbHelper.updateEntry(new Timestamp(d), "walk", (float) distanceWalk, iWalk);
-		/*
-		day = day-1;		
-		if (day < 0) {
-			month--;
-			day = 30;
+		// right now	
+		while (numRepeat > 0) {
+			double distanceCar = generator.nextDouble()*100;		
+			int iCar = (int) ((distanceCar/45)*60);							
+			mDbHelper.updateEntry(today, "car", (float)distanceCar, iCar);
+			
+			double distanceBike = generator.nextDouble()*20; 		
+			int iBike = (int) ((distanceBike/15)*60);		
+			mDbHelper.updateEntry(today, "bike", (float) distanceBike, iBike);
+			
+			double distanceWalk = generator.nextDouble()*2;		
+			int iWalk = (int) ((distanceWalk/5)*60);
+			mDbHelper.updateEntry(today, "walk", (float) distanceWalk, iWalk);
+			
+			day = day-1;		
+			if (day < 0) {
+				month--;
+				day = 30;
+			}
+			if (month < 0) {
+				year--;
+				month = 12;
+			}		
+			numRepeat -= 1;
 		}
-		if (month < 0) {
-			year--;
-			month = 12;
-		}
-		*/		
+
 	}
 	
 	public Hashtable<String, float[]> hardCode() {
