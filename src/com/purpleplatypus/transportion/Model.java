@@ -1,5 +1,6 @@
 package com.purpleplatypus.transportion;
 
+import java.lang.reflect.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -328,6 +329,65 @@ public class Model {
 	    	cursor.close();
 			db.close();
 		}
+	    
+	    public Hashtable<String[], Float[]> queryDatabase() {
+	    	SQLiteDatabase db = this.getWritableDatabase();
+	    	Hashtable<String[], Float[]> result = new Hashtable<String[], Float[]>();
+	    	
+	    	Date today = new Date();
+			int year = today.getYear();
+			int month = today.getMonth();
+			int date = today.getDate();
+			long utc = new Date(year, month, date).getTime();
+			Timestamp yesterday = new Timestamp(utc - 86400000);
+			Timestamp lastWeek = new Timestamp(utc - 86400000 * 7);
+			Timestamp lastMonth = new Timestamp(utc - 86400000 * 31);
+			Timestamp lastYear = new Timestamp(utc - 86400000 * 365);
+
+	    	
+			ArrayList<Segment> allData = this.rawDataGetAll();
+			for (int i = 0; i < allData.size(); i += 1) {
+				if (allData.get(i).timestamp.after(lastYear)) {
+					if (allData.get(i).timestamp.after(lastMonth)) {
+						if (allData.get(i).timestamp.after(lastWeek)) {
+							if (allData.get(i).timestamp.after(yesterday)) {
+								String[] key = {allData.get(i).mode, "day"};
+								Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
+								if (result.containsKey(key)) {
+									val[0] += result.get(key)[0];
+									val[1] += result.get(key)[1];
+								} 
+								result.put(key, val);
+							}
+							String[] key = {allData.get(i).mode, "week"};
+							Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
+							if (result.containsKey(key)) {
+								val[0] += result.get(key)[0];
+								val[1] += result.get(key)[1];
+							} 
+							result.put(key, val);
+						}
+						String[] key = {allData.get(i).mode, "month"};
+						Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
+						if (result.containsKey(key)) {
+							val[0] += result.get(key)[0];
+							val[1] += result.get(key)[1];
+						} 
+						result.put(key, val);
+					}
+					String[] key = {allData.get(i).mode, "year"};
+					Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
+					if (result.containsKey(key)) {
+						val[0] += result.get(key)[0];
+						val[1] += result.get(key)[1];
+					} 
+					result.put(key, val);
+				}
+			}
+	    	
+	    	db.close();	
+	    	return result;
+	    }
 	    
 	    /*
 	     *  Should return the points in order by timestamp.
