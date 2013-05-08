@@ -3,6 +3,7 @@ package com.purpleplatypus.transportion;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
@@ -282,6 +283,28 @@ public class Model {
 	    public static final String DATA_SQL_DELETE_ENTRIES =
 	    		"DROP TABLE IF EXIST " + DATA_TABLE_NAME;
 	    
+	    public void cleanTable() {
+	    	SQLiteDatabase db = this.getWritableDatabase();
+	    	Date date = new java.util.Date();
+			int year = date.getYear();
+			int month = date.getMonth();
+			int day = date.getDate();
+			Timestamp lastYearToday = new Timestamp(new java.util.Date(year-1, month, day+1).getTime());
+			
+	    	String query = "SELECT * FROM " + DATA_TABLE_NAME + " ORDER BY " + COLUMN_NAME_TIMESTAMP + " ASC";
+	    	Cursor cursor = db.rawQuery(query, null);
+	    	if (cursor.moveToFirst()) {
+	            do {
+	            	if (Timestamp.valueOf(cursor.getString(0)).before(lastYearToday)) {
+	            		db.delete(DATA_TABLE_NAME, "time=?", new String[]{String.valueOf(cursor.getString(0))});
+	            	} else {
+	            		break;
+	            	}
+	            } while (cursor.moveToNext());
+	        }
+	    	cursor.close();
+	    	db.close();	
+	    }
 	    
 	    public void updateEntry(Timestamp timestamp, String mode, float distance, int interval) {
 			SQLiteDatabase db = this.getWritableDatabase();
@@ -321,7 +344,6 @@ public class Model {
 	            	// TESTING PURPOSES	    	
 	    	    	System.out.println(cursor.getString(0) + " ," + cursor.getString(1) + " ," + cursor.getString(2) + " ," + cursor.getString(3));
 	    	        // TESTING PURPOSES
-	            	
 	            	
 	                Segment p = new Segment(Timestamp.valueOf(cursor.getString(0)), cursor.getString(1), cursor.getFloat(2), cursor.getInt(3));	                	                
 	                list.add(p);

@@ -49,6 +49,7 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 		appState = (ApplicationState) this.getApplication();
 		System.out.println("CREATE DATABASE:");
 		appState.data.createDatabase(this);	
+		appState.data.mDbHelper.cleanTable();
 		
 //		appState.data.mDbHelper.rawDataRemoveAll();
 //		Date date = new java.util.Date();
@@ -57,8 +58,14 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 //		int day = date.getDate();
 //		Timestamp today = new Timestamp(new java.util.Date(year, month, day).getTime());
 //		appState.data.mDbHelper.updateEntry(today, "walk", 153, 52);
-//		appState.data.mDbHelper.rawDataGetAll();
 //		appState.data.mDbHelper.updateEntry(today, "walk", 7, 8);
+//		
+//		Timestamp oldDay = new Timestamp(new java.util.Date(year-1, month, day+1).getTime());
+//		appState.data.mDbHelper.updateEntry(oldDay, "walk", 100, 10);
+//		appState.data.mDbHelper.rawDataGetAll();
+//		
+//		appState.data.mDbHelper.cleanTable();
+//		System.out.println("Cleaned the table!");
 //		appState.data.mDbHelper.rawDataGetAll();
 		
 		//Transportion2 Account
