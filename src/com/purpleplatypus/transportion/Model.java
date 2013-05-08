@@ -40,10 +40,11 @@ public class Model {
 	Context context;
 	DbHelper mDbHelper; 
 	String userID; 
-	String userName="Joe";
-	ArrayList<Info_User> userList;
-	ArrayList<Info_FriendsList> friendsList;
-	ArrayList<Info_Leaderboard> leaderboardList;
+	String userName;
+	
+	
+	List<ParseObject> friendsList = null;
+	ArrayList<Info_Leaderboard> leaderboardList = null;
 	
 	int year;
 	int month;
@@ -54,6 +55,7 @@ public class Model {
 	public Model() {
 		SharedPreferences savedSession = ApplicationState.getContext().getSharedPreferences("facebook-session",Context.MODE_PRIVATE);
         userID = savedSession.getString("id", null);
+        userName = savedSession.getString("name", null); // not sure if this is saved
 	}
 		
 	public void createDatabase(Context c) {
@@ -80,17 +82,53 @@ public class Model {
 	 * Sends all the raw data in UserData table to the server.
 	 * After sent, clears the local db to save room.
 	 */
-	public void sendDataToServer(Hashtable<String, JSONArray> data) throws JSONException { // should send in one object		
+	public void sendDataToServer(final Hashtable<String, JSONArray> data) throws JSONException { // data for last month		
 		
-		ParseObject user = new ParseObject("Users");
+		// IMPLEMENT: need to do update
 		
-		user.put("id", userID);
-		user.put("miles", data.get("miles"));
-		user.put("modes", data.get("modes"));
-		user.put("timespans", data.get("timespans"));
-		user.put("carbon", data.get("carbons"));
+		ParseQuery query = new ParseQuery("Users");
+		query.whereEqualTo("user_id", userID);
+		query.findInBackground(new FindCallback() {
+		    public void done(List<ParseObject> l, ParseException e) {
+		        if (e == null) { // no exception
+		        	if (l.size() == 0) {
+		        		
+		        		ParseObject user = new ParseObject("Users");
+		        		
+		        		user.put("user_id", userID);
+		        		user.put("miles", data.get("miles"));
+		        		user.put("modes", data.get("modes"));
+		        		user.put("timespans", data.get("timespans"));
+		        		user.put("carbons", data.get("carbons"));
+		        		try {
+							user.put("total_carbon", data.get("carbons").get(data.get("carbons").length()-1));
+						} catch (JSONException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+		        		user.put("name", userName);
+		        		user.saveEventually();
+		        	} else {
+		        		if (l.size() > 1) {
+		        			// PROBLEM!! 
+		        			System.out.println("MORE THAN ONE ENTRY OF SAME USER IN TABLE!!!");
+		        		} else { // update
+		        			ParseObject temp = l.get(0);
+		        			temp.put("user_id", userID);
+		        			temp.put("miles", data.get("miles"));
+		        			temp.put("modes", data.get("modes"));
+		        			temp.put("timespans", data.get("timespans"));
+		        			temp.put("carbons", data.get("carbons"));
+		        		}
+		        	}
+		        	
+		        } else {
+		            // IMPLEMENT: error
+		        	System.out.println("retriveFriendDataFromServer ERROR!!!!");
+		        }
+		    }
+		});
 		
-		user.saveEventually();
 		
 		/*
 		ArrayList<Segment> data = mDbHelper.rawDataGetAll();
@@ -132,30 +170,37 @@ public class Model {
 	 * Same as above method. NOT BEEN TESTED!!!! NEEDS TO BE FIXED TO BE LIKE retrieveLeaderboardDataFromServer!!
 	 */
 	
-	public ArrayList<Info_FriendsList> retrieveFriendDataFromServer(String friendID) {		
-		friendsList = new ArrayList<Info_FriendsList>();
+	public void retrieveFriendDataFromServer(JSONArray fbFriends, final FriendsActivity a) throws JSONException {	// called by FriendsActivity.java	
+		//friendsList = new ArrayList<Info_FriendsList>();
 		
-		/*
-		// OLD CODE:
-		ParseQuery query = new ParseQuery(friendID + "RetrievedData");
+		// get list of ids from JSON
+		List<String> ids = new ArrayList<String>(); // not sure if this has to be an array
+		for (int i = 0; i < fbFriends.length(); i++) {
+			ids.add(((JSONObject) fbFriends.get(i)).getString("id"));			
+		}
+			
+		ParseQuery query = new ParseQuery("Users");
 		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
-		query.whereEqualTo("UserID", friendID);
+		
+		query.whereContainedIn("user_id", ids);
+		query.orderByAscending("name"); // not sure if you can do that for string
 		query.findInBackground(new FindCallback() {
-		    public void done(List<ParseObject> infoList, ParseException e) {
+		    public void done(List<ParseObject> fl, ParseException e) {
 		        if (e == null) { // no exception
-		        	Info_User i;
-		        	for (ParseObject p : infoList) {		        		
-		        		i = new Info_User(p.getString("mode"), p.getString("timespan"), (float)p.getDouble("miles"),
-		        				(float)p.getDouble("carbon"), p.getInt("timespent"), (float)p.getDouble("percent"), (float)p.getDouble("gas"));
-		        		friendsList.add(i);
-		        	}
+		        	// save this info in model (not in local db)
+		        	System.out.println(fl.size());
+		        	friendsList = fl;
+		        	a.showFriends(fl);
+		        	
 		        } else {
 		            // IMPLEMENT: error
 		        	System.out.println("retriveFriendDataFromServer ERROR!!!!");
+		        	System.out.println(e.toString());
 		        }
 		    }
 		});
-		*/
+		
+		/*
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("userID", userID);
 		ParseCloud.callFunctionInBackground("getFriends", new HashMap<String, List<String>>(), new FunctionCallback<List<ParseObject>>() {
@@ -175,8 +220,8 @@ public class Model {
 			        }
 			   }
 			});
-		
-		return friendsList;
+		*/
+		//return friendsList;
 	}
 	
 	/*
@@ -184,12 +229,11 @@ public class Model {
 	 */
 	public void retrieveLeaderboardDataFromServer(final LeaderboardActivity l) {		
 		leaderboardList = new ArrayList<Info_Leaderboard>();
-		/*
-		// OLD CODE:
+		
 		ParseQuery query = new ParseQuery("Users");
 		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
 		query.setLimit(10);
-		query.orderByAscending("carbon");
+		query.orderByAscending("total_carbon");
 		query.findInBackground(new FindCallback() {
 			public void done(List<ParseObject> list, ParseException e) {
 				if (e == null) {
@@ -199,10 +243,10 @@ public class Model {
 						// REMOVE
 						System.out.println("Leaderboard!!!");
 						System.out.println(p.getString("name"));
-						System.out.println(p.getNumber("carbon"));
+						System.out.println(p.getString("total_carbon"));
 						// REMOVE
 						j++;
-						i = new Info_Leaderboard(j+"", p.getString("name"), p.getNumber("carbon").toString());
+						i = new Info_Leaderboard(j+"", p.getString("name"), p.getString("total_carbon"));
 						System.out.println(i.toString());
 						System.out.println(leaderboardList.add(i));
 					}
@@ -214,7 +258,8 @@ public class Model {
 				}
 			}
 		});	
-		*/
+		
+		/*
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("userID", userID);
 		ParseCloud.callFunctionInBackground("getLeaderBoard", new HashMap<String, String>(), new FunctionCallback<List<ParseObject>>() {
@@ -241,6 +286,7 @@ public class Model {
 			       }
 			   }
 			});
+			*/
 	}
 	
 	/*

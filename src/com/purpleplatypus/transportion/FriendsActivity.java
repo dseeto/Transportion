@@ -17,6 +17,7 @@ import com.facebook.Request.GraphUserListCallback;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.facebook.widget.ProfilePictureView;
+import com.parse.ParseObject;
 
 import android.app.Activity;
 import android.app.SearchManager;
@@ -49,6 +50,8 @@ import android.widget.TextView;
 public class FriendsActivity extends TransportionActivity {
 	
 	protected static JSONArray friendsJsons = null;
+	protected static ArrayList<String[]> transportionFriends = null; // String[name, carbon]
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class FriendsActivity extends TransportionActivity {
 		        imm.toggleSoftInput(0, 0);
 		    }
 		});
-	
+		
 	}
 	
 	public void onResume() {
@@ -101,7 +104,7 @@ public class FriendsActivity extends TransportionActivity {
 		}
 	}
 	
-	protected void handleIntent(Intent intent) {
+	protected void handleIntent(Intent intent) { // WHAT HAPPENS WHEN WE DON'T HAVE TRANSPORTIONFRIENDS YET??? WHEN IT IS NULL?!?!?
 		
 		if (Intent.ACTION_VIEW.equals(intent.getAction())) {
 	    	// must be the case that a friend had been clicked on while on suggestion
@@ -124,26 +127,25 @@ public class FriendsActivity extends TransportionActivity {
 	    	// get the data
 			System.out.println("friends page: clicked on search button");
 	    	String query = intent.getStringExtra(SearchManager.QUERY);
-	    	ArrayList<Integer> itemsToShow = new ArrayList<Integer>();
-	      	for (int i = 0; i < FriendsActivity.friendsJsons.length(); i++) {
-	      		String name = null;
-	      		try {
-	      			name = FriendsActivity.friendsJsons.getJSONObject(i).getString("name");
-	      		} catch (Exception e) {
-	      			System.out.println("error while trying to search through friends list for names that match query: " + e.toString());
-	      			return;
-	      		}
+	    	ArrayList<String[]> itemsToShow = new ArrayList<String[]>();
+	    	
+	      	//for (int i = 0; i < FriendsActivity.friendsJsons.length(); i++) {
+	      	for (int i = 0; i < transportionFriends.size(); i++) {
+	      			
+	    		String name = transportionFriends.get(i)[0];
+	    		
 	      		if (name.toLowerCase().contains(query.toLowerCase())) {
-					Integer id = Integer.valueOf(i);
-					itemsToShow.add(id);
+					//Integer id = Integer.valueOf(i);
+	      			String carbon = transportionFriends.get(i)[1];
+	      			String[] temp = {name, carbon};
+					itemsToShow.add(temp);
 				}
 			}
 	      	
 	      	// put it in the ListView
 	      	friendsList = (ListView) findViewById(R.id.friendsList);
 	      	friendsList.setAdapter(new resultsAdapter(this, itemsToShow));
-	    }
-	    else {
+	    } else {
 	    	// just initialized, so just show all friends
 	    	System.out.println("friends page: just initialized");
 	    	getFriends();
@@ -182,17 +184,28 @@ public class FriendsActivity extends TransportionActivity {
 	                	// take valid response and put it into static data structure
 	                	JSONObject returnObj = response.getGraphObject().getInnerJSONObject();
 	                    try {
+	                    	System.out.println("before data");
 	                    	JSONArray data = (JSONArray) returnObj.get("data");
-	                    	FriendsActivity.friendsJsons = data;
+	                    	FriendsActivity.friendsJsons = data;	                    	
+	                    	System.out.println("after data");
+	                    	// give friendsJsons to model
+	                    	
 	                    	System.out.println("successfully set friendsJson to gotten data");
 	                    	System.out.println(data.toString());
+	                    	
 	                    	// show friends in friendsJson
-	                    	showFriends();
+	                    	//showFriends(data);
 	                    	// remove loading icon
-	                    	removeLoading();
+	                    	//removeLoading();
 	                    } catch (Exception e) {
 	                    	System.out.println("error while getting data of getFriends response: " + e.toString());
 	                    }
+	                    try {
+							getTransportionFriends(FriendsActivity.friendsJsons);
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 	                }
 	        });
 	        
@@ -202,6 +215,10 @@ public class FriendsActivity extends TransportionActivity {
 	        
 	        friendRequest.executeAsync();
 	    }
+	}
+	
+	protected void getTransportionFriends(JSONArray friendsJsons) throws JSONException {
+		ApplicationState.getModel().retrieveFriendDataFromServer(friendsJsons, this);
 	}
 	
 	protected void showLoading() {
@@ -220,7 +237,7 @@ public class FriendsActivity extends TransportionActivity {
 		baseView.removeAllViews();
 		
 	}
-	
+	/*
 	protected void showFriends(){
 		System.out.println("friends page: show friends called");
 		if (FriendsActivity.friendsJsons == null) {
@@ -236,6 +253,28 @@ public class FriendsActivity extends TransportionActivity {
       	// put it in the ListView
       	ListView friendsList = (ListView) findViewById(R.id.friendsList);
       	friendsList.setAdapter(new resultsAdapter(this, itemsToShow));
+	}
+	*/
+	
+	protected void showFriends(List<ParseObject> friendsData) { // need to fix resultsAdapter
+		System.out.println("friends page: show friends called");
+		ArrayList<String[]> flist = new ArrayList<String[]>();
+		for (ParseObject p : friendsData) {
+			// get name
+			String name = (String) p.get("name");
+			String carbon = (String) p.get("total_carbon");
+			
+			String[] temp = {name, carbon};
+			
+			flist.add(temp);
+		}
+		
+		transportionFriends = flist;
+		// put it in the ListView
+		ListView friendsList = (ListView) findViewById(R.id.friendsList);
+      	friendsList.setAdapter(new resultsAdapter(this, flist)); 
+		
+		removeLoading();
 	}
 	
 	protected void handleNotLoggedIn() {
@@ -255,11 +294,11 @@ public class FriendsActivity extends TransportionActivity {
 	public class resultsAdapter extends BaseAdapter {
         
         private Activity activity;
-        private ArrayList<Integer> data;
+        private ArrayList<String[]> data;
         private LayoutInflater inflater=null;
         private int screenHeight, screenWidth;
         
-        public resultsAdapter(Activity a, ArrayList<Integer> d) {
+        public resultsAdapter(Activity a, ArrayList<String[]> d) {
             activity = a;
             data=d;
             inflater = (LayoutInflater)activity.getSystemService(activity.LAYOUT_INFLATER_SERVICE);
@@ -268,7 +307,7 @@ public class FriendsActivity extends TransportionActivity {
         public int getCount() {
             return data.size();
         }
-
+        
         public Object getItem(int position) {
             return position;
         }
@@ -284,34 +323,20 @@ public class FriendsActivity extends TransportionActivity {
                 vi = inflater.inflate(R.layout.list_adapter_friend, null);
             }
            
-            /*
-            try {
-				JSONObject imageData = FriendsActivity.friendsJson
-											.getJSONObject(position)
-											.getJSONObject("picture")
-											.getJSONObject("data");
-				if (imageData.getBoolean("is_silhouette") == false) {
-					String imageURL = imageData.getString("url");
-					new DownloadImageTask(image).execute(imageURL);
-				}
-			} catch (JSONException e1) {
-				System.out.println("could not get friend's JSON image data: " + e1.toString());
-			}
-			*/
-            
-            
             // set name
             TextView name = (TextView) vi.findViewById(R.id.name);
             try {
-            	name.setText(FriendsActivity.friendsJsons.getJSONObject(data.get(position)).getString("name"));
+            	name.setText(data.get(position)[0]);
+            	//name.setText(FriendsActivity.friendsJsons.getJSONObject(data.get(position)).getString("name"));
             } catch (Exception e) {
             	name.setText(e.toString());
             }
             
-            // set misc data
+            // set carbon
             TextView carbon = (TextView) vi.findViewById(R.id.carbonAmount);
             try {
-            	carbon.setText(FriendsActivity.friendsJsons.getJSONObject(data.get(position)).getString("id") + " GRAMS");
+            	carbon.setText(data.get(position)[1]);
+            	//carbon.setText(FriendsActivity.friendsJsons.getJSONObject(data.get(position)).getString("id") + " GRAMS");
             } catch (Exception e) {
             	carbon.setText(e.toString());
             }

@@ -2,6 +2,7 @@
 package com.purpleplatypus.transportion;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
@@ -10,6 +11,7 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
+import org.json.JSONArray;
 
 import com.parse.Parse;
 import com.parse.ParseAnalytics;
@@ -94,6 +96,7 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 
 		View pieChartView = this.makePieChart(chartValues);
 		pieChartLayout.addView(pieChartView);
+		
 	}
 		
 	//TODO make sections of pie chart clickable
