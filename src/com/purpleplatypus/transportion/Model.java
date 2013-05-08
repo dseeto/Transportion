@@ -390,9 +390,9 @@ public class Model {
 			db.close();
 		}
 	    
-	    public Hashtable<String[], Float[]> queryDatabase() {
+	    public Hashtable<String, Float[]> queryDatabase() {
 	    	SQLiteDatabase db = this.getWritableDatabase();
-	    	Hashtable<String[], Float[]> result = new Hashtable<String[], Float[]>();
+	    	Hashtable<String, Float[]> result = new Hashtable<String, Float[]>();
 	    	
 	    	Date today = new Date();
 			int year = today.getYear();
@@ -411,7 +411,7 @@ public class Model {
 					if (allData.get(i).timestamp.after(lastMonth)) {
 						if (allData.get(i).timestamp.after(lastWeek)) {
 							if (allData.get(i).timestamp.after(yesterday)) {
-								String[] key = {allData.get(i).mode, "day"};
+								String key = String.format("%s" + "," + "day" , allData.get(i).mode);
 								Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
 								if (result.containsKey(key)) {
 									val[0] += result.get(key)[0];
@@ -419,7 +419,7 @@ public class Model {
 								} 
 								result.put(key, val);
 							}
-							String[] key = {allData.get(i).mode, "week"};
+							String key = String.format("%s" + "," + "week" , allData.get(i).mode);
 							Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
 							if (result.containsKey(key)) {
 								val[0] += result.get(key)[0];
@@ -427,7 +427,7 @@ public class Model {
 							} 
 							result.put(key, val);
 						}
-						String[] key = {allData.get(i).mode, "month"};
+						String key = String.format("%s" + "," + "month" , allData.get(i).mode);
 						Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
 						if (result.containsKey(key)) {
 							val[0] += result.get(key)[0];
@@ -435,7 +435,7 @@ public class Model {
 						} 
 						result.put(key, val);
 					}
-					String[] key = {allData.get(i).mode, "year"};
+					String key = String.format("%s" + "," + "year" , allData.get(i).mode);
 					Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
 					if (result.containsKey(key)) {
 						val[0] += result.get(key)[0];
@@ -871,12 +871,12 @@ public class Model {
     			System.out.println("error in getting Json information: " + e.getMessage());
     		}
     		
-			try {
-				sendDataToServer(hashForServer);
-			} catch (JSONException e) {
-				e.printStackTrace();
-    			System.out.println("error in sending Json to server: " + e.getMessage());
-			}
+//			try {
+//				sendDataToServer(hashForServer);
+//			} catch (JSONException e) {
+//				e.printStackTrace();
+//    			System.out.println("error in sending Json to server: " + e.getMessage());
+//			}
 			
     	}
     	else {
