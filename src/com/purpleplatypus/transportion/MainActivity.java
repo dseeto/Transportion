@@ -1,7 +1,9 @@
 
 package com.purpleplatypus.transportion;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
@@ -10,7 +12,6 @@ import org.achartengine.model.CategorySeries;
 import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
-import org.json.JSONException;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -50,7 +51,7 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 		appState.data.createDatabase(this);	
 		appState.data.mDbHelper.cleanTable();
 		
-//		appState.data.mDbHelper.rawDataRemoveAll();
+		appState.data.mDbHelper.rawDataRemoveAll();
 //		Date date = new java.util.Date();
 //		int year = date.getYear();
 //		int month = date.getMonth();
@@ -58,6 +59,9 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 //		Timestamp today = new Timestamp(new java.util.Date(year, month, day).getTime());
 //		appState.data.mDbHelper.updateEntry(today, "walk", 153, 52);
 //		appState.data.mDbHelper.updateEntry(today, "walk", 7, 8);
+//		appState.data.mDbHelper.updateEntry(today, "walk", 23, 11);
+//		appState.data.mDbHelper.updateEntry(today, "walk", 502, 75);
+//		appState.data.mDbHelper.updateEntry(today, "walk", 90, 2);
 //		
 //		Timestamp oldDay = new Timestamp(new java.util.Date(year-1, month, day+1).getTime());
 //		appState.data.mDbHelper.updateEntry(oldDay, "walk", 100, 10);
