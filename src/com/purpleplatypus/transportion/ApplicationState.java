@@ -11,6 +11,7 @@ public class ApplicationState extends Application {
 		super.onCreate();
 		context = getApplicationContext();
 		data = new Model();		
+		
 	}
 	
 	public static Context getContext() {
