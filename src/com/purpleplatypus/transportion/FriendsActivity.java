@@ -50,8 +50,9 @@ import android.widget.TextView;
 public class FriendsActivity extends TransportionActivity {
 	
 	protected static JSONArray friendsJsons = null;
-	protected static ArrayList<String[]> transportionFriends = null; // String[name, carbon] - only information needed for list
-		
+	protected static ArrayList<String[]> transportionFriends = null; // String[name, carbon]
+	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// special TransportionActivity onCreate procedure
@@ -69,8 +70,6 @@ public class FriendsActivity extends TransportionActivity {
 			}
 		});
 		
-		friendsJsons = ApplicationState.getModel().fbFriendsJsons;
-		
 		// fix the bug where soft keyboard doesn't disappear after search is dismissed
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 		searchManager.setOnDismissListener(new OnDismissListener() {
@@ -80,8 +79,6 @@ public class FriendsActivity extends TransportionActivity {
 		        imm.toggleSoftInput(0, 0);
 		    }
 		});
-		
-		showFriends(ApplicationState.getModel().transportionFriendsList);
 		
 	}
 	
@@ -151,8 +148,7 @@ public class FriendsActivity extends TransportionActivity {
 	    } else {
 	    	// just initialized, so just show all friends
 	    	System.out.println("friends page: just initialized");
-	    	
-	    	//getFriends();	    	
+	    	getFriends();
 	    }
 		
 		friendsList.setOnItemClickListener(new OnItemClickListener() {
