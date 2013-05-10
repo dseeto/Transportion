@@ -23,7 +23,13 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.Request.GraphUserListCallback;
+import com.facebook.model.GraphUser;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -38,6 +44,8 @@ public class Model {
 	String userID; 
 
 	String userName;
+	
+	JSONArray fbFriendsList = null;
 	List<ParseObject> friendsList = null;
 	ArrayList<Info_Leaderboard> leaderboardList = null;
 	
@@ -159,6 +167,56 @@ public class Model {
 		        }
 		    }
 		});
+		
+	}
+	
+	protected void getFriends(){
+		System.out.println("get friends called");
+	    if(Session.getActiveSession().getState().isOpened()){
+	    	System.out.println("getFriends: session is open, making the request");
+	    	// show loading
+	    	
+	    	// make the request
+	        Request friendRequest = Request.newMyFriendsRequest(Session.getActiveSession(), 
+	        	new GraphUserListCallback(){
+	                @Override
+	                public void onCompleted(List<GraphUser> users, Response response) {
+	                	// onCompleted handler
+	                	System.out.println(response.toString());
+	                	// respond to possible error
+	                	if (response.getError() != null) {
+	                		System.out.println("getFriends: response error: " + response.getError().toString());
+	                		return;
+	                	}
+	                	// take valid response and put it into static data structure
+	                	JSONObject returnObj = response.getGraphObject().getInnerJSONObject();
+	                    try {
+	                    	System.out.println("before data");
+	                    	JSONArray data = (JSONArray) returnObj.get("data");
+	                    	FriendsActivity.friendsJsons = data;	                    	
+	                    	System.out.println("after data");
+	                    	// give friendsJsons to model
+	                    	
+	                    	System.out.println("successfully set friendsJson to gotten data");
+	                    	System.out.println(data.toString());
+	                    	
+	                    	// show friends in friendsJson
+	                    	//showFriends(data);
+	                    	// remove loading icon
+	                    	//removeLoading();
+	                    } catch (Exception e) {
+	                    	System.out.println("error while getting data of getFriends response: " + e.toString());
+	                    }
+	                    
+	                }
+	        });
+	        
+	        Bundle params = new Bundle();
+	        params.putString("fields", "id, name, picture");
+	        friendRequest.setParameters(params);
+	        
+	        friendRequest.executeAsync();
+	    }
 	}
 	
 	/*
@@ -193,8 +251,14 @@ public class Model {
 					// IMPLEMENT: error
 					System.out.println("retrieveLeaderboardDataFromServer ERROR!!!!");
 				}
-			}
+			}			
+			
 		});	
+		
+
+		if (friendsList == null) {
+			getFriends();
+		}
 	}
 	
 	/*
