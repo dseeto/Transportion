@@ -66,7 +66,7 @@ public class BikeDetails extends TransportionActivity {
 		// SET INITIAL DATA
 		
 		miles.setText("Miles Traveled: " + m.getStat("bike", "month", "distance") + " Miles");
-		time.setText("Time Spent: " + m.getStat("bike", "month", "timespan") + " Min");
+		time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("bike", "month", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("bike", "month", "timespan"))%60) + " Min");
 		gas.setText("Gas Used: 0 Gallons");
 		percent.setText("% of Traveled: "+m.getPercent("bike", "month")+"%");
 		carbon.setText("Carbon Emitted: 0 Lbs");
@@ -95,7 +95,7 @@ public class BikeDetails extends TransportionActivity {
 								
 			// HARD CODE
 			miles.setText("Miles Traveled: "+ m.getStat("bike", "day", "distance") +" Miles");
-			time.setText("Time Spent: " + m.getStat("bike", "day", "timespan") + " Min");
+			time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("bike", "day", "timespan"))/60) + " Hr " +  String.valueOf(Integer.valueOf(m.getStat("bike", "day", "timespan"))%60)  + " Min");
 			gas.setText("Gas Used: 0 Gallons");
 			percent.setText("% of Traveled: " + m.getPercent("bike", "day") + "%");
 			carbon.setText("Carbon Emitted: 0 Lbs");
@@ -109,7 +109,7 @@ public class BikeDetails extends TransportionActivity {
 			
 			// HARD CODE
 			miles.setText("Miles Traveled: "+ m.getStat("bike", "week", "distance") +" Miles");
-			time.setText("Time Spent: " + m.getStat("bike", "week", "timespan") + " Min");
+			time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("bike", "week", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("bike", "week", "timespan"))%60) + " Min");
 			gas.setText("Gas Used: 0 Gallons");
 			percent.setText("% of Traveled: " + m.getPercent("bike", "week") + "%");
 			carbon.setText("Carbon Emitted: 0 Lbs");
@@ -123,7 +123,7 @@ public class BikeDetails extends TransportionActivity {
 			
 			// HARD CODE:
 			miles.setText("Miles Traveled: "+ m.getStat("bike", "month", "distance") +" Miles");
-			time.setText("Time Spent: " + m.getStat("bike", "month", "timespan") + " Min");
+			time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("bike", "month", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("bike", "month", "timespan"))%60) + " Min");
 			gas.setText("Gas Used: 0 Gallons");
 			percent.setText("% of Traveled: " + m.getPercent("bike", "month") + "%");
 			carbon.setText("Carbon Emitted: 0 Lbs");
@@ -136,7 +136,7 @@ public class BikeDetails extends TransportionActivity {
 			
 			// HARD CODE:
 			miles.setText("Miles Traveled: "+ m.getStat("bike", "year", "distance") +" Miles");
-			time.setText("Time Spent: " + m.getStat("bike", "year", "timespan") + " Min");
+			time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("bike", "year", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("bike", "year", "timespan"))%60) + " Min");
 			gas.setText("Gas Used: 0 Gallons");
 			percent.setText("% of Traveled: " + m.getPercent("bike", "year") + "%");
 			carbon.setText("Carbon Emitted: 0 Lbs");

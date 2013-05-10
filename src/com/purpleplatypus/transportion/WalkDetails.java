@@ -63,7 +63,7 @@ public class WalkDetails extends TransportionActivity {
 		title.setText("Walk Details");
 
 		miles.setText("Miles Traveled: "+ m.getStat("walk", "month", "distance") +" Miles");
-		time.setText("Time Spent: " + m.getStat("walk", "month", "timespan") + " Min");
+		time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("walk", "month", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("walk", "month", "timespan"))%60) + " Min");
 		gas.setText("Gas Used: 0 Gallons");
 		percent.setText("% of Traveled: " + m.getPercent("walk", "month") + "%");
 		carbon.setText("Carbon Emitted: 0 Lbs");
@@ -101,7 +101,7 @@ public class WalkDetails extends TransportionActivity {
 			day.setBackgroundResource(R.drawable.blue_button);			
 			
 			miles.setText("Miles Traveled: "+ m.getStat("walk", "day", "distance") +" Miles");
-			time.setText("Time Spent: " + m.getStat("walk", "day", "timespan") + " Min");
+			time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("walk", "day", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("walk", "day", "timespan"))%60) + " Min");
 			gas.setText("Gas Used: 0 Gallons");
 			percent.setText("% of Traveled: " + m.getPercent("walk", "day") + "%");
 			carbon.setText("Carbon Emitted: 0 Lbs");
@@ -113,7 +113,7 @@ public class WalkDetails extends TransportionActivity {
 			week.setBackgroundResource(R.drawable.blue_button);
 			
 			miles.setText("Miles Traveled: "+ m.getStat("walk", "week", "distance") +" Miles");
-			time.setText("Time Spent: " + m.getStat("walk", "week", "timespan") + " Min");
+			time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("walk", "week", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("walk", "week", "timespan"))%60) + " Min");
 			gas.setText("Gas Used: 0 Gallons");
 			percent.setText("% of Traveled: " + m.getPercent("walk", "week") + "%");
 			carbon.setText("Carbon Emitted: 0 Lbs");
@@ -125,7 +125,7 @@ public class WalkDetails extends TransportionActivity {
 			month.setBackgroundResource(R.drawable.blue_button);
 			
 			miles.setText("Miles Traveled: "+ m.getStat("walk", "month", "distance") +" Miles");
-			time.setText("Time Spent: " + m.getStat("walk", "month", "timespan") + " Min");
+			time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("walk", "month", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("walk", "month", "timespan"))%60) + " Min");
 			gas.setText("Gas Used: 0 Gallons");
 			percent.setText("% of Traveled: " + m.getPercent("walk", "month") + "%");
 			carbon.setText("Carbon Emitted: 0 Lbs");
@@ -137,7 +137,7 @@ public class WalkDetails extends TransportionActivity {
 			year.setBackgroundResource(R.drawable.blue_button);
 			
 			miles.setText("Miles Traveled: "+ m.getStat("walk", "year", "distance") +" Miles");
-			time.setText("Time Spent: " + m.getStat("walk", "year", "timespan") + " Min");
+			time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("walk", "year", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("walk", "year", "timespan"))%60) + " Min");
 			gas.setText("Gas Used: 0 Gallons");
 			percent.setText("% of Traveled: " + m.getPercent("walk", "year") + "%");
 			carbon.setText("Carbon Emitted: 0 Lbs");

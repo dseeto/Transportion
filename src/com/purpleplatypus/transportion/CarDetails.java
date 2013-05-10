@@ -63,7 +63,7 @@ public class CarDetails extends TransportionActivity{
 		title.setText("Car Details");
 		
 		miles.setText("Miles Traveled: "+ m.getStat("car", "month", "distance") +" Miles");
-		time.setText("Time Spent: " + m.getStat("car", "month", "timespan") + " Min");
+		time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("car", "month", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("car", "month", "timespan"))%60) + " Min");
 		gas.setText("Gas Used: " + m.getGas("car", "month") + " Gallons");
 		percent.setText("% of Traveled: " + m.getPercent("car", "month") + "%");
 		carbon.setText("Carbon Emitted: " + (new Double(m.getGas("car", "month")*Model.carbonPerGallon)).intValue() + " Lbs");
@@ -100,7 +100,7 @@ public class CarDetails extends TransportionActivity{
 			day.setBackgroundResource(R.drawable.blue_button);
 					
 			miles.setText("Miles Traveled: "+ m.getStat("car", "day", "distance") +" Miles");
-			time.setText("Time Spent: " + m.getStat("car", "day", "timespan") + " Min");
+			time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("car", "day", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("car", "day", "timespan"))%60) + " Min");
 			gas.setText("Gas Used: " + m.getGas("car", "day") + " Gallons");
 			percent.setText("% of Traveled: " + m.getPercent("car", "day") + "%");
 			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("car", "day")*Model.carbonPerGallon)).intValue() + " Lbs");
@@ -112,7 +112,7 @@ public class CarDetails extends TransportionActivity{
 			week.setBackgroundResource(R.drawable.blue_button);
 			
 			miles.setText("Miles Traveled: "+ m.getStat("car", "week", "distance") +" Miles");
-			time.setText("Time Spent: " + m.getStat("car", "week", "timespan") + " Min");
+			time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("car", "week", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("car", "week", "timespan"))%60) + " Min");
 			gas.setText("Gas Used: " + m.getGas("car", "week") + " Gallons");
 			percent.setText("% of Traveled: " + m.getPercent("car", "week") + "%");
 			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("car", "week")*Model.carbonPerGallon)).intValue() + " Lbs");
@@ -124,7 +124,7 @@ public class CarDetails extends TransportionActivity{
 			month.setBackgroundResource(R.drawable.blue_button);
 			
 			miles.setText("Miles Traveled: "+ m.getStat("car", "month", "distance") +" Miles");
-			time.setText("Time Spent: " + m.getStat("car", "month", "timespan") + " Min");
+			time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("car", "month", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("car", "month", "timespan"))%60) + " Min");
 			gas.setText("Gas Used: " + m.getGas("car", "month") + " Gallons");
 			percent.setText("% of Traveled: " + m.getPercent("car", "month") + "%");
 			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("car", "month")*Model.carbonPerGallon)).intValue() + " Lbs");
@@ -136,7 +136,7 @@ public class CarDetails extends TransportionActivity{
 			year.setBackgroundResource(R.drawable.blue_button);
 			
 			miles.setText("Miles Traveled: "+ m.getStat("car", "year", "distance") +" Miles");
-			time.setText("Time Spent: " + m.getStat("car", "year", "timespan") + " Min");
+			time.setText("Time Spent: " + String.valueOf(Integer.valueOf(m.getStat("car", "year", "timespan"))/60) + " Hr " + String.valueOf(Integer.valueOf(m.getStat("car", "year", "timespan"))%60) + " Min");
 			gas.setText("Gas Used: " + m.getGas("car", "year") + " Gallons");
 			percent.setText("% of Traveled: " + m.getPercent("car", "year") + "%");
 			carbon.setText("Carbon Emitted: " + (new Double(m.getGas("car", "year")*Model.carbonPerGallon)).intValue() + " Lbs");	

@@ -19,8 +19,6 @@ import android.widget.Toast;
 import com.parse.ParseGeoPoint;
 
 public class LocationService extends Service {
-
-	// SHOULD THIS BE RUN IN ANOTHER THREAD?!?
 	
 	LocationManager lm;
 	MyLocationListener locationListener;
