@@ -1,49 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".FriendStatsActivity" >
-
-    <TextView
-        android:id="@+id/friend_compare"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"        
-        android:gravity="center"
-        android:layout_marginBottom="10dp"
-        android:text="@string/friendCompareTitle"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:textStyle="bold"
-        android:layout_marginBottom="5dp"
-        android:entries="@array/graphs_compare" />
-
+    android:orientation="vertical" >
+    
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#cccccc"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="vertical" >
-    </LinearLayout>
-
-    <ScrollView
-        android:id="@+id/scrollView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" >
-
-        <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"            
@@ -142,99 +103,6 @@
                         android:layout_height="15dp"
                         android:progress="89"
                         android:progressDrawable="@drawable/green_progress" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/car"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"                        
-                android:background="@drawable/legend_background"
-                android:paddingTop="7dp"
-                android:paddingBottom="10dp"
-                android:orientation="horizontal" >
-
-                <LinearLayout
-                    android:id="@+id/cPic"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/car_small"                    
-                    android:orientation="vertical" >
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:orientation="vertical" >
-
-                    <RelativeLayout
-                        android:id="@+id/user_text_car"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
-
-                        <TextView
-                            android:id="@+id/carSelfName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="You"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/carSelfValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:text="Small Text"
-                            android:textStyle="bold"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </RelativeLayout>
-
-                    <ProgressBar
-                        android:id="@+id/carSelfProg"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:progressDrawable="@drawable/blue_progress"
-                        android:layout_width="match_parent"
-                        android:layout_height="15dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="5dp"
-                        android:orientation="vertical" >
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/friend_text_car"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
-
-                        <TextView
-                            android:id="@+id/carFriendName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Small Text"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <TextView
-                            android:id="@+id/carFriendValue"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:text="Small Text"
-                            android:textStyle="bold"
-                            android:textAppearance="?android:attr/textAppearanceSmall" />
-                    </RelativeLayout>
-
-                    <ProgressBar
-                        android:id="@+id/carFriendProg"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:progressDrawable="@drawable/green_progress"
-                        android:layout_width="match_parent"
-                        android:layout_height="15dp"
-                        android:progress="0" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -528,7 +396,4 @@
             
         </LinearLayout>
 
-    </ScrollView>
-
 </LinearLayout>
-

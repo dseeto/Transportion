@@ -39,8 +39,6 @@ public class LeaderboardActivity extends TransportionActivity {
 		// ACTUAL CODE:
 		ApplicationState.getModel().retrieveLeaderboardDataFromServer(this);
 		
-		
-		
 		/*
 		// HARD CODE
 		Info_Leaderboard one = appState.data.new Info_Leaderboard("1", "Oscar Koh", "10 lbs");

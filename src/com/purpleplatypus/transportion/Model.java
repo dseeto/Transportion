@@ -23,7 +23,13 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Bundle;
 
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.Request.GraphUserListCallback;
+import com.facebook.model.GraphUser;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -32,14 +38,17 @@ import com.parse.ParseQuery;
 
 public class Model {
 	
-	
 	Context context;
 	DbHelper mDbHelper; 
 	String userID; 
 
 	String userName;
-	List<ParseObject> friendsList = null;
+	
+	List<ParseObject> transportionFriendsList = null;
+	JSONArray fbFriendsJsons = null;
+	
 	ArrayList<Info_Leaderboard> leaderboardList = null;
+	
 	
 	public static int carbonPerGallon = 13;
 	public static double treesPerCarbon = 0.0000165;
@@ -62,6 +71,58 @@ public class Model {
         userName = savedSession.getString("name", null); // not sure if this is saved
 	}
 		
+	protected void getFriends(){
+		System.out.println("get friends called");
+	    if(Session.getActiveSession().getState().isOpened()){
+	    	System.out.println("getFriends: session is open, making the request");	    	
+	        Request friendRequest = Request.newMyFriendsRequest(Session.getActiveSession(), 
+	        	new GraphUserListCallback(){
+	                @Override
+	                public void onCompleted(List<GraphUser> users, Response response) {
+	                	// onCompleted handler
+	                	System.out.println(response.toString());
+	                	// respond to possible error
+	                	if (response.getError() != null) {
+	                		System.out.println("getFriends: response error: " + response.getError().toString());
+	                		return;
+	                	}
+	                	// take valid response and put it into static data structure
+	                	JSONObject returnObj = response.getGraphObject().getInnerJSONObject();
+	                    try {
+	                    	System.out.println("before data");
+	                    	JSONArray data = (JSONArray) returnObj.get("data");
+	                    	fbFriendsJsons = data;	                    	
+	                    	System.out.println("after data");
+	                    	// give friendsJsons to model
+	                    	
+	                    	System.out.println("successfully set friendsJson to gotten data");
+	                    	System.out.println(data.toString());
+	                    	
+	                    	// show friends in friendsJson
+	                    	//showFriends(data);
+	                    	// remove loading icon
+	                    	//removeLoading();
+	                    } catch (Exception e) {
+	                    	System.out.println("error while getting data of getFriends response: " + e.toString());
+	                    }
+	                    try {
+	                    	
+							getTransportionFriends(FriendsActivity.friendsJsons);
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+	                }
+	        });
+	        
+	        Bundle params = new Bundle();
+	        params.putString("fields", "id, name, picture");
+	        friendRequest.setParameters(params);
+	        
+	        friendRequest.executeAsync();
+	    }
+	}
+	
 	public void createDatabase(Context c) {
 		context = c;		
 		mDbHelper = new DbHelper(context);
@@ -205,7 +266,7 @@ public class Model {
 		        if (e == null) { // no exception
 		        	// save this info in model (not in local db)
 		        	System.out.println(fl.size());
-		        	friendsList = fl;
+		        	transportionFriendsList = fl;
 		        	a.showFriends(fl);
 		        	
 		        } else {
