@@ -1,9 +1,7 @@
 
 package com.purpleplatypus.transportion;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.achartengine.ChartFactory;
@@ -87,30 +85,6 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 		
 		TextView title = (TextView) findViewById(R.id.title);		
 		title.setText("Overall Usage");
-		/*
-		// TEST
-		for (int i = 0; i < 2; i++) {
-			try {
-				ApplicationState.getModel().populateSegmentsDay();
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		// TEST
-		*/
-		LinearLayout pieChartLayout = (LinearLayout) findViewById(R.id.mainChart);
-		
-		// HARD CODE:
-		//order: car, bus, bike, walk
-		chartValues = new ArrayList<ChartSection>();
-		chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), 100));
-		chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), 50));
-		chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), 500));
-		chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), 500));	    
-
-		View pieChartView = this.makePieChart(chartValues);
-		pieChartLayout.addView(pieChartView);
 		
 		ApplicationState.getModel().getAndSaveStats();
 	}
@@ -253,10 +227,10 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 		    pieChartView = this.makePieChart(chartValues);
 		    chartLayout.addView(pieChartView);
 			legend.setVisibility(View.VISIBLE);
-			((TextView) legend.findViewById(R.id.car_miles)).setText(carTime + " Min");
-			((TextView) legend.findViewById(R.id.bike_miles)).setText(bikeTime + " Min");
-			((TextView) legend.findViewById(R.id.bus_miles)).setText(busTime + " Min");
-			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkTime + " Min");
+			((TextView) legend.findViewById(R.id.car_miles)).setText(carTime/60 + " Hr " + carTime % 60 + " Min");
+			((TextView) legend.findViewById(R.id.bike_miles)).setText(bikeTime/60 + " Hr " + bikeTime % 60 + " Min");
+			((TextView) legend.findViewById(R.id.bus_miles)).setText(busTime/60 + " Hr " + busTime % 60 + " Min");
+			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkTime/60 + " Hr " + walkTime % 60 + " Min");
 		    break;
 		case 2:
 			LayoutInflater factory = LayoutInflater.from(this);

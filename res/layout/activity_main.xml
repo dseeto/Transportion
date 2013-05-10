@@ -80,6 +80,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="100 Miles"
+                        android:textSize="11sp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:duplicateParentState="true" />
                 </LinearLayout>
@@ -121,6 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="511 Miles"
+                        android:textSize="11sp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:duplicateParentState="true" />
 
@@ -168,6 +170,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="52 Miles"
+                        android:textSize="11sp"
                         android:layout_gravity="right"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:duplicateParentState="true" />
@@ -212,6 +215,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="502 Miles"
+                        android:textSize="11sp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:duplicateParentState="true" />
                 </LinearLayout>

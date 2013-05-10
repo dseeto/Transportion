@@ -126,30 +126,13 @@ public class Model {
 	public void createDatabase(Context c) {
 		context = c;		
 		mDbHelper = new DbHelper(context);
-		
-		Calendar rightnow = Calendar.getInstance();
-		// FOR TESTING PURPOSES
-		year = rightnow.get(Calendar.YEAR);
-		month = rightnow.get(Calendar.MONTH);
-		day = rightnow.get(Calendar.DAY_OF_MONTH);
-		hour = rightnow.get(Calendar.HOUR);
-		min = rightnow.get(Calendar.MINUTE);
-		
-		System.out.println("DATE:");
-		System.out.println(year);
-		System.out.println(month);
-		System.out.println(day);
-		System.out.println(hour);
-		System.out.println(min);
 	}
 	
 	/*
-	 * Sends all the raw data in UserData table to the server.
-	 * After sent, clears the local db to save room.
+	 * Asks Parse for the current User's entry in our friends table.
+	 * If it exists, update it, if not, create a new entry.
 	 */
 	public void sendDataToServer(final Hashtable<String, JSONArray> data) throws JSONException { // data for last month		
-		
-		// IMPLEMENT: need to do update
 		if (userID == null || userName == null) {
 			SharedPreferences savedSession = ApplicationState.getContext().getSharedPreferences("facebook-session",Context.MODE_PRIVATE);
 	        userID = savedSession.getString("id", null);
@@ -173,14 +156,12 @@ public class Model {
 		        		try {
 							user.put("total_carbon", data.get("carbons").get(data.get("carbons").length()-1));
 						} catch (JSONException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 		        		user.put("name", userName);
 		        		user.saveInBackground();
 		        	} else {
 		        		if (l.size() > 1) {
-		        			// PROBLEM!! 
 		        			System.out.println("MORE THAN ONE ENTRY OF SAME USER IN TABLE!!!");
 		        		} else { // update
 		        			ParseObject temp = l.get(0);
@@ -192,7 +173,6 @@ public class Model {
 		        			try {
 								temp.put("total_carbon", data.get("carbons").get(data.get("carbons").length()-1));
 							} catch (JSONException e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
 		        			temp.saveInBackground();
@@ -200,53 +180,17 @@ public class Model {
 		        	}
 		        	
 		        } else {
-		            // IMPLEMENT: error
 		        	System.out.println("retriveFriendDataFromServer ERROR!!!!");
 		        }
 		    }
 		});
-		
-		
-		/*
-		ArrayList<Segment> data = mDbHelper.rawDataGetAll();
-		System.out.println("GOT TO SEND DATA!!!");
-		ParseObject user = new ParseObject("Segments");	
-		JSONArray timestamps = new JSONArray();
-		JSONArray modes = new JSONArray();
-		JSONArray distances = new JSONArray();
-		JSONArray intervals = new JSONArray();
-		
-		int count = 0;
-		for (Segment s : data) {	
-			System.out.println(count+"");
-			
-			timestamps.put(s.timestamp.toString());
-			modes.put( s.mode);
-			distances.put(s.distance);
-			intervals.put(s.interval);
-			
-			count++;						
-		}		
-		user.put("timestamp", timestamps);
-		user.put("mode", modes);
-		user.put("distance", distances);
-		user.put("interval", intervals);
-	
-		user.put("id", userID);
-		
-		//user.saveEventually();
-		user.saveInBackground();
-		
-		// IMPLEMENT: check if cloud got it!!! to do this might have to keep track of the count of the number of objects to check...
-		*/
-		// delete table
-		// mDbHelper.rawDataRemoveAll();		
+				
 	}
 	
 	/*
-	 * Same as above method. NOT BEEN TESTED!!!! NEEDS TO BE FIXED TO BE LIKE retrieveLeaderboardDataFromServer!!
+	 * Called in FriendsActivity.java to populate friends list with
+	 * friends who have the transportion activity.
 	 */
-	
 	public void retrieveFriendDataFromServer(JSONArray fbFriends, final FriendsActivity a) throws JSONException {	// called by FriendsActivity.java	
 		//friendsList = new ArrayList<Info_FriendsList>();
 		
@@ -276,29 +220,6 @@ public class Model {
 		        }
 		    }
 		});
-		
-		/*
-		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("userID", userID);
-		ParseCloud.callFunctionInBackground("getFriends", new HashMap<String, List<String>>(), new FunctionCallback<List<ParseObject>>() {
-			   public void done(List<ParseObject> result, ParseException e) {
-			       if (e == null) {
-			    	   Info_FriendsList i;
-			        	for (ParseObject p : result) {		        		
-			        		i = new Info_FriendsList(p.getString("name"), p.getString("carbon"), p.getString("userID"));
-			        		friendsList.add(i);
-			        	}
-			        	
-			        	// IMPLEMENT: need to fill the list adapter for the friends list by calling a method here!!!!
-			        	
-			        } else {
-			            // IMPLEMENT: error
-			        	System.out.println("retriveFriendDataFromServer ERROR!!!!");
-			        }
-			   }
-			});
-		*/
-		//return friendsList;
 	}
 	
 	/*
@@ -335,35 +256,6 @@ public class Model {
 				}
 			}
 		});	
-		
-		/*
-		HashMap<String, String> params = new HashMap<String, String>();
-		params.put("userID", userID);
-		ParseCloud.callFunctionInBackground("getLeaderBoard", new HashMap<String, String>(), new FunctionCallback<List<ParseObject>>() {
-			   public void done(List<ParseObject> result, ParseException e) {
-			       if (e == null) {
-			    	   Info_Leaderboard i;
-						int j = 0;
-						for (ParseObject p : result) {
-							// REMOVE
-							System.out.println("Leaderboard!!!");
-							System.out.println(p.getString("name"));
-							System.out.println(p.getNumber("carbon"));
-							// REMOVE
-							j++;
-							i = new Info_Leaderboard(j+"", p.getString("name"), p.getNumber("carbon").toString());
-							System.out.println(i.toString());
-							System.out.println(leaderboardList.add(i));
-						}
-						// NEED TO WAIT TILL THIS IS DONE IN ORDER FOR THE LIST TO BE POPULATED, SHOULD NOT RETURN LIST
-						l.fillListView(leaderboardList);
-					} else {
-						// IMPLEMENT: error
-						System.out.println("retrieveLeaderboardDataFromServer ERROR!!!!");					
-			       }
-			   }
-			});
-			*/
 	}
 	
 	/*
@@ -415,13 +307,17 @@ public class Model {
 	    public static final String DATA_SQL_DELETE_ENTRIES =
 	    		"DROP TABLE IF EXIST " + DATA_TABLE_NAME;
 	    
+	    /*
+	     * Keeps only the entries that are within one year from today.
+	     */
 	    public void cleanTable() {
 	    	SQLiteDatabase db = this.getWritableDatabase();
-	    	Date date = new java.util.Date();
-			int year = date.getYear();
-			int month = date.getMonth();
-			int day = date.getDate();
-			Timestamp lastYearToday = new Timestamp(new java.util.Date(year-1, month, day+1).getTime());
+	    	Date today = new Date();
+			int year = today.getYear();
+			int month = today.getMonth();
+			int date = today.getDate();
+			long utc = new Date(year, month, date).getTime();
+			Timestamp lastYearToday = new Timestamp(utc - 86400000 * 364);
 			
 	    	String query = "SELECT * FROM " + DATA_TABLE_NAME + " ORDER BY " + COLUMN_NAME_TIMESTAMP + " ASC";
 	    	Cursor cursor = db.rawQuery(query, null);
@@ -438,6 +334,10 @@ public class Model {
 	    	db.close();	
 	    }
 	    
+	    /*
+	     * Updates the entry to a mode given the date if it's already in local DB,
+	     * adds it in otherwise.
+	     */
 	    public void updateEntry(Timestamp timestamp, String mode, float distance, int interval) {
 			SQLiteDatabase db = this.getWritableDatabase();
 			ContentValues values = new ContentValues();
@@ -466,6 +366,9 @@ public class Model {
 			db.close();
 		}
 	    
+	    /*
+	     * Returns a Hashtable("mode,time", value) for all mode/time combinations from the DB.
+	     */
 	    public Hashtable<String, Float[]> queryDatabase() {
 	    	SQLiteDatabase db = this.getWritableDatabase();
 	    	Hashtable<String, Float[]> result = new Hashtable<String, Float[]>();
@@ -537,7 +440,7 @@ public class Model {
 	    	
 	    	if (cursor.moveToFirst()) {
 	            do {
-	            	// TESTING PURPOSES	    	
+	            	// TESTING PURPOSES	 Prints out entry.	
 	    	    	System.out.println(cursor.getString(0) + " ," + cursor.getString(1) + " ," + cursor.getString(2) + " ," + cursor.getString(3));
 	    	        // TESTING PURPOSES
 	            	
@@ -605,83 +508,6 @@ public class Model {
 			carbon = c;
 			userID = u;
 		}
-	}
-	
-	/**
-	 * FOR TESTING PURPOSES: POPULATE DATA 
-	 * @throws JSONException 
-	 * 
-	 * IMPLEMENT: NEED TO BE CHANGED TO LOCALDB
-	 */
-	public void populateSegmentsHour() throws JSONException {
-		
-		ParseObject user = new ParseObject("FakeDataHour");
-		Random generator = new Random();
-		
-		Calendar c = Calendar.getInstance();		
-		c.set(year,month,day,hour,min);
-		long d = c.getTimeInMillis();
-		
-		JSONArray timestamps = new JSONArray();
-		JSONArray modes = new JSONArray();
-		JSONArray distances = new JSONArray();
-		JSONArray intervals = new JSONArray();
-		
-		timestamps.put(new Timestamp(d));
-		modes.put("car");
-		distances.put(generator.nextDouble()*50);
-		intervals.put(generator.nextInt(60));		
-		hour = hour-1;
-		if (hour < 0) {
-			day--;
-			hour = 23;
-		}
-		if (day < 1) {
-			month--;
-			day = 30;
-		}
-		c.set(year,month,day,hour,min);
-		d = c.getTimeInMillis();
-		
-		timestamps.put(new Timestamp(d));
-		modes.put("bike");
-		distances.put(generator.nextDouble()*20);
-		intervals.put(generator.nextInt(60));	
-		hour = hour-1;
-		if (hour < 0) {
-			day--;
-			hour = 23;
-		}
-		if (day < 0) {
-			month--;
-			day = 30;
-		}
-		c.set(year,month,day,hour,min);
-		d = c.getTimeInMillis();
-		
-		timestamps.put(new Timestamp(d));
-		modes.put("walk");
-		distances.put(generator.nextDouble()*10);
-		intervals.put(generator.nextInt(60));	
-		hour = hour-1;
-		if (hour < 0) {
-			day--;
-			hour = 23;
-		}
-		if (day < 0) {
-			month--;
-			day = 30;
-		}
-		c.set(year,month,day,hour,min);
-		d = c.getTimeInMillis();
-		
-		user.put("timestamp", timestamps);
-		user.put("mode", modes);
-		user.put("distance", distances);
-		user.put("interval", intervals);
-		user.put("userID", userID);
-		
-		user.saveInBackground();
 	}
 	
 	/**
