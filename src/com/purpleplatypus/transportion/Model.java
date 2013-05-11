@@ -44,7 +44,9 @@ public class Model {
 	String userID; 
 
 	String userName;
+	boolean friendDataRetrieved = false;
 	
+	List<String> ids = new ArrayList<String>(); // not sure if this has to be an array
 	JSONArray fbFriendsList = null;
 	List<ParseObject> friendsList = null;
 	ArrayList<Info_Leaderboard> leaderboardList = null;
@@ -138,13 +140,23 @@ public class Model {
 	 * Called in FriendsActivity.java to populate friends list with
 	 * friends who have the transportion activity.
 	 */
-	public void retrieveFriendDataFromServer(JSONArray fbFriends, final FriendsActivity a) throws JSONException {	// called by FriendsActivity.java	
+	public void retrieveFriendDataFromServer(JSONArray fbFriends, final TransportionActivity a, final String className) throws JSONException {	// called by FriendsActivity.java	
 		//friendsList = new ArrayList<Info_FriendsList>();
-		
-		// get list of ids from JSON
-		List<String> ids = new ArrayList<String>(); // not sure if this has to be an array
-		for (int i = 0; i < fbFriends.length(); i++) {
-			ids.add(((JSONObject) fbFriends.get(i)).getString("id"));			
+	/*	
+		if (friendDataRetrieved) {
+			friendDataRetrieved = true;
+			if (className.equals("leader")) {
+        		ApplicationState.getModel().retrieveLeaderboardDataFromServer((LeaderboardActivity)a);
+        	} else {
+        		((FriendsActivity) a).showFriends(friendsList);
+        	}
+			
+			return;
+		}
+		*/
+		// get list of ids from JSON		
+		for (int i = 0; i < fbFriendsList.length(); i++) {
+			ids.add(((JSONObject) fbFriendsList.get(i)).getString("id"));			
 		}
 			
 		ParseQuery query = new ParseQuery("Users");
@@ -158,7 +170,12 @@ public class Model {
 		        	// save this info in model (not in local db)
 		        	System.out.println(fl.size());
 		        	friendsList = fl;
-		        	a.showFriends(fl);
+		        	if (className.equals("leader")) {
+		        		ApplicationState.getModel().retrieveLeaderboardDataFromServer((LeaderboardActivity)a);
+		        	} else {
+		        		((FriendsActivity) a).showFriends(friendsList);
+		        	}
+		        	
 		        	
 		        } else {
 		            // IMPLEMENT: error
@@ -170,68 +187,22 @@ public class Model {
 		
 	}
 	
-	protected void getFriends(){
-		System.out.println("get friends called");
-	    if(Session.getActiveSession().getState().isOpened()){
-	    	System.out.println("getFriends: session is open, making the request");
-	    	// show loading
-	    	
-	    	// make the request
-	        Request friendRequest = Request.newMyFriendsRequest(Session.getActiveSession(), 
-	        	new GraphUserListCallback(){
-	                @Override
-	                public void onCompleted(List<GraphUser> users, Response response) {
-	                	// onCompleted handler
-	                	System.out.println(response.toString());
-	                	// respond to possible error
-	                	if (response.getError() != null) {
-	                		System.out.println("getFriends: response error: " + response.getError().toString());
-	                		return;
-	                	}
-	                	// take valid response and put it into static data structure
-	                	JSONObject returnObj = response.getGraphObject().getInnerJSONObject();
-	                    try {
-	                    	System.out.println("before data");
-	                    	JSONArray data = (JSONArray) returnObj.get("data");
-	                    	FriendsActivity.friendsJsons = data;	                    	
-	                    	System.out.println("after data");
-	                    	// give friendsJsons to model
-	                    	
-	                    	System.out.println("successfully set friendsJson to gotten data");
-	                    	System.out.println(data.toString());
-	                    	
-	                    	// show friends in friendsJson
-	                    	//showFriends(data);
-	                    	// remove loading icon
-	                    	//removeLoading();
-	                    } catch (Exception e) {
-	                    	System.out.println("error while getting data of getFriends response: " + e.toString());
-	                    }
-	                    
-	                }
-	        });
-	        
-	        Bundle params = new Bundle();
-	        params.putString("fields", "id, name, picture");
-	        friendRequest.setParameters(params);
-	        
-	        friendRequest.executeAsync();
-	    }
-	}
 	
 	/*
 	 * Get data for leaderboard.
 	 */
 	public void retrieveLeaderboardDataFromServer(final LeaderboardActivity l) {		
 		leaderboardList = new ArrayList<Info_Leaderboard>();
-		
+	
 		ParseQuery query = new ParseQuery("Users");
 		query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE); // or use CACHE_THEN_NETWORK if network too slow
 		query.setLimit(10);
+		query.whereContainedIn("user_id", ids);
 		query.orderByAscending("total_carbon");
 		query.findInBackground(new FindCallback() {
 			public void done(List<ParseObject> list, ParseException e) {
 				if (e == null) {
+					System.out.println("returned leaderboard query");
 					Info_Leaderboard i;
 					int j = 0;
 					for (ParseObject p : list) {
@@ -254,11 +225,7 @@ public class Model {
 			}			
 			
 		});	
-		
-
-		if (friendsList == null) {
-			getFriends();
-		}
+				
 	}
 	
 	/*
