@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -38,12 +39,15 @@ public class LeaderboardActivity extends TransportionActivity {
 
 	TextView title;
 	ApplicationState appState;
+	SharedPreferences savedSession;
 	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setFrameView(R.layout.activity_leaderboard);
+		
+		savedSession = getApplicationContext().getSharedPreferences("facebook-session", Context.MODE_PRIVATE);
 		
 		title = (TextView) findViewById(R.id.title);
 		title.setText("Leaderboard");
@@ -163,14 +167,23 @@ public class LeaderboardActivity extends TransportionActivity {
 		lv.setAdapter(new LeaderboardAdapter(this, list));
 		System.out.println("UGHHH!!!!!!!");	
 		
+		
 		lv.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				String name = ((TextView) view.findViewById(R.id.name_leaderboard)).getText().toString();
 				
-				Intent i = new Intent(getApplicationContext(), FriendsCompareActivity.class);
-				i.putExtra("name", name);
-				startActivity(i);
+				String savedName = savedSession.getString("name", "");
+				
+				if (name.equals(savedName)) {
+					Intent i = new Intent(getApplicationContext(), MainActivity.class);
+					i.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+					startActivity(i);
+				} else {
+					Intent i = new Intent(getApplicationContext(), FriendsCompareActivity.class);
+					i.putExtra("name", name);
+					startActivity(i);
+				}
 			}
 		});
 	}
