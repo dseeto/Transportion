@@ -673,9 +673,10 @@ public class Model {
 			return -1.0;
 		}
 	}
+	
 
-	public double getCarbon(String mode, String time) {
-		return getGas(mode, time)*Model.carbonPerGallon;
+	public int getCarbon(String mode, String time) {
+		return (int)getGas(mode, time)*Model.carbonPerGallon;
 	}
 	
 	public double getGas(String mode, String time) {
@@ -694,17 +695,17 @@ public class Model {
 				System.out.println("error on trying to get gas: " + e.getMessage());
 				return -1.0;
 			}
-		}
-		
-		try {
-			String miles = ((JSONArray)carStats.get(time)).getString(0);
-			double result = Double.parseDouble(miles)/Model.milesPerGallon;
-			return (double) Math.round(result * 100) / 100;
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println("error on trying to get gas: " + e.getMessage());
-			return -1.0;
+		} else {
+			try {
+				String miles = ((JSONArray)carStats.get(time)).getString(0);
+				double result = Double.parseDouble(miles)/Model.milesPerGallon;
+				return (double) Math.round(result * 100) / 100;
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("error on trying to get gas: " + e.getMessage());
+				return -1.0;
+			}
 		}
 	}
 	

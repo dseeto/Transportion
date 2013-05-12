@@ -233,12 +233,31 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkTime/60 + " Hr " + walkTime % 60 + " Min");
 		    break;
 		case 2:
-			LayoutInflater factory = LayoutInflater.from(this);
-			View myView = factory.inflate(R.layout.activity_friends, null);
-			chartLayout.addView(myView);
+//			LayoutInflater factory = LayoutInflater.from(this);
+//			View myView = factory.inflate(R.layout.activity_friends, null);
+//			chartLayout.addView(myView);
+//			
+//			legend.setVisibility(View.INVISIBLE);
+//			break;
 			
-			legend.setVisibility(View.INVISIBLE);
-			break;
+			double carCarbon = m.getCarbon("car", "month");
+			double bikeCarbon = m.getCarbon("bike", "month");
+			double busCarbon = m.getCarbon("bus", "month");
+			double walkCarbon = m.getCarbon("walk", "month");
+			chartValues = new ArrayList<ChartSection>();
+		    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), (float)carCarbon));
+		    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), (float)bikeCarbon));
+		    chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), (float)busCarbon));
+		    chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), (float)walkCarbon));	    
+		    
+		    pieChartView = this.makePieChart(chartValues);
+		    chartLayout.addView(pieChartView);
+			legend.setVisibility(View.VISIBLE);
+			((TextView) legend.findViewById(R.id.car_miles)).setText(carCarbon + " Lbs");
+			((TextView) legend.findViewById(R.id.bike_miles)).setText(bikeCarbon + " Lbs");
+			((TextView) legend.findViewById(R.id.bus_miles)).setText(busCarbon + " Lbs");
+			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkCarbon + " Lbs");
+		    break;
 		default:
 			System.out.println("Drop down menu selected out of bounds item.");
 		}
