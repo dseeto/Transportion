@@ -1,7 +1,6 @@
 package com.purpleplatypus.transportion;
 
 
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,8 +40,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -56,9 +57,20 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.LinearLayout;
+import android.view.GestureDetector;
 
-public class TransportionActivity extends SlidingMenuActivity {
+import android.support.v4.view.GestureDetectorCompat;
+
+public class TransportionActivity extends SlidingMenuActivity implements GestureDetector.OnGestureListener{
 	
+    private static final String DEBUG_TAG = "Gestures";
+    private static final int VERT_DIST_ERROR = 50;
+    private static final int VELOCITY_X_THRESHOLD = 200;
+    private static final int DIST_X_THRESHOLD = 200;
+
+
+    private GestureDetectorCompat mDetector; 
+    
 	private Session.StatusCallback callback = new Session.StatusCallback() {
 	    public void call(Session session, SessionState state, Exception exception) {
 			System.out.println("session.statuscallback called");
@@ -85,7 +97,6 @@ public class TransportionActivity extends SlidingMenuActivity {
 		super.onCreate(savedInstanceState);
 
 		ImageButton menuButton = (ImageButton) findViewById(R.id.menu_button);
-		
 		menuButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				toggleMenu();
@@ -114,6 +125,9 @@ public class TransportionActivity extends SlidingMenuActivity {
 		
 	    uiHelper = new UiLifecycleHelper(this, callback);
 	    uiHelper.onCreate(savedInstanceState);
+	    
+        mDetector = new GestureDetectorCompat(this, this);
+
 	}
 	
 	public void setFrameView(int viewID) {
@@ -484,5 +498,75 @@ public class TransportionActivity extends SlidingMenuActivity {
 	
 	public interface Item {
 		boolean isSection();
+	}
+
+	// touch events
+	@Override 
+	public boolean onTouchEvent(MotionEvent event){ 
+		this.mDetector.onTouchEvent(event);
+		// Be sure to call the superclass implementation
+		return super.onTouchEvent(event);
+	}
+	
+	@Override
+	public boolean onDown(MotionEvent e) {
+		// TODO Auto-generated method stub
+		if(getIsLayoutShown()) {
+			toggleSlidingMenu();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+			float velocityY) {
+		Log.d(DEBUG_TAG, "onFling: " + e1.toString()+e2.toString());
+		Log.d(DEBUG_TAG, "speed: " + "vx: " + velocityX + "vy: " + velocityY);
+		
+		try {
+			// if sliding menu not open
+			if (!getIsLayoutShown()) {
+				float diffY = e2.getY() - e1.getY();
+				float diffX = e2.getX() - e1.getX();
+				Log.d(DEBUG_TAG, "diff: " + "dx: " + diffX + " dy: " + diffY);
+	
+				//if little y movement,
+				if(Math.abs(diffY) < VERT_DIST_ERROR) {
+					// if slide left to right with enough distance, and with enough speed
+					if(diffX > DIST_X_THRESHOLD && Math.abs(velocityX) > VELOCITY_X_THRESHOLD) {
+						toggleSlidingMenu();
+					}
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+        return true;
+	}
+
+	@Override
+	public void onLongPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
+			float distanceY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void onShowPress(MotionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean onSingleTapUp(MotionEvent e) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

@@ -47,6 +47,10 @@ public class SlidingMenuActivity extends FragmentActivity {
 		mSlideTitleBar = slideTitleBar;
 	}
 	
+	public boolean getIsLayoutShown() {
+		return mIsLayoutShown;
+	}
+	
 	public void setLayoutIds(int menuLayoutId, int contentLayoutId){
 		mMenuLayoutId = menuLayoutId;
 		mContentLayoutId = contentLayoutId;
