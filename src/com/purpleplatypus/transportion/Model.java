@@ -339,9 +339,9 @@ public class Model {
 	    /*
 	     * Returns a Hashtable("mode,time", value) for all mode/time combinations from the DB.
 	     */
-	    public Hashtable<String, Float[]> queryDatabase() {
+	    public Hashtable<String, float[]> queryDatabase() {
 	    	SQLiteDatabase db = this.getWritableDatabase();
-	    	Hashtable<String, Float[]> result = new Hashtable<String, Float[]>();
+	    	Hashtable<String, float[]> result = new Hashtable<String, float[]>();
 	    	
 	    	Date today = new Date();
 			int year = today.getYear();
@@ -352,6 +352,16 @@ public class Model {
 			Timestamp lastWeek = new Timestamp(utc - 86400000 * 7);
 			Timestamp lastMonth = new Timestamp(utc - 86400000 * 31);
 			Timestamp lastYear = new Timestamp(utc - 86400000 * 365);
+			
+			String[] mList = {"car", "bus", "bike", "walk"};
+			String[] tList = {"day", "week", "month", "year"};
+			for (int i = 0; i < mList.length; i++) {
+				for (int j = 0; j < tList.length; j++) {
+					String key = String.format(mList[i] + "," + tList[j]);
+					float[] val = {0, 0};
+					result.put(key, val);
+				}
+			}
 
 	    	
 			ArrayList<Segment> allData = this.rawDataGetAll();
@@ -361,7 +371,7 @@ public class Model {
 						if (allData.get(i).timestamp.after(lastWeek)) {
 							if (allData.get(i).timestamp.after(yesterday)) {
 								String key = String.format("%s" + "," + "day" , allData.get(i).mode);
-								Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
+								float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
 								if (result.containsKey(key)) {
 									val[0] += result.get(key)[0];
 									val[1] += result.get(key)[1];
@@ -369,7 +379,7 @@ public class Model {
 								result.put(key, val);
 							}
 							String key = String.format("%s" + "," + "week" , allData.get(i).mode);
-							Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
+							float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
 							if (result.containsKey(key)) {
 								val[0] += result.get(key)[0];
 								val[1] += result.get(key)[1];
@@ -377,7 +387,7 @@ public class Model {
 							result.put(key, val);
 						}
 						String key = String.format("%s" + "," + "month" , allData.get(i).mode);
-						Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
+						float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
 						if (result.containsKey(key)) {
 							val[0] += result.get(key)[0];
 							val[1] += result.get(key)[1];
@@ -385,7 +395,7 @@ public class Model {
 						result.put(key, val);
 					}
 					String key = String.format("%s" + "," + "year" , allData.get(i).mode);
-					Float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
+					float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
 					if (result.containsKey(key)) {
 						val[0] += result.get(key)[0];
 						val[1] += result.get(key)[1];
@@ -909,8 +919,9 @@ public class Model {
     	}
 	}
 	
-	public Hashtable<String, float[]> query_db() {
-		return hardCode();
+	public Hashtable<String, float[]> query_db() {	
+		Hashtable<String, float[]> res = mDbHelper.queryDatabase();
+		return res;
 		//return dummy_query_db();
 	}
 	

@@ -49,7 +49,7 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 		appState.data.createDatabase(this);	
 		appState.data.mDbHelper.cleanTable();
 		
-		appState.data.mDbHelper.rawDataRemoveAll();
+//		appState.data.mDbHelper.rawDataRemoveAll();
 //		Date date = new java.util.Date();
 //		int year = date.getYear();
 //		int month = date.getMonth();
@@ -68,6 +68,8 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 //		appState.data.mDbHelper.cleanTable();
 //		System.out.println("Cleaned the table!");
 //		appState.data.mDbHelper.rawDataGetAll();
+		
+		appState.data.mDbHelper.rawDataGetAll();
 		
 		//Transportion2 Account
 		Parse.initialize(this, "EL8WO95o0oQa9wKN1AMRfaQBmWpZNlLMXZlWFnXX", "JE5I5thI0ptOZaLNH6HdOHQdUuLRuwykIIRG9f0u"); 
