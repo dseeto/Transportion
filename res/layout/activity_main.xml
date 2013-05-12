@@ -19,216 +19,230 @@
         android:id="@+id/mainChart"
         android:layout_width="wrap_content"
         android:layout_height="250dp"
-        android:layout_marginTop="5dp" >
+         >
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/legend"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:layout_marginTop="-25dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"        
-        android:layout_gravity="center"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="-40dp"
         android:background="@drawable/legend_background"
-        android:orientation="horizontal" >
+        android:paddingTop="10dp"
+        android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/column1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"            
+             >
+
+            <LinearLayout
+                android:id="@+id/column1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="20dp"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/car"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:onClick="onClick" >
+
+                    <LinearLayout
+                        android:id="@+id/red_color"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="#315489"
+                        android:duplicateParentState="true" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/car_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:duplicateParentState="true"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/car_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:text="Car"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/car_miles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:text="100 Miles"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/bus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:onClick="onClick" >
+
+                    <LinearLayout
+                        android:id="@+id/yellow_color"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="#6194d4"
+                        android:duplicateParentState="true" >
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/bus_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:duplicateParentState="true"
+                        android:orientation="vertical"
+                        android:paddingLeft="10dp" >
+
+                        <TextView
+                            android:id="@+id/bus_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:text="Bus"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/bus_miles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:text="511 Miles"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/column2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical" >
+
+                <RelativeLayout
+                    android:id="@+id/bike"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:onClick="onClick" >
+
+                    <LinearLayout
+                        android:id="@+id/bike_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:duplicateParentState="true"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/bike_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:gravity="right"
+                            android:text="Bike"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/bike_miles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:duplicateParentState="true"
+                            android:text="52 Miles"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/blue_color"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:background="#343a41"
+                        android:duplicateParentState="true" >
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/walk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClick" >
+
+                    <LinearLayout
+                        android:id="@+id/walk_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:duplicateParentState="true"
+                        android:orientation="vertical"
+                        android:paddingRight="10dp" >
+
+                        <TextView
+                            android:id="@+id/walk_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:text="Walk"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                        <TextView
+                            android:id="@+id/walk_miles"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:duplicateParentState="true"
+                            android:text="502 Miles"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/green_color"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="10dp"
+                        android:background="#00ab6f"
+                        android:duplicateParentState="true" >
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="20dp"
+            android:text="Total: 1000 Miles"
             android:layout_marginBottom="10dp"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:id="@+id/car"  
-                android:layout_weight="1"              
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:onClick="onClick" >
-
-                <LinearLayout
-                    android:id="@+id/red_color"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="#315489"
-                    android:duplicateParentState="true" >
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/car_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="vertical"
-                    android:duplicateParentState="true" >
-
-                    <TextView
-                        android:id="@+id/car_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Car"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:duplicateParentState="true" />
-
-                    <TextView
-                        android:id="@+id/car_miles"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="100 Miles"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:duplicateParentState="true" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/bus"   
-                android:layout_weight="1"             
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:onClick="onClick" >
-
-                <LinearLayout
-                    android:id="@+id/yellow_color"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="#6194d4"
-                    android:duplicateParentState="true" >
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/bus_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="10dp"
-                    android:orientation="vertical"
-                    android:duplicateParentState="true" >
-
-                    <TextView
-                        android:id="@+id/bus_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bus"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:duplicateParentState="true" />
-
-                    <TextView
-                        android:id="@+id/bus_miles"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="511 Miles"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:duplicateParentState="true" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/column2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"            
-            
-            android:layout_marginRight="10dp"
-            android:orientation="vertical" >        
-
-            <RelativeLayout
-                android:id="@+id/bike"   
-                android:layout_weight="1"             
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:onClick="onClick" >
-
-                <LinearLayout
-                    android:id="@+id/bike_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"                   
-                    android:orientation="vertical"
-                    android:duplicateParentState="true" >
-
-                    <TextView
-                        android:id="@+id/bike_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bike"
-						android:gravity="right"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:duplicateParentState="true" />
-
-                    <TextView
-                        android:id="@+id/bike_miles"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="52 Miles"
-                        android:layout_gravity="right"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:duplicateParentState="true" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/blue_color"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"                     
-                    android:background="#343a41"
-                    android:duplicateParentState="true" >
-                </LinearLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/walk"   
-                android:layout_weight="1"             
-                android:layout_width="wrap_content"                
-                android:layout_height="wrap_content"
-                android:onClick="onClick" >
-
-                <LinearLayout
-                    android:id="@+id/walk_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingRight="10dp"
-                    android:duplicateParentState="true" >
-
-                    <TextView
-                        android:id="@+id/walk_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Walk"
-                        android:textAppearance="?android:attr/textAppearanceMedium" 
-                        android:duplicateParentState="true"/>
-
-                    <TextView
-                        android:id="@+id/walk_miles"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="502 Miles"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:duplicateParentState="true" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/green_color"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"                       
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"                                                              
-                    android:background="#00ab6f"
-                    android:duplicateParentState="true" >
-                </LinearLayout>
-
-            </RelativeLayout>
-
-        </LinearLayout>
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </LinearLayout>
     

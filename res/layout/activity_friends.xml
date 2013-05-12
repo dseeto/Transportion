@@ -21,6 +21,17 @@
             android:layout_margin="5dp" 
             android:gravity="center">
             
+
+            <ImageButton
+                android:id="@+id/searchButton"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"                
+                android:src="@drawable/search_icon" />
+            
+        </LinearLayout>
+        
+
             <!--
             <Button
  	    		android:id="@+id/hourDataSend"
@@ -34,17 +45,7 @@
  	    		android:layout_width="wrap_content"
  	    		android:layout_height="wrap_content"
  	    		android:onClick="onClick"
- 	    		android:text="Send Day Data" />
-            -->
-            
-            <ImageButton
-                android:id="@+id/searchButton"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"                
-                android:src="@drawable/search_icon" />
-            
-        </LinearLayout>
+ 	    		android:text="Send Day Data" /> -->
         
         <LinearLayout 
             android:layout_width="match_parent"

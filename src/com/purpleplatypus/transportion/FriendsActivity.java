@@ -68,7 +68,7 @@ public class FriendsActivity extends TransportionActivity {
 			public void onClick(View arg0) {
 				onSearchRequested();
 			}
-		});
+		});	
 		
 		// fix the bug where soft keyboard doesn't disappear after search is dismissed
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -186,7 +186,7 @@ public class FriendsActivity extends TransportionActivity {
 	                    try {
 	                    	System.out.println("before data");
 	                    	JSONArray data = (JSONArray) returnObj.get("data");
-	                    	FriendsActivity.friendsJsons = data;	                    	
+	                    	ApplicationState.getModel().fbFriendsList = data;	                    	
 	                    	System.out.println("after data");
 	                    	// give friendsJsons to model
 	                    	
@@ -196,12 +196,12 @@ public class FriendsActivity extends TransportionActivity {
 	                    	// show friends in friendsJson
 	                    	//showFriends(data);
 	                    	// remove loading icon
-	                    	//removeLoading();
+	                    	removeLoading();
 	                    } catch (Exception e) {
 	                    	System.out.println("error while getting data of getFriends response: " + e.toString());
 	                    }
 	                    try {
-							getTransportionFriends(FriendsActivity.friendsJsons);
+							getTransportionFriends(ApplicationState.getModel().fbFriendsList);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -218,7 +218,7 @@ public class FriendsActivity extends TransportionActivity {
 	}
 	
 	protected void getTransportionFriends(JSONArray friendsJsons) throws JSONException {
-		ApplicationState.getModel().retrieveFriendDataFromServer(friendsJsons, this);
+		ApplicationState.getModel().retrieveFriendDataFromServer(friendsJsons, this, "friend");
 	}
 	
 	protected void showLoading() {
