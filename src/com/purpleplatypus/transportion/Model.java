@@ -759,7 +759,7 @@ public class Model {
 		}
 	}
 	
-	public void getAndSaveStats() {
+	public void getAndSaveStats(boolean checkDateTime) {
     	SharedPreferences saved = context.getSharedPreferences("transportion-data", Context.MODE_PRIVATE);
 		Editor edit = saved.edit();
     	String lastSave = saved.getString("last_query_db", "");
@@ -770,8 +770,7 @@ public class Model {
     	String yesterday = format.format(cal.getTime());
     	
     	System.out.println("getAndSaveStats: last_query_db was " + lastSave + ", and yesterday is " + yesterday);
-    	//if (lastSave == "" || lastSave.compareTo(yesterday) < 0) {
-    	if (true) {
+    	if (lastSave == "" || lastSave.compareTo(yesterday) < 0 || !checkDateTime) {
     		System.out.println("getAnSaveStats: updating last_query_db");
     		// time to query db again, it's been a day.
     		// mark as edited

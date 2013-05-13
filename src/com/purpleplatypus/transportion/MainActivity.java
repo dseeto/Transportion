@@ -88,9 +88,13 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 		TextView title = (TextView) findViewById(R.id.title);		
 		title.setText("Overall Usage");
 		
-		ApplicationState.getModel().getAndSaveStats();
+		ApplicationState.getModel().getAndSaveStats(false);
 	}
-		
+
+	public void onResume() {
+		super.onResume();
+		ApplicationState.getModel().getAndSaveStats(true);
+	}
 	//TODO make sections of pie chart clickable
 
 	public View makePieChart(List<ChartSection> chartValues) {
