@@ -22,19 +22,18 @@ public class ReloginActivity extends LoginActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		TextView loginTitle = (TextView) findViewById(R.id.loginTitle);
-		loginTitle.setTextSize((float) 25.0);
 		loginTitle.setText("Facebook session expired. Please reauthenticate to access facebook features");
 		
 		Button cancelButton = new Button(this);
 		cancelButton.setText("cancel");
-		cancelButton.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		cancelButton.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		cancelButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				finish();
 			}
 		});
 		
-		LinearLayout baseView = (LinearLayout) findViewById(R.id.baseLinearLayout);
+		LinearLayout baseView = (LinearLayout) findViewById(R.id.ButtonHolderLayout);
 		baseView.addView(cancelButton);
 	}
 	
