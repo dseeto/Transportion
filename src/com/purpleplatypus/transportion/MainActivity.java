@@ -207,19 +207,24 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 			//hardcode values for pie chart:
 			//order: car, bus, bike, walk
 			chartValues = new ArrayList<ChartSection>();
-		    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), carMiles));
-		    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), bikeMiles));
-		    chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), busMiles));
-		    chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), walkMiles));	    
+			
+		    if (totalMiles > 0) {
+			    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), carMiles));
+			    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), bikeMiles));
+			    chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), busMiles));
+			    chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), walkMiles));
+		    }
 		    
 		    pieChartView = this.makePieChart(chartValues);
 		    chartLayout.addView(pieChartView);
+		    
 			legend.setVisibility(View.VISIBLE);
 			((TextView) legend.findViewById(R.id.car_miles)).setText(carMiles + " Miles");
 			((TextView) legend.findViewById(R.id.bike_miles)).setText(bikeMiles + " Miles");
 			((TextView) legend.findViewById(R.id.bus_miles)).setText(busMiles + " Miles");
 			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkMiles + " Miles");
 			((TextView) findViewById(R.id.total)).setText("Total: " + totalMiles + " Miles");
+		    
 		    break;
 		case 1:
 			int carTime = Integer.parseInt(m.getStat("car", "month", "timespan"));
@@ -228,19 +233,25 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 			int walkTime = Integer.parseInt(m.getStat("walk", "month", "timespan"));
 			int totalTime = carTime + bikeTime + busTime + walkTime;
 			chartValues = new ArrayList<ChartSection>();
-		    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), carTime));
-		    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), bikeTime));
-		    chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), busTime));
-		    chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), walkTime));	    
-		    
+			
+		    if (totalTime > 0) {
+			    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), carTime));
+			    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), bikeTime));
+			    chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), busTime));
+			    chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), walkTime));	    
+			    
+		    }
+		  
 		    pieChartView = this.makePieChart(chartValues);
 		    chartLayout.addView(pieChartView);
+
 			legend.setVisibility(View.VISIBLE);
 			((TextView) legend.findViewById(R.id.car_miles)).setText(carTime/60 + " Hr " + carTime % 60 + " Min");
 			((TextView) legend.findViewById(R.id.bike_miles)).setText(bikeTime/60 + " Hr " + bikeTime % 60 + " Min");
 			((TextView) legend.findViewById(R.id.bus_miles)).setText(busTime/60 + " Hr " + busTime % 60 + " Min");
 			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkTime/60 + " Hr " + walkTime % 60 + " Min");
-			((TextView) findViewById(R.id.total)).setText("Total: " + totalTime/60 + " Hr " + totalTime % 60 + " Min");
+			((TextView) findViewById(R.id.total)).setText("Total: " + totalTime/60 + " Hr " + totalTime % 60 + " Min");		
+
 		    break;
 //		case 2:
 ////			LayoutInflater factory = LayoutInflater.from(this);

@@ -24,7 +24,7 @@ public class LocationService extends Service {
 	MyLocationListener locationListener;
 	
 	// location variables
-	int minTimeMillisPoll = 0;//1000*60*3; 	3 minutes
+	int minTimeMillisPoll = 0; //mins
 	int minDistanceMetersPoll = 0;	// 1000 meters?!?! 
 	int minAccuracyMeters = 35;	
 	
