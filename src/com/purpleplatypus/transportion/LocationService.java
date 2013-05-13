@@ -82,11 +82,11 @@ public class LocationService extends Service {
     	
 		@Override
 		public void onLocationChanged(Location location) {
-			System.out.println("GOT TO onLocationChanged");
-			System.out.println("TIME:");
-			System.out.println(location.getTime());
-			System.out.println("LATITUDE");
-			System.out.println(location.getLatitude());
+//			System.out.println("GOT TO onLocationChanged");
+//			System.out.println("TIME:");
+//			System.out.println(location.getTime());
+//			System.out.println("LATITUDE");
+//			System.out.println(location.getLatitude());
 			if (location != null) {
 				if (location.hasAccuracy() && location.getAccuracy() <= minAccuracyMeters) {														
 					if (lastLocation != null) {

@@ -67,7 +67,7 @@ public class TransportionActivity extends SlidingMenuActivity implements Gesture
     private static final int VERT_DIST_ERROR = 50;
     private static final int VELOCITY_X_THRESHOLD = 200;
     private static final int DIST_X_THRESHOLD = 200;
-
+    private boolean isMenuOpen = false;
 
     private GestureDetectorCompat mDetector; 
     
@@ -273,6 +273,14 @@ public class TransportionActivity extends SlidingMenuActivity implements Gesture
 		uiHelper.onSaveInstanceState(outState);
 	}
 	
+	@Override
+	public void toggleMenu() {
+		super.toggleMenu();
+		Log.d(DEBUG_TAG, "menu open? " + isMenuOpen);
+		isMenuOpen = !isMenuOpen;
+	}
+	
+	
 	private void onClickLogout() {
 		Session session = Session.getActiveSession();
 		System.out.println("onClickLogout activated with state " + session.getState().toString());
@@ -407,6 +415,8 @@ public class TransportionActivity extends SlidingMenuActivity implements Gesture
 	    request.executeAsync();
 	} 
 
+	
+
 	public class EntryAdapter extends ArrayAdapter {
 		
 		ArrayList<Item> items;
@@ -511,8 +521,8 @@ public class TransportionActivity extends SlidingMenuActivity implements Gesture
 	@Override
 	public boolean onDown(MotionEvent e) {
 		// TODO Auto-generated method stub
-		if(getIsLayoutShown()) {
-			toggleSlidingMenu();
+		if(isMenuOpen) {
+			toggleMenu();
 			return true;
 		}
 		return false;
@@ -526,7 +536,7 @@ public class TransportionActivity extends SlidingMenuActivity implements Gesture
 		
 		try {
 			// if sliding menu not open
-			if (!getIsLayoutShown()) {
+			if (!isMenuOpen) {
 				float diffY = e2.getY() - e1.getY();
 				float diffX = e2.getX() - e1.getX();
 				Log.d(DEBUG_TAG, "diff: " + "dx: " + diffX + " dy: " + diffY);
@@ -535,7 +545,7 @@ public class TransportionActivity extends SlidingMenuActivity implements Gesture
 				if(Math.abs(diffY) < VERT_DIST_ERROR) {
 					// if slide left to right with enough distance, and with enough speed
 					if(diffX > DIST_X_THRESHOLD && Math.abs(velocityX) > VELOCITY_X_THRESHOLD) {
-						toggleSlidingMenu();
+						toggleMenu();
 					}
 				}
 			}

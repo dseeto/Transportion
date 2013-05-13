@@ -18,13 +18,11 @@
     <string-array name="graphs">
         <item>Miles Traveled This Month</item>
         <item>Time Spent This Month</item>
-        <item>Carbon Emitted This Month</item>
     </string-array>
     
     <string-array name="graphs_compare">
         <item>Miles Traveled This Month</item>        
         <item>Time Spent This Month</item>
-        <item>Carbon Emitted This Month</item>
     </string-array>
 
 </resources>

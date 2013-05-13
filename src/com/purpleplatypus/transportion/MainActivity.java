@@ -49,7 +49,7 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 		appState.data.createDatabase(this);	
 		appState.data.mDbHelper.cleanTable();
 		
-		appState.data.mDbHelper.rawDataRemoveAll();
+//		appState.data.mDbHelper.rawDataRemoveAll();
 //		Date date = new java.util.Date();
 //		int year = date.getYear();
 //		int month = date.getMonth();
@@ -68,6 +68,8 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 //		appState.data.mDbHelper.cleanTable();
 //		System.out.println("Cleaned the table!");
 //		appState.data.mDbHelper.rawDataGetAll();
+		
+		appState.data.mDbHelper.rawDataGetAll();
 		
 		//Transportion2 Account
 		Parse.initialize(this, "EL8WO95o0oQa9wKN1AMRfaQBmWpZNlLMXZlWFnXX", "JE5I5thI0ptOZaLNH6HdOHQdUuLRuwykIIRG9f0u"); 
@@ -197,6 +199,7 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 			int bikeMiles = Integer.parseInt(m.getStat("bike", "month", "distance"));
 			int busMiles = Integer.parseInt(m.getStat("bus", "month", "distance"));
 			int walkMiles = Integer.parseInt(m.getStat("walk", "month", "distance"));
+			int totalMiles = carMiles + bikeMiles + walkMiles + busMiles; 
 			//hardcode values for pie chart:
 			//order: car, bus, bike, walk
 			chartValues = new ArrayList<ChartSection>();
@@ -212,12 +215,14 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 			((TextView) legend.findViewById(R.id.bike_miles)).setText(bikeMiles + " Miles");
 			((TextView) legend.findViewById(R.id.bus_miles)).setText(busMiles + " Miles");
 			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkMiles + " Miles");
+			((TextView) findViewById(R.id.total)).setText("Total: " + totalMiles + " Miles");
 		    break;
 		case 1:
 			int carTime = Integer.parseInt(m.getStat("car", "month", "timespan"));
 			int bikeTime = Integer.parseInt(m.getStat("bike", "month", "timespan"));
 			int busTime = Integer.parseInt(m.getStat("bus", "month", "timespan"));
 			int walkTime = Integer.parseInt(m.getStat("walk", "month", "timespan"));
+			int totalTime = carTime + bikeTime + busTime + walkTime;
 			chartValues = new ArrayList<ChartSection>();
 		    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), carTime));
 		    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), bikeTime));
@@ -231,33 +236,34 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 			((TextView) legend.findViewById(R.id.bike_miles)).setText(bikeTime/60 + " Hr " + bikeTime % 60 + " Min");
 			((TextView) legend.findViewById(R.id.bus_miles)).setText(busTime/60 + " Hr " + busTime % 60 + " Min");
 			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkTime/60 + " Hr " + walkTime % 60 + " Min");
+			((TextView) findViewById(R.id.total)).setText("Total: " + totalTime/60 + " Hr " + totalTime % 60 + " Min");
 		    break;
-		case 2:
-//			LayoutInflater factory = LayoutInflater.from(this);
-//			View myView = factory.inflate(R.layout.activity_friends, null);
-//			chartLayout.addView(myView);
+//		case 2:
+////			LayoutInflater factory = LayoutInflater.from(this);
+////			View myView = factory.inflate(R.layout.activity_friends, null);
+////			chartLayout.addView(myView);
+////			
+////			legend.setVisibility(View.INVISIBLE);
+////			break;
 //			
-//			legend.setVisibility(View.INVISIBLE);
-//			break;
-			
-			double carCarbon = m.getCarbon("car", "month");
-			double bikeCarbon = m.getCarbon("bike", "month");
-			double busCarbon = m.getCarbon("bus", "month");
-			double walkCarbon = m.getCarbon("walk", "month");
-			chartValues = new ArrayList<ChartSection>();
-		    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), (float)carCarbon));
-		    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), (float)bikeCarbon));
-		    chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), (float)busCarbon));
-		    chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), (float)walkCarbon));	    
-		    
-		    pieChartView = this.makePieChart(chartValues);
-		    chartLayout.addView(pieChartView);
-			legend.setVisibility(View.VISIBLE);
-			((TextView) legend.findViewById(R.id.car_miles)).setText(carCarbon + " Lbs");
-			((TextView) legend.findViewById(R.id.bike_miles)).setText(bikeCarbon + " Lbs");
-			((TextView) legend.findViewById(R.id.bus_miles)).setText(busCarbon + " Lbs");
-			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkCarbon + " Lbs");
-		    break;
+//			double carCarbon = m.getCarbon("car", "month");
+//			double bikeCarbon = m.getCarbon("bike", "month");
+//			double busCarbon = m.getCarbon("bus", "month");
+//			double walkCarbon = m.getCarbon("walk", "month");
+//			chartValues = new ArrayList<ChartSection>();
+//		    chartValues.add(new ChartSection("Car", Color.parseColor("#315489"), (float)carCarbon));
+//		    chartValues.add(new ChartSection("Bike", Color.parseColor("#343a41"), (float)bikeCarbon));
+//		    chartValues.add(new ChartSection("Bus", Color.parseColor("#6a94d4"), (float)busCarbon));
+//		    chartValues.add(new ChartSection("Walk", Color.parseColor("#00ab6f"), (float)walkCarbon));	    
+//		    
+//		    pieChartView = this.makePieChart(chartValues);
+//		    chartLayout.addView(pieChartView);
+//			legend.setVisibility(View.VISIBLE);
+//			((TextView) legend.findViewById(R.id.car_miles)).setText(carCarbon + " Lbs");
+//			((TextView) legend.findViewById(R.id.bike_miles)).setText(bikeCarbon + " Lbs");
+//			((TextView) legend.findViewById(R.id.bus_miles)).setText(busCarbon + " Lbs");
+//			((TextView) legend.findViewById(R.id.walk_miles)).setText(walkCarbon + " Lbs");
+//		    break;
 		default:
 			System.out.println("Drop down menu selected out of bounds item.");
 		}
