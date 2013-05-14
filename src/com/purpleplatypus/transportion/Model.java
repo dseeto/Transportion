@@ -23,13 +23,8 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Bundle;
+import android.widget.Toast;
 
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.Request.GraphUserListCallback;
-import com.facebook.model.GraphUser;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -38,6 +33,7 @@ import com.parse.ParseQuery;
 
 public class Model {
 	
+	public static final long MS_DAY = 86400000;
 	
 	Context context;
 	DbHelper mDbHelper; 
@@ -320,8 +316,12 @@ public class Model {
 	    	Cursor cursor = db.rawQuery(query, null);
 	    	
 	    	if (cursor.moveToFirst()) {
-	            distance = distance + cursor.getFloat(2);
-	            interval = interval + cursor.getInt(3);	    
+	    		float prevDistance = cursor.getFloat(2);
+	    		int prevInt = cursor.getInt(3);
+	            distance = distance + prevDistance;
+	            interval = interval + prevInt;
+	            String printT = "Updated DB! Old: (" + prevDistance + "," + prevInt + ") New: (" + distance + "," + interval + ")";
+	            Toast.makeText(context, printT, Toast.LENGTH_LONG).show();
 	            String update = "UPDATE " + DATA_TABLE_NAME + " SET " + COLUMN_NAME_DISTANCE + " = " + distance + ", " + COLUMN_NAME_INTERVAL + " = " + interval + " WHERE (" + COLUMN_NAME_TIMESTAMP + " = " + String.format("\"%s\"", timestamp.toString()) + " AND " + COLUMN_NAME_MODE + " = " + String.format("\"%s\"", mode) + ")";
 	            db.execSQL(update);
 	        } else {
@@ -348,10 +348,10 @@ public class Model {
 			int month = today.getMonth();
 			int date = today.getDate();
 			long utc = new Date(year, month, date).getTime();
-			Timestamp yesterday = new Timestamp(utc - 86400000);
-			Timestamp lastWeek = new Timestamp(utc - 86400000 * 7);
-			Timestamp lastMonth = new Timestamp(utc - 86400000 * 31);
-			Timestamp lastYear = new Timestamp(utc - 86400000 * 365);
+			Timestamp yesterday = new Timestamp(utc - MS_DAY);
+			Timestamp lastWeek = new Timestamp(utc - (MS_DAY * 7));
+			Timestamp lastMonth = new Timestamp(utc - (MS_DAY * 28));
+			Timestamp lastYear = new Timestamp(utc - (MS_DAY * 365));
 			
 			String[] mList = {"car", "bus", "bike", "walk"};
 			String[] tList = {"day", "week", "month", "year"};
@@ -367,9 +367,13 @@ public class Model {
 			ArrayList<Segment> allData = this.rawDataGetAll();
 			for (int i = 0; i < allData.size(); i += 1) {
 				if (allData.get(i).timestamp.after(lastYear)) {
+					System.out.println("after year");
 					if (allData.get(i).timestamp.after(lastMonth)) {
+						System.out.println("after month");
 						if (allData.get(i).timestamp.after(lastWeek)) {
+							System.out.println("after week");
 							if (allData.get(i).timestamp.after(yesterday)) {
+								System.out.println("after day");
 								String key = String.format("%s" + "," + "day" , allData.get(i).mode);
 								float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
 								if (result.containsKey(key)) {
@@ -421,7 +425,7 @@ public class Model {
 	    	if (cursor.moveToFirst()) {
 	            do {
 	            	// TESTING PURPOSES	 Prints out entry.	
-	    	    	System.out.println(cursor.getString(0) + " ," + cursor.getString(1) + " ," + cursor.getString(2) + " ," + cursor.getString(3));
+	    	    	System.out.println("Raw Data: " + cursor.getString(0) + " ," + cursor.getString(1) + " ," + cursor.getString(2) + " ," + cursor.getString(3));
 	    	        // TESTING PURPOSES
 	            	
 	                Segment p = new Segment(Timestamp.valueOf(cursor.getString(0)), cursor.getString(1), cursor.getFloat(2), cursor.getInt(3));	                	                

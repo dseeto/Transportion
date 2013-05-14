@@ -1,5 +1,9 @@
 package com.purpleplatypus.transportion;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,8 +28,8 @@ public class LocationService extends Service {
 	MyLocationListener locationListener;
 	
 	// location variables
-	int minTimeMillisPoll = 0; //mins
-	int minDistanceMetersPoll = 0;	// 1000 meters?!?! 
+	int minTimeMillisPoll = 1000 * 120; //2 mins
+	int minDistanceMetersPoll = 250;	// 250 meters?!?! 
 	int minAccuracyMeters = 35;	
 	
 	Location lastLocation;
@@ -61,6 +65,8 @@ public class LocationService extends Service {
                         minTimeMillisPoll, 
                         minDistanceMetersPoll,
                         (LocationListener) locationListener);
+        
+        System.out.println("lm set.");
 
     }
     
@@ -80,29 +86,45 @@ public class LocationService extends Service {
     	 * IMPLEMENT: When turn off device, make sure to save the trip to the database!! - do this in shutDownLoggerService()
     	 */
     	
+    	public void appendLog(String text) {       
+    		File logFile = new File("sdcard/log.file");
+    		if (!logFile.exists()) {
+    			try {
+    				logFile.createNewFile();
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    		} 
+    		try {
+    	      //BufferedWriter for performance, true to set append to file flag
+				BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true)); 
+				buf.append(text);
+				buf.newLine();
+				buf.close();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    	}
+    	
 		@Override
 		public void onLocationChanged(Location location) {
-//			System.out.println("GOT TO onLocationChanged");
-//			System.out.println("TIME:");
-//			System.out.println(location.getTime());
-//			System.out.println("LATITUDE");
-//			System.out.println(location.getLatitude());
+			
 			if (location != null) {
-				if (location.hasAccuracy() && location.getAccuracy() <= minAccuracyMeters) {														
+//				if (location.hasAccuracy() && location.getAccuracy() <= minAccuracyMeters) {														
 					if (lastLocation != null) {
 						float distance = (float) (location.distanceTo(lastLocation)*0.000621371); // in miles
 						System.out.println("MillisecondInterval: " + (location.getTime() - lastLocation.getTime()));
-						int interval = (int) ((location.getTime() - lastLocation.getTime())*0.001*60); // in minutes
+						int interval = (int) ((location.getTime() - lastLocation.getTime())*0.001/60); // in minutes
 						float speed = distance/(interval*60); // miles/hr					
 						String mode = "";
-						if (speed >= 13) {
+						if (speed >= 16) {
 							mode = "car";
-						} else if (speed < 13 && speed >= 4.5) {
+						} else if (speed < 16 && speed >= 5) {
 							mode = "bike";
 						} else {
 							mode = "walk";	// max = 250 cm/s => .09 miles / minute
 						}
-						Toast.makeText(getBaseContext(), "GEOPOINT ADDED!", Toast.LENGTH_SHORT).show();
+						//Toast.makeText(getBaseContext(), "GEOPOINT ADDED!", Toast.LENGTH_LONG).show();
 						
 						System.out.println("GEOPOINT ADDED!!");
 						System.out.println(distance + ", " + interval + ", " + mode);
@@ -112,11 +134,14 @@ public class LocationService extends Service {
 						int day = date.getDate();
 						Timestamp today = new Timestamp(new java.util.Date(year, month, day).getTime());
 						data.mDbHelper.updateEntry(today, mode, distance, interval);
+						Toast.makeText(getBaseContext(), "New Segment: (" + distance + " miles," + interval + " mins.)", Toast.LENGTH_LONG).show();
+						//appendLog(today + "," + mode + "," + distance + "," + interval);
 					}
 						
 					lastLocation = location;
+					//Toast.makeText(getBaseContext(), "Location set!", Toast.LENGTH_LONG).show();
 				}				
-			}			
+//			}			
 		}
 
 		@Override
