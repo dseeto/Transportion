@@ -329,7 +329,7 @@ public class Model {
 	            String printT = "Update #: " + upCounter + " Mode: " + mode + " Old: (" + prevDistance + "," + prevInt + ") New: (" + distance + "," + interval + ")";
 	            upCounter++;
 	            updates.add(printT);
-	            Toast.makeText(context, printT, Toast.LENGTH_LONG).show();
+	            //Toast.makeText(context, printT, Toast.LENGTH_LONG).show();
 	            String update = "UPDATE " + DATA_TABLE_NAME + " SET " + COLUMN_NAME_DISTANCE + " = " + distance + ", " + COLUMN_NAME_INTERVAL + " = " + interval + " WHERE (" + COLUMN_NAME_TIMESTAMP + " = " + String.format("\"%s\"", timestamp.toString()) + " AND " + COLUMN_NAME_MODE + " = " + String.format("\"%s\"", mode) + ")";
 	            db.execSQL(update);
 	        } else {
@@ -931,7 +931,7 @@ public class Model {
 	
 	public Hashtable<String, float[]> query_db() {	
 		Hashtable<String, float[]> res = mDbHelper.queryDatabase();
-		return hardCode();
+		return res;
 		//return dummy_query_db();
 	}
 	

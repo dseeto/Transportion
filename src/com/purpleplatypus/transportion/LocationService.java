@@ -134,7 +134,7 @@ public class LocationService extends Service {
 						int day = date.getDate();
 						Timestamp today = new Timestamp(new java.util.Date(year, month, day).getTime());
 						data.mDbHelper.updateEntry(today, mode, distance, interval);
-						Toast.makeText(getBaseContext(), "New Segment: (" + distance + " miles," + interval + " mins.)", Toast.LENGTH_LONG).show();
+						//Toast.makeText(getBaseContext(), "New Segment: (" + distance + " miles," + interval + " mins.)", Toast.LENGTH_LONG).show();
 						//appendLog(today + "," + mode + "," + distance + "," + interval);
 					}
 						
