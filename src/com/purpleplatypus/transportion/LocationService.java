@@ -28,7 +28,7 @@ public class LocationService extends Service {
 	MyLocationListener locationListener;
 	
 	// location variables
-	int minTimeMillisPoll = 1000 * 120; //2 mins
+	int minTimeMillisPoll = 1000 * 60; //1 min
 	int minDistanceMetersPoll = 250;	// 250 meters?!?! 
 	int minAccuracyMeters = 35;	
 	
@@ -119,7 +119,7 @@ public class LocationService extends Service {
 						String mode = "";
 						if (speed >= 16) {
 							mode = "car";
-						} else if (speed < 16 && speed >= 5) {
+						} else if (speed < 16 && speed >= 3.5) {
 							mode = "bike";
 						} else {
 							mode = "walk";	// max = 250 cm/s => .09 miles / minute

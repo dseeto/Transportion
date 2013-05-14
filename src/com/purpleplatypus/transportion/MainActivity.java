@@ -11,7 +11,10 @@ import org.achartengine.model.SeriesSelection;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -88,6 +91,10 @@ public class MainActivity extends TransportionActivity implements OnItemSelected
 		title.setText("Overall Usage");
 		
 		ApplicationState.getModel().getAndSaveStats(false);
+		
+		SharedPreferences saved = getApplicationContext().getSharedPreferences("transportion-data", Context.MODE_PRIVATE);
+		System.out.println(saved.getString("ourList", ""));
+		System.out.println(saved.getString("ourCount", ""));
 	}
 
 	public void onResume() {

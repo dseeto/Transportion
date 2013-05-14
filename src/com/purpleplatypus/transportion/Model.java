@@ -47,6 +47,9 @@ public class Model {
 	List<ParseObject> friendsList = null;
 	ArrayList<Info_Leaderboard> leaderboardList = null;
 	
+	List<String> updates = new ArrayList<String>();
+	int upCounter = 0;
+	
 	public static int carbonPerGallon = 13;
 	public static double treesPerCarbon = 0.0000165;
 	public static double milesPerGallon = 25.0;
@@ -312,6 +315,9 @@ public class Model {
 			values.put(COLUMN_NAME_DISTANCE, distance);		
 			values.put(COLUMN_NAME_INTERVAL, interval);
 			
+			SharedPreferences saved = context.getSharedPreferences("transportion-data", Context.MODE_PRIVATE);
+			Editor edit = saved.edit();
+			
 			String query = "SELECT * FROM " + DATA_TABLE_NAME + " WHERE " + COLUMN_NAME_TIMESTAMP + " = " + String.format("\"%s\"", timestamp.toString()) + " AND " + COLUMN_NAME_MODE + " = " + String.format("\"%s\"", mode);
 	    	Cursor cursor = db.rawQuery(query, null);
 	    	
@@ -320,7 +326,9 @@ public class Model {
 	    		int prevInt = cursor.getInt(3);
 	            distance = distance + prevDistance;
 	            interval = interval + prevInt;
-	            String printT = "Updated DB! Old: (" + prevDistance + "," + prevInt + ") New: (" + distance + "," + interval + ")";
+	            String printT = "Update #: " + upCounter + " Mode: " + mode + " Old: (" + prevDistance + "," + prevInt + ") New: (" + distance + "," + interval + ")";
+	            upCounter++;
+	            updates.add(printT);
 	            Toast.makeText(context, printT, Toast.LENGTH_LONG).show();
 	            String update = "UPDATE " + DATA_TABLE_NAME + " SET " + COLUMN_NAME_DISTANCE + " = " + distance + ", " + COLUMN_NAME_INTERVAL + " = " + interval + " WHERE (" + COLUMN_NAME_TIMESTAMP + " = " + String.format("\"%s\"", timestamp.toString()) + " AND " + COLUMN_NAME_MODE + " = " + String.format("\"%s\"", mode) + ")";
 	            db.execSQL(update);
@@ -334,6 +342,9 @@ public class Model {
 	        }
 	    	cursor.close();
 			db.close();
+			edit.putString("ourList", updates.toString());
+			edit.putString("ourCount", String.valueOf(upCounter));
+			edit.commit();
 		}
 	    
 	    /*
@@ -367,13 +378,9 @@ public class Model {
 			ArrayList<Segment> allData = this.rawDataGetAll();
 			for (int i = 0; i < allData.size(); i += 1) {
 				if (allData.get(i).timestamp.after(lastYear)) {
-					System.out.println("after year");
 					if (allData.get(i).timestamp.after(lastMonth)) {
-						System.out.println("after month");
 						if (allData.get(i).timestamp.after(lastWeek)) {
-							System.out.println("after week");
 							if (allData.get(i).timestamp.after(yesterday)) {
-								System.out.println("after day");
 								String key = String.format("%s" + "," + "day" , allData.get(i).mode);
 								float[] val = {allData.get(i).distance, (float)allData.get(i).interval};
 								if (result.containsKey(key)) {
@@ -924,7 +931,7 @@ public class Model {
 	
 	public Hashtable<String, float[]> query_db() {	
 		Hashtable<String, float[]> res = mDbHelper.queryDatabase();
-		return res;
+		return hardCode();
 		//return dummy_query_db();
 	}
 	
